@@ -15,7 +15,7 @@ const testimonials = [
     quote:
       "Ilgari trading haqida hech narsa bilmasdim. HBS Academy menga 0 dan boshlab hamma narsani o'rgatdi. Endi men o'zimga ishonaman va moliyaviy erkinlikka erishyapman. Rahmat!",
     author: 'Malika Karimova',
-    company: 'Forex Treyder',
+    company: 'Crypto Treyder',
     initials: 'MK',
     rating: 5,
   },

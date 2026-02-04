@@ -45,7 +45,7 @@ const Home: NextPage = () => {
           name="description"
           content="HBS Academy - moliyaviy bozorlarda muvaffaqiyatli treyder bo'lish uchun professional ta'lim. Amaliy darslar, mentor yordami va real trading tajribasi."
         />
-        <meta name="keywords" content="trading academy, treyder, forex, crypto, investment, moliyaviy bozorlar, trading kurslari, HBS Academy" />
+        <meta name="keywords" content="trading academy, treyder, crypto, cryptocurrency, aksiyalar, investment, moliyaviy bozorlar, trading kurslari, HBS Academy" />
         <meta property="og:title" content="HBS Academy - Professional Treyderlarni Tayyorlaymiz" />
         <meta
           property="og:description"

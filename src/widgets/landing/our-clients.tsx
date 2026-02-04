@@ -9,10 +9,10 @@ import { Container } from '@components/container';
 const clients = [
   {
     name: 'Azamat Tursunov',
-    description: "3 oyda professional treyder bo'ldi. Hozir Forex va Crypto bozorlarida muvaffaqiyatli ishlayapti.",
+    description: "3 oyda professional treyder bo'ldi. Hozir Crypto va xalqaro bozorlarida muvaffaqiyatli ishlayapti.",
     image: 'https://kzmkr68ngf4z99wjl2kj.lite.vusercontent.net/placeholder.svg?height=200&width=400',
     link: '#',
-    category: 'Forex Trading',
+    category: 'Crypto Trading',
   },
   {
     name: 'Dilnoza Rahimova',

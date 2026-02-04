@@ -39,7 +39,7 @@ const faqs = [
   {
     question: "Qanday bozorlarni o'rganaman?",
     answer:
-      "Siz Forex, Cryptocurrency, va boshqa moliyaviy bozorlarni o'rganasiz. Kurs davomida turli bozorlar va trading instrumentlari bilan tanishasiz.",
+      "Siz Cryptocurrency, aksiyalar va boshqa moliyaviy bozorlarni o'rganasiz. Kurs davomida turli bozorlar va trading instrumentlari bilan tanishasiz.",
   },
   {
     question: 'Nega aynan HBS Academy ni tanlashim kerak?',

@@ -11,7 +11,7 @@ const benefits = [
   },
   {
     title: 'Global bozorlar',
-    description: "Forex, Crypto va xalqaro bozorlarda trading o'rganing.",
+    description: "Crypto, aksiyalar va xalqaro bozorlarda trading o'rganing.",
     icon: Globe,
     gradient: 'from-emerald-500 to-teal-400',
   },

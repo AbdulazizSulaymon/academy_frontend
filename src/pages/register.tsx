@@ -248,7 +248,7 @@ const Page = observer(function Page() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <span className="text-xs text-gray-700 dark:text-gray-300 font-medium">Bepul demo hisob</span>
+              <span className="text-xs text-gray-700 dark:text-gray-300 font-medium">Video darslar</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-6 h-6 rounded-lg bg-primary/20 flex items-center justify-center flex-shrink-0">
@@ -256,7 +256,7 @@ const Page = observer(function Page() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <span className="text-xs text-gray-700 dark:text-gray-300 font-medium">Video darslar</span>
+              <span className="text-xs text-gray-700 dark:text-gray-300 font-medium">Amaliy mashg'ulotlar</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-6 h-6 rounded-lg bg-primary/20 flex items-center justify-center flex-shrink-0">
@@ -272,7 +272,7 @@ const Page = observer(function Page() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <span className="text-xs text-gray-700 dark:text-gray-300 font-medium">Sertifikat</span>
+              <span className="text-xs text-gray-700 dark:text-gray-300 font-medium">Rasmiy sertifikat</span>
             </div>
           </div>
         </div>
