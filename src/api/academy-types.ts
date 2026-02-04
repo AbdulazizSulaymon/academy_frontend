@@ -53,6 +53,34 @@ export enum CoinTransactionType {
 }
 
 // ============================================
+// MENTOR INTERFACE
+// ============================================
+
+export interface Mentor {
+  id: string;
+  userId?: string;
+  firstName: string;
+  lastName: string;
+  bio?: string;
+  bioUz?: string;
+  bioRu?: string;
+  bioEn?: string;
+  photo?: string;
+  specialization?: string;
+  experience?: number;
+  rating?: number;
+  totalStudents: number;
+  totalCourses: number;
+  email?: string;
+  phone?: string;
+  socialLinks?: any; // JSON
+  isActive: boolean;
+  courses?: Course[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+// ============================================
 // COURSE INTERFACES
 // ============================================
 
@@ -87,6 +115,8 @@ export interface Course {
   isPublished: boolean;
   categoryId: string;
   category?: CourseCategory;
+  mentorId?: string;
+  mentor?: Mentor;
   lessons?: Lesson[];
   enrollments?: CourseEnrollment[];
   assignments?: Assignment[];

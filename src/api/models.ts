@@ -20,6 +20,8 @@ export const readyModels = {
   LeadComment: { plural: 'LeadComments', singular: 'LeadComment' },
   LeadStatusHistory: { plural: 'LeadStatusHistories', singular: 'LeadStatusHistory' },
   TgGroup: { plural: 'TgGroups', singular: 'TgGroup' },
+  /// Academy - Mentors
+  Mentor: { plural: 'Mentors', singular: 'Mentor' },
   /// Academy - Courses
   CourseCategory: { plural: 'CourseCategories', singular: 'CourseCategory' },
   Course: { plural: 'Courses', singular: 'Course' },
