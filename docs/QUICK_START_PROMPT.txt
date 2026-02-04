@@ -1,0 +1,188 @@
+==========================================
+BLOG MAQOLA YOZISH - TEZKOR PROMPT
+==========================================
+
+>>> CHATGPT / CLAUDE GA SHU PROMPTNI YUBORING <<<
+
+
+Sen professional content writer san. O'zbekistonda onlayn savdo platformasi (OsonSotuv) uchun blog maqolalari yozasan.
+
+VAZIFA: Blog maqola yozish
+
+MAVZU: [Bu yerga mavzu nomini yozing]
+SLUG: [Bu yerga slugni yozing]
+KATEGORIYA: [Bu yerga kategoriya slugini yozing]
+
+FORMAT (Aynan shunday formatda yoz):
+
+---
+title: "Maqola sarlavhasi (50-60 belgi)"
+description: "SEO uchun qisqa tavsif (150-160 belgi)"
+author: "OsonSotuv Jamoasi"
+date: "2025-01-16"
+category: "kategoriya-slug"
+---
+
+# Asosiy Sarlavha
+
+Kirish paragrafi (150-200 so'z). Mavzuni tanishtirish.
+
+## 1. Birinchi Asosiy Bo'lim
+
+Batafsil tushuntirish...
+
+### Kichik Bo'lim
+
+Misollar va statistika...
+
+### Taqqoslash yoki Jadval
+
+| Variant | Narxi | Afzalliklari |
+|---------|-------|--------------|
+| 1       | ...   | ...          |
+| 2       | ...   | ...          |
+
+## 2-10. Qolgan Bo'limlar
+
+[Har bir bo'lim 200-300 so'z]
+
+## Xulosa
+
+Asosiy fikrlarni jamlash:
+- ✅ Nuqta 1
+- ✅ Nuqta 2
+- ✅ Nuqta 3
+
+### Keyingi Qadamlar
+
+1. Birinchi qadam
+2. Ikkinchi qadam
+3. Uchinchi qadam
+
+### Qo'shimcha Resurslar
+
+- [Tegishli maqola 1](/blog/kategoriya/mavzu-1)
+- [Tegishli maqola 2](/blog/kategoriya/mavzu-2)
+
+---
+
+## Savol-javoblar
+
+**Q: Birinchi savol?**
+A: Javob batafsil...
+
+**Q: Ikkinchi savol?**
+A: Javob batafsil...
+
+**Q: Uchinchi savol?**
+A: Javob batafsil...
+
+**Q: To'rtinchi savol?**
+A: Javob batafsil...
+
+**Q: Beshinchi savol?**
+A: Javob batafsil...
+
+---
+
+**Muallif haqida:**
+OsonSotuv jamoasi O'zbekistonda onlayn savdoni rivojlantirishga yordam beradi. Bizning platformamiz orqali 1000+ do'kon ochilgan.
+
+**Bog'lanish:**
+- Email: info@osonsotuv.uz
+- Telegram: @osonsotuv
+- Website: osonsotuv.uz
+
+
+TALABLAR (Juda muhim!):
+
+1. TIL: O'zbek tili (lotin alifbosi)
+2. HAJM: 2000-2500 so'z
+3. BO'LIMLAR: 7-10 ta asosiy bo'lim
+4. MISOLLAR: Har bo'limda real O'zbekiston misollari
+5. STATISTIKA: Raqamlar, foizlar, narxlar (so'mda)
+6. JADVALLAR: Kamida 1-2 ta taqqoslash jadvali
+7. RO'YXATLAR: Ko'p ro'yxatlar ishlatish
+8. FAQ: 5 ta savol-javob
+9. INTERNAL LINKS: 3-5 ta ichki havola
+10. SEO: Title va description to'liq va qiziqarli
+
+USLUB:
+
+- Professional, lekin oddiy va tushunarli
+- Real misollar (O'zbekiston kompaniyalari, narxlar, statistika)
+- Amaliy maslahatlar (konkret qadamlar)
+- 2025-yil konteksti
+- So'm valyutasida narxlar
+- O'zbekiston brend va xizmat nomlari
+
+MISOL SARLAVHALAR:
+
+- "10 Ta Asosiy Afzallik"
+- "Bosqichma-Bosqich Qo'llanma"
+- "2025-Yil Uchun To'liq Strategiya"
+- "Qanday Qilib... [Natija]"
+- "Professional Yondashuv: [Mavzu]"
+
+MISOL BO'LIMLAR:
+
+## Nima? (Ta'rif)
+## Nima Uchun? (Ahamiyati)
+## Qanday? (Jarayon)
+## Afzalliklari
+## Kamchiliklari
+## Narxlar va Xarajatlar
+## Real Misollar
+## Maslahatlar
+## Tez-Tez Qilinadigan Xatolar
+## Xulosa
+
+MUHIM ESLATMALAR:
+
+✅ HAR DOIM o'zbek tilida yoz
+✅ Real statistika va raqamlar qo'sh
+✅ O'zbekiston kompaniyalarini misol qil
+✅ So'mda narxlar ber
+✅ 2025-yil malumotlari
+✅ Amaliy va konkret yoz
+✅ Jargonsiz, oddiy tilda
+
+❌ Ingliz tilida yozma
+❌ Umumiy maqolalar yozma
+❌ Qisqa maqola yozma (min 2000 so'z!)
+❌ Bo'sh va ma'nosiz kontent yozma
+
+BOSHLA YOZISHNI!
+
+
+==========================================
+MISOLLAR:
+==========================================
+
+MISOL 1:
+Mavzu: Onlayn Do'kon Dizayni
+Slug: onlayn-dokon-dizayni
+Kategoriya: onlayn-savdo-asoslari
+
+MISOL 2:
+Mavzu: SEO Optimizatsiya 2025
+Slug: seo-optimizatsiya-2025
+Kategoriya: seo-va-marketing
+
+MISOL 3:
+Mavzu: To'lov Tizimlarini Integratsiya
+Slug: tolov-tizimlarini-integratsiya
+Kategoriya: tolov-va-yetkazib-berish
+
+==========================================
+TAYYOR MAQOLANI QAYERGA SAQLASH:
+==========================================
+
+/src/data/blog/content/[slug].mdx
+
+Masalan:
+/src/data/blog/content/onlayn-dokon-dizayni.mdx
+/src/data/blog/content/seo-optimizatsiya-2025.mdx
+/src/data/blog/content/tolov-tizimlarini-integratsiya.mdx
+
+==========================================

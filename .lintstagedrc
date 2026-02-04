@@ -1,0 +1,5 @@
+{
+  "**/*.{css,scss}": ["npm run format", "npm run stylelint"],
+  "src/**/*.{js,jsx,ts,tsx}": ["npm run format", "npm run lint:fix"],
+  "**/*.{json,ts,tsx,js,jsx,md,scss,css,html}": ["npm run format"]
+}

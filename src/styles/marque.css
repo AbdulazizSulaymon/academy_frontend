@@ -1,0 +1,17 @@
+@keyframes marquee {
+  0% {
+    transform: translateX(0); /* O'z joyidan boshlanadi */
+  }
+  100% {
+    transform: translateX(-100%); /* Chapga qarab ketadi */
+  }
+}
+
+.marquee {
+  width: 100%;
+  white-space: nowrap;
+  will-change: transform;
+  -webkit-animation: marquee 25s linear infinite;
+  animation: marquee 25s linear infinite;
+  pointer-events: auto;
+}

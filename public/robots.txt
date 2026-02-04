@@ -1,0 +1,13 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /shop
+Disallow: /shop/*
+
+# Host
+Host: https://osonsotuv.uz
+
+# Sitemaps
+Sitemap: https://osonsotuv.uz/sitemap.xml

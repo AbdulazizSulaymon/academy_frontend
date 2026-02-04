@@ -1,0 +1,23 @@
+{
+  "printWidth": 120,
+  "singleQuote": true,
+  "trailingComma": "all",
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "importOrder": [
+    "^@src/(.*)$",
+    "^src/(.*)$",
+    "^@api/(.*)$",
+    "^@components/(.*)$",
+    "^@data/(.*)$",
+    "^@hocs/(.*)$",
+    "^@hooks/(.*)$",
+    "^@i18/(.*)$",
+    "^@store/(.*)$",
+    "^@styles/(.*)$",
+    "^@types/(.*)$",
+    "^@utils/(.*)$",
+    "^@widgets/(.*)$",
+    "^[./]"
+  ]
+}

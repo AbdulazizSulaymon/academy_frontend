@@ -1,0 +1,208 @@
+const typeTemplate = '${label} ${type}ga mos emas';
+
+const CalendarLocale = {
+  locale: 'uz_UZ',
+  today: 'Bugun',
+  now: 'Hozir',
+  backToToday: `Bugunga o'tish`,
+  ok: 'Ha',
+  clear: 'Tozalash',
+  month: 'Oy',
+  year: 'Yil',
+  timeSelect: 'vaqtni tanlang',
+  dateSelect: 'sanani tanlang',
+  weekSelect: 'Haftani tanlang',
+  monthSelect: 'Oyni tanlang',
+  yearSelect: 'Yilni tanlang',
+  decadeSelect: `O'n yillikni tanlang`,
+  yearFormat: 'YYYY',
+  dateFormat: 'D/M/YYYY',
+  dayFormat: 'D',
+  dateTimeFormat: 'D/M/YYYY HH:mm:ss',
+  monthBeforeYear: true,
+  previousMonth: `O'tgan oy (Yuqoriga)`,
+  nextMonth: 'Keyingi oy (Pastga)',
+  previousYear: `O'tgan yil (Control + left)`,
+  nextYear: 'Keyingi yil (Control + right)',
+  previousDecade: `O'tgan o'n yillik`,
+  nextDecade: `Keyingi o'n yillik`,
+  previousCentury: `O'tgan asr`,
+  nextCentury: 'Keyingi asr',
+};
+
+const DatePicker = {
+  lang: {
+    placeholder: 'Sanani tanlang',
+    yearPlaceholder: 'Yilni tanlang',
+    quarterPlaceholder: 'Kvartalni tanlang',
+    monthPlaceholder: 'Oyni tanlang',
+    weekPlaceholder: 'Haftani tanlang',
+    rangePlaceholder: ['Boshlanish sanasi', 'Tugash sanasi'],
+    rangeYearPlaceholder: ['Boshlanish yili', 'Tugash yili'],
+    rangeQuarterPlaceholder: ['Boshlanish kvartali', 'Tugash kvartali'],
+    rangeMonthPlaceholder: ['Boshlanish oyi', 'Tugash oyi'],
+    rangeWeekPlaceholder: ['Boshlanish haftasi', 'Tugash haftasi'],
+    ...CalendarLocale,
+  },
+  timePickerLocale: {
+    placeholder: 'Vaqtni tanlang',
+    rangePlaceholder: ['Boshlanish vaqti', 'Tugash vaqti'],
+  },
+};
+
+const localeValues: Record<string, any> = {
+  locale: 'uz',
+  Pagination: {
+    // Options.jsx
+    items_per_page: '/ sahifa',
+    jump_to: '',
+    jump_to_confirm: 'tasdiqlash',
+    page: `sahifaga o'tish`,
+    // Pagination.jsx
+    prev_page: `Oldingi sahifa`,
+    next_page: 'Keyingi sahifa',
+    prev_5: `O'tgan 5 sahifa`,
+    next_5: 'Keyingi 5 sahifa',
+    prev_3: `O'tgan 3 sahifa`,
+    next_3: 'Keyingi 3 sahifa',
+    page_size: 'Sahifa uzunligi',
+  },
+  DatePicker,
+  TimePicker: {
+    placeholder: 'Vaqtni tanlang',
+    rangePlaceholder: ['Boshlanish vaqti', 'Tugash vaqti'],
+  },
+  Calendar: DatePicker,
+  global: {
+    placeholder: 'Iltimos tanlang',
+  },
+  Table: {
+    filterTitle: 'Filtr menyusi',
+    filterConfirm: 'Ha',
+    filterReset: "Qayta o'rnatish",
+    filterEmptyText: "Filtrlar yo'q",
+    filterCheckall: 'Barcha elementlarni tanlang',
+    filterSearchPlaceholder: 'Filtrlarda qidirish',
+    emptyText: `Ma'lumot yo'q`,
+    selectAll: 'Joriy sahifani tanlash',
+    selectInvert: `Joriy sahifani ag'darmoq`,
+    selectNone: "Barcha ma'lumotlarni olib tashlash",
+    selectionAll: "Barcha ma'lumotlarni belgilash",
+    sortTitle: 'Saralash',
+    expand: 'Qatorni kengaytirish',
+    collapse: 'Qatorni qisqartirish',
+    triggerDesc: 'Kamayishiga qarab tartiblash uchun bosing',
+    triggerAsc: "O'sish bo'yicha saralash uchun bosing",
+    cancelSort: 'Saralashni bekor qilish uchun bosing',
+  },
+  Tour: {
+    Next: 'Keyingisi',
+    Previous: 'Oldingisi',
+    Finish: 'Tugatish',
+  },
+  Modal: {
+    okText: 'Ha',
+    cancelText: 'Bekor qilish',
+    justOkText: 'Ha',
+  },
+  Popconfirm: {
+    okText: 'Ha',
+    cancelText: 'Bekor qilish',
+  },
+  Transfer: {
+    titles: ['', ''],
+    searchPlaceholder: 'Bu yerda qidiring',
+    itemUnit: 'element',
+    itemsUnit: 'elementlar',
+    remove: `O'chirish`,
+    selectCurrent: 'Joriy sahifani tanlash',
+    removeCurrent: `Joriy sahifani o'chirish`,
+    selectAll: `Hamma ma'lumotlarni belgilash`,
+    removeAll: `Hamma ma'lumotlarni o'chirish`,
+    selectInvert: "Joriy sahifani ag'darmoq",
+  },
+  Upload: {
+    uploading: 'Yuklanmoqda...',
+    removeFile: `Faylni o'chirish`,
+    uploadError: 'Yuklash xatosi',
+    previewFile: "Faylni ko'rish",
+    downloadFile: 'Faylni yuklash',
+  },
+  Empty: {
+    description: `Ma'lumot yo'q`,
+  },
+  Icon: {
+    icon: 'belgi',
+  },
+  Text: {
+    edit: `O'zgartirish`,
+    copy: `Nusxa olish`,
+    copied: `Nusxa olindi`,
+    expand: `Yoymoq`,
+  },
+  PageHeader: {
+    back: 'Qaytish',
+  },
+  Form: {
+    optional: '(ixtiyoriy)',
+    defaultValidateMessages: {
+      default: '${label} maydoni uchun tekshirish xatosi',
+      required: `Iltimos, $\{label}ni kiriting`,
+      enum: `$\{label} [$\{enum}]dan biri bo'lishi kerak`,
+      whitespace: `$\{label} bo'sh belgi bo'la olmaydi`,
+      date: {
+        format: '${label} sana formati yaroqsiz',
+        parse: "${label} sanaga aylantirib bo'lmaydi",
+        invalid: '${label} yaroqsiz sana',
+      },
+      types: {
+        string: typeTemplate,
+        method: typeTemplate,
+        array: typeTemplate,
+        object: typeTemplate,
+        number: typeTemplate,
+        date: typeTemplate,
+        boolean: typeTemplate,
+        integer: typeTemplate,
+        float: typeTemplate,
+        regexp: typeTemplate,
+        email: typeTemplate,
+        url: typeTemplate,
+        hex: typeTemplate,
+      },
+      string: {
+        len: `$\{label} $\{len} ta belgidan iborat bo'lishi kerak`,
+        min: `$\{label} kamida $\{min} belgidan iborat bo'lishi kerak`,
+        max: '${label} ${max} ta belgidan oshmasligi kerak',
+        range: `$\{label} $\{min}tadan $\{max}gacha belgilardan iborat bo'lishi kerak`,
+      },
+      number: {
+        len: `$\{label} $\{len} ga teng bo'lishi kerak`,
+        min: `$\{label} kamida $\{min} bo'lishi kerak`,
+        max: `$\{label} maksimal $\{max} bo'lishi kerak`,
+        range: `$\{label} $\{min}-$\{max} orasida bo'lishi kerak`,
+      },
+      array: {
+        len: `$\{len} ta $\{label} bo'lishi kerak`,
+        min: `Kamida $\{min}ta $\{label} bo'lishi kerak`,
+        max: `Ko'pi bilan $\{max}ta $\{label} bo'lishi kerak`,
+        range: `$\{label} miqdori $\{min}-$\{max} orasida bo'lishi kerak`,
+      },
+      pattern: {
+        mismatch: '${label} ${pattern} namunasiga mos kelmaydi',
+      },
+    },
+  },
+  Image: {
+    preview: `Ko'rish`,
+  },
+  QRCode: {
+    expired: 'QR kod muddati tugagan',
+    refresh: 'Yangilash',
+  },
+  ColorPicker: {
+    presetEmpty: `Bo'sh`,
+  },
+};
+
+export default localeValues;

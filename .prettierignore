@@ -1,0 +1,6 @@
+.next
+public
+node_modules
+src/lotties
+**/*.md
+**/*.mdx

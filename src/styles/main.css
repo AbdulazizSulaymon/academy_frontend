@@ -1,0 +1,45 @@
+.gradient-box {
+  display: inline-block; /* Bu yerda element ko'rinadigan joyda bo'lishi kerak */
+}
+
+.gradient-box::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  left: -50px;
+  right: -50px;
+  bottom: -50px;
+  background: radial-gradient(
+    circle,
+    rgba(118, 245, 188, 0.4) 0%,
+    rgba(118, 245, 188, 0.1) 70%,
+    rgba(118, 245, 188, 0) 100%
+  );
+  z-index: -1;
+}
+
+.gradient_text {
+  background: var(--Gradient-1, linear-gradient(90deg, #ff9c8d 18.06%, #d655a5 64.19%, #6053cb 100%));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 12px;
+}
+
+.banner_svg_linier {
+  position: absolute;
+  width: 938px;
+  height: 938px;
+  max-height: 100%;
+  border-radius: 100%;
+  background: -o-linear-gradient(315deg, #347c6b 46.07%, rgba(53, 52, 124, 0) 91.91%);
+  background: linear-gradient(135deg, #347c6b 46.07%, rgba(53, 52, 124, 0) 91.91%);
+  -webkit-filter: blur(150px);
+  filter: blur(150px);
+  top: 0;
+  left: 0;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
