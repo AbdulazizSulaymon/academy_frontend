@@ -117,7 +117,7 @@ export interface Course {
   category?: CourseCategory;
   mentorId?: string;
   mentor?: Mentor;
-  lessons?: Lesson[];
+  modules?: Module[];
   enrollments?: CourseEnrollment[];
   assignments?: Assignment[];
   createdAt: Date;
@@ -136,6 +136,21 @@ export interface CourseEnrollment {
   updatedAt: Date;
 }
 
+export interface Module {
+  id: string;
+  titleUz: string;
+  titleRu: string;
+  titleEn: string;
+  description?: string;
+  order: number;
+  isPublished: boolean;
+  courseId: string;
+  course?: Course;
+  lessons?: Lesson[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export interface Lesson {
   id: string;
   titleUz: string;
@@ -144,13 +159,15 @@ export interface Lesson {
   descriptionUz?: string;
   descriptionRu?: string;
   descriptionEn?: string;
-  courseId: string;
-  course?: Course;
+  moduleId?: string;
+  module?: Module;
   order: number;
   duration?: number;
   isPublished: boolean;
   isFree: boolean;
-  videos?: Video[];
+  videoUrl?: string;
+  videoThumbnail?: string;
+  videoDuration?: number;
   bookmarks?: Bookmark[];
   createdAt: Date;
   updatedAt: Date;

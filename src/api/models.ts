@@ -27,7 +27,7 @@ export const readyModels = {
   Course: { plural: 'Courses', singular: 'Course' },
   CourseEnrollment: { plural: 'CourseEnrollments', singular: 'CourseEnrollment' },
   Lesson: { plural: 'Lessons', singular: 'Lesson' },
-  Video: { plural: 'Videos', singular: 'Video' },
+  Module: { plural: 'Modules', singular: 'Module' },
   /// Academy - Assignments & Tasks
   Assignment: { plural: 'Assignments', singular: 'Assignment' },
   UserAssignment: { plural: 'UserAssignments', singular: 'UserAssignment' },

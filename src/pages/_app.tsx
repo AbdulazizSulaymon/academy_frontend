@@ -33,7 +33,7 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
       <StoreProvider>
         <GlobalStyles />
         <Head>
-          <link rel="shortcut icon" href="/logo/light/main-logo.png" />
+          <link rel="shortcut icon" href="/icon.png" />
           <title>{projectName}</title>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
         </Head>

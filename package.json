@@ -15,6 +15,14 @@
     "format": "prettier --write .",
     "generate-queries": "npx ts-node -P tsconfig.commonjs.json -r ./src/api/generate.ts && prettier --write ./src/queries/models",
     "gq": "pnpm generate-queries",
+    "generate-icons": "bash scripts/generate-icons.sh",
+    "generate-favicons": "node scripts/generate-favicons.js",
+    "generate-manifest": "node scripts/generate-manifest.js",
+    "compress-images": "node scripts/compress-images.js",
+    "generate-blog": "node scripts/generate-blog-post.js",
+    "generate-component": "node scripts/generate-component.js",
+    "check-seo": "node scripts/check-seo.js",
+    "analyze-sizes": "node scripts/analyze-file-sizes.js",
     "husky:fix": "pnpm dlx husky install"
   },
   "dependencies": {

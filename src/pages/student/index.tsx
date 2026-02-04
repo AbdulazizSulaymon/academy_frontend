@@ -1,92 +1,102 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import StudentLayout from '@src/components/student-layout';
-import { 
-  IoRocketOutline, 
-  IoBookOutline, 
-  IoTrophyOutline,
-  IoCalendarOutline,
-  IoTrendingUpOutline,
-  IoFlameOutline,
-  IoStarOutline,
-  IoTimeOutline,
-  IoPlayCircleOutline,
-  IoArrowForwardOutline,
-  IoCheckmarkCircleOutline
-} from 'react-icons/io5';
+import {
+  Rocket,
+  BookOpen,
+  Trophy,
+  Calendar,
+  TrendingUp,
+  Flame,
+  Star,
+  Clock,
+  PlayCircle,
+  ArrowRight,
+  CheckCircle,
+  Bookmark,
+  Users,
+} from 'lucide-react';
 import { useLayoutStore } from '@src/stores/layout-store';
 import { useMyTheme } from '@hooks/use-my-theme';
 import { observer } from 'mobx-react';
+import { useCourses } from '@src/queries/models/course';
+import { get } from 'lodash';
+import { NextPageWithLayout } from '@/types';
+import { DynamicProviders } from '@hocs/dynamic-providers';
+import { PrimaryButton, SecondaryButton, GhostButton } from '@/components/ui/button';
+import { GlassCard, BenefitCard } from '@/components/ui/card';
 
-const StudentDashboard = observer(() => {
+const StudentDashboard: NextPageWithLayout = observer(() => {
   const { user } = useLayoutStore();
   const { isDarkMode } = useMyTheme();
 
-  // Sample data
+  // Fetch courses from backend with related data
+  const { data: coursesResponse, isLoading: isLoadingCourses } = useCourses(
+    {
+      include: {
+        category: true,
+        mentor: true,
+        modules: {
+          include: {
+            lessons: true,
+          },
+        },
+      },
+      where: {
+        isPublished: true,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    },
+    { enabled: true }
+  );
+
+  const courses = get(coursesResponse, 'data.data', []);
+
+  // Helper function to count total lessons from modules
+  const getTotalLessons = (course: any) => {
+    if (!course.modules) return 0;
+    return course.modules.reduce((total: number, module: any) => {
+      return total + (module.lessons?.length || 0);
+    }, 0);
+  };
+
+  // Helper function to count published lessons from modules
+  const getPublishedLessons = (course: any) => {
+    if (!course.modules) return 0;
+    return course.modules.reduce((total: number, module: any) => {
+      return total + (module.lessons?.filter((l: any) => l.isPublished).length || 0);
+    }, 0);
+  };
+
   const stats = [
     {
-      icon: <IoBookOutline />,
+      icon: BookOpen,
       label: 'Aktiv kurslar',
-      value: '3',
-      change: '+2 this month',
-      gradient: 'from-blue-600 via-blue-500 to-cyan-500',
-      bgGradient: 'from-blue-500/10 to-cyan-500/10',
+      value: String(courses.length || 0),
+      change: `${courses.length || 0} kurs mavjud`,
+      gradient: 'from-blue-500 to-blue-600',
     },
     {
-      icon: <IoTrophyOutline />,
+      icon: Trophy,
       label: 'Topshiriqlar',
       value: '5',
       change: '3 pending',
-      gradient: 'from-orange-600 via-orange-500 to-red-500',
-      bgGradient: 'from-orange-500/10 to-red-500/10',
+      gradient: 'from-orange-500 to-orange-600',
     },
     {
-      icon: <IoTrendingUpOutline />,
+      icon: TrendingUp,
       label: 'Progress',
       value: '68%',
       change: '+12% this week',
-      gradient: 'from-green-600 via-green-500 to-emerald-500',
-      bgGradient: 'from-green-500/10 to-emerald-500/10',
+      gradient: 'from-green-500 to-green-600',
     },
     {
-      icon: <IoFlameOutline />,
+      icon: Flame,
       label: 'Streak',
       value: '12',
       change: 'days',
-      gradient: 'from-yellow-600 via-yellow-500 to-orange-500',
-      bgGradient: 'from-yellow-500/10 to-orange-500/10',
-    },
-  ];
-
-  const recentCourses = [
-    {
-      id: 1,
-      title: 'JavaScript Fundamentals',
-      progress: 75,
-      image: 'https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?w=400',
-      lessons: 24,
-      completed: 18,
-      instructor: 'John Doe',
-      nextLesson: 'Async/Await Patterns',
-    },
-    {
-      id: 2,
-      title: 'React Advanced Patterns',
-      progress: 45,
-      image: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=400',
-      lessons: 32,
-      completed: 14,
-      instructor: 'Jane Smith',
-      nextLesson: 'Custom Hooks Deep Dive',
-    },
-    {
-      id: 3,
-      title: 'Node.js Backend Development',
-      progress: 30,
-      image: 'https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=400',
-      lessons: 28,
-      completed: 8,
-      instructor: 'Mike Johnson',
-      nextLesson: 'Database Integration',
+      gradient: 'from-yellow-500 to-yellow-600',
     },
   ];
 
@@ -98,7 +108,6 @@ const StudentDashboard = observer(() => {
       time: '18:00',
       type: 'Online',
       participants: 45,
-      gradient: 'from-purple-500 to-pink-500',
     },
     {
       id: 2,
@@ -107,307 +116,290 @@ const StudentDashboard = observer(() => {
       time: '19:00',
       type: 'Online',
       participants: 32,
-      gradient: 'from-blue-500 to-cyan-500',
     },
   ];
 
   const recentAchievements = [
-    { 
-      id: 1, 
-      title: 'Birinchi kursni tugatdingiz!', 
-      icon: <IoStarOutline />, 
+    {
+      id: 1,
+      title: 'Birinchi kursni tugatdingiz!',
+      icon: Star,
       date: '2 kun oldin',
       gradient: 'from-yellow-500 to-orange-500',
     },
-    { 
-      id: 2, 
-      title: '10 ta topshiriq topshirdingiz', 
-      icon: <IoTrophyOutline />, 
+    {
+      id: 2,
+      title: '10 ta topshiriq topshirdingiz',
+      icon: Trophy,
       date: '5 kun oldin',
       gradient: 'from-purple-500 to-pink-500',
     },
-    { 
-      id: 3, 
-      title: '7 kunlik streak!', 
-      icon: <IoFlameOutline />, 
+    {
+      id: 3,
+      title: '7 kunlik streak!',
+      icon: Flame,
       date: '1 hafta oldin',
-      gradient: 'from-orange-500 to-red-500',
+      gradient: 'from-red-500 to-orange-500',
     },
   ];
 
   return (
-    <StudentLayout title="Dashboard">
-      <div className="space-y-6">
-        {/* Hero Welcome Section */}
-        <div className={`relative overflow-hidden rounded-3xl p-8 md:p-10 ${
-          isDarkMode
-            ? 'bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600'
-            : 'bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500'
-        } shadow-2xl`}>
-          {/* Animated Background Elements */}
-          <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl animate-pulse animation-delay-2000"></div>
-          
-          <div className="relative z-10">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-              <span className="text-white/80 text-sm font-medium">Online now</span>
-            </div>
-            <h1 className="text-4xl md:text-5xl font-black text-white mb-3 drop-shadow-lg">
-              Salom, {user?.firstName || 'Student'}! 👋
-            </h1>
-            <p className="text-white/90 text-lg md:text-xl mb-8 max-w-2xl">
-              Bugun qanday yangi bilim egallashni xohlaysiz? Keling, o'rganishni davom ettiramiz!
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <button className="group px-8 py-4 bg-white text-purple-600 rounded-2xl font-bold hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] border-0 flex items-center gap-3">
-                <IoRocketOutline className="text-2xl" />
-                <span>Kurslarni davom ettirish</span>
-                <IoArrowForwardOutline className="text-xl group-hover:translate-x-1 transition-transform" />
-              </button>
-              <button className="px-8 py-4 bg-white/10 backdrop-blur-md text-white rounded-2xl font-bold hover:bg-white/20 transition-all duration-300 border border-white/30 hover:border-white/50 hover:scale-[1.02]">
-                Yangi kurs topish
-              </button>
-            </div>
-          </div>
+    <div className="space-y-6">
+      {/* Hero Welcome Section */}
+      <div className="relative overflow-hidden rounded-3xl p-8 md:p-12 min-h-[320px] shadow-2xl">
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <img
+            src={"/images/academy-hero.webp"}
+            alt="Academy"
+            className="w-full h-full object-cover opacity-20 object-top"
+          />
+          {/* Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-primary-700/95 via-primary-500/80 to-primary-600/40"></div>
         </div>
 
-        {/* Stats Grid - Enhanced */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {stats.map((stat, index) => (
-            <div
-              key={index}
-              className={`group relative overflow-hidden rounded-2xl p-6 ${
-                isDarkMode 
-                  ? 'bg-gray-800/60 backdrop-blur-xl border border-white/5' 
-                  : 'bg-white/60 backdrop-blur-xl border border-white/20'
-              } hover:shadow-2xl transition-all duration-500 hover:scale-[1.02] cursor-pointer`}
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
-              {/* Gradient Background */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${stat.bgGradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
-              
-              <div className="relative z-10">
-                <div className="flex items-start justify-between mb-6">
-                  <div className={`p-4 rounded-2xl bg-gradient-to-br ${stat.gradient} shadow-lg group-hover:scale-105 transition-transform duration-300`}>
-                    <div className="text-3xl text-white">
-                      {stat.icon}
-                    </div>
-                  </div>
-                </div>
-                <p className={`text-sm font-medium mb-2 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                  {stat.label}
-                </p>
-                <p className={`text-4xl font-black mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                  {stat.value}
-                </p>
-                <p className={`text-xs font-semibold ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}>
-                  {stat.change}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Active Courses - Enhanced */}
-          <div className="lg:col-span-2">
-            <div className={`rounded-3xl p-6 ${
-              isDarkMode 
-                ? 'bg-gray-800/60 backdrop-blur-xl border border-white/5' 
-                : 'bg-white/60 backdrop-blur-xl border border-white/20'
-            } shadow-xl`}>
-              <div className="flex items-center justify-between mb-6">
-                <div>
-                  <h2 className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'} mb-1`}>
-                    Aktiv kurslar
-                  </h2>
-                  <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                    Davom ettirish uchun bosing
-                  </p>
-                </div>
-                <button className="text-sm text-blue-500 hover:text-blue-600 font-bold border-0 bg-transparent px-4 py-2 rounded-xl hover:bg-blue-500/10 transition-all">
-                  Barchasini ko'rish →
-                </button>
-              </div>
-              
-              <div className="space-y-4">
-                {recentCourses.map((course, index) => (
-                  <div
-                    key={course.id}
-                    className={`group relative overflow-hidden rounded-2xl ${
-                      isDarkMode ? 'bg-gray-700/50 hover:bg-gray-700' : 'bg-gray-50 hover:bg-white'
-                    } transition-all duration-300 cursor-pointer hover:shadow-xl hover:scale-[1.01]`}
-                    style={{ animationDelay: `${index * 100}ms` }}
-                  >
-                    <div className="flex gap-4 p-4">
-                      {/* Course Image */}
-                      <div className="relative flex-shrink-0 overflow-hidden rounded-xl">
-                        <img
-                          src={course.image}
-                          alt={course.title}
-                          className="w-32 h-32 object-cover group-hover:scale-105 transition-transform duration-500"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                        <div className="absolute bottom-2 left-2 flex items-center gap-1">
-                          <IoPlayCircleOutline className="text-white text-2xl drop-shadow-lg group-hover:scale-110 transition-transform" />
-                        </div>
-                      </div>
-                      
-                      {/* Course Info */}
-                      <div className="flex-1 min-w-0">
-                        <h3 className={`font-bold text-lg mb-2 group-hover:text-blue-500 transition-colors ${
-                          isDarkMode ? 'text-white' : 'text-gray-900'
-                        }`}>
-                          {course.title}
-                        </h3>
-                        <p className={`text-sm mb-3 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                          by {course.instructor}
-                        </p>
-                        
-                        <div className="flex items-center gap-4 text-sm mb-3">
-                          <div className="flex items-center gap-2">
-                            <IoCheckmarkCircleOutline className="text-green-500" />
-                            <span className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>
-                              {course.completed}/{course.lessons} dars
-                            </span>
-                          </div>
-                          <div className="px-3 py-1 rounded-full bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/30">
-                            <span className="text-green-500 font-bold text-xs">
-                              {course.progress}%
-                            </span>
-                          </div>
-                        </div>
-                        
-                        {/* Progress Bar */}
-                        <div className="relative w-full h-2 bg-gray-200 dark:bg-gray-600 rounded-full overflow-hidden">
-                          <div
-                            className="absolute top-0 left-0 h-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full transition-all duration-1000 shadow-lg"
-                            style={{ width: `${course.progress}%` }}
-                          >
-                            <div className="absolute inset-0 bg-white/30 animate-pulse"></div>
-                          </div>
-                        </div>
-                        
-                        <p className={`text-xs mt-2 ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}>
-                          Keyingi: {course.nextLesson}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+        {/* Content */}
+        <div className="relative z-10">
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50"></div>
+            <span className="text-sm font-medium text-white/90">
+              Online now
+            </span>
           </div>
-
-          {/* Right Sidebar */}
-          <div className="space-y-6">
-            {/* Upcoming Events - Enhanced */}
-            <div className={`rounded-3xl p-6 ${
-              isDarkMode 
-                ? 'bg-gray-800/60 backdrop-blur-xl border border-white/5' 
-                : 'bg-white/60 backdrop-blur-xl border border-white/20'
-            } shadow-xl`}>
-              <div className="flex items-center gap-3 mb-5">
-                <div className="p-2 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500">
-                  <IoCalendarOutline className="text-xl text-white" />
-                </div>
-                <h3 className={`font-bold text-lg ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                  Yaqin tadbirlar
-                </h3>
-              </div>
-              
-              <div className="space-y-3">
-                {upcomingEvents.map((event, index) => (
-                  <div
-                    key={event.id}
-                    className={`group relative overflow-hidden p-4 rounded-2xl ${
-                      isDarkMode ? 'bg-gray-700/50' : 'bg-gradient-to-br from-blue-50 to-purple-50'
-                    } border border-blue-200/50 hover:shadow-lg transition-all duration-300 cursor-pointer hover:scale-[1.02]`}
-                    style={{ animationDelay: `${index * 100}ms` }}
-                  >
-                    <div className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-br ${event.gradient} opacity-10 rounded-full blur-2xl`}></div>
-                    
-                    <div className="relative z-10">
-                      <div className="flex items-start justify-between mb-2">
-                        <p className={`font-bold text-sm ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                          {event.title}
-                        </p>
-                        <span className="px-2 py-1 text-xs font-bold bg-green-500/20 text-green-600 rounded-lg border border-green-500/30">
-                          {event.type}
-                        </span>
-                      </div>
-                      
-                      <div className="flex items-center gap-3 text-xs mb-2">
-                        <div className="flex items-center gap-1">
-                          <IoTimeOutline className="text-blue-500" />
-                          <span className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>
-                            {event.date} • {event.time}
-                          </span>
-                        </div>
-                      </div>
-                      
-                      <div className="flex items-center gap-1">
-                        <div className="flex -space-x-2">
-                          {[...Array(3)].map((_, i) => (
-                            <div key={i} className="w-6 h-6 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 border-2 border-white"></div>
-                          ))}
-                        </div>
-                        <span className="text-xs text-gray-500 ml-2">+{event.participants} participants</span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Recent Achievements - Enhanced */}
-            <div className={`rounded-3xl p-6 ${
-              isDarkMode 
-                ? 'bg-gray-800/60 backdrop-blur-xl border border-white/5' 
-                : 'bg-white/60 backdrop-blur-xl border border-white/20'
-            } shadow-xl`}>
-              <div className="flex items-center gap-3 mb-5">
-                <div className="p-2 rounded-xl bg-gradient-to-r from-yellow-500 to-orange-500">
-                  <IoTrophyOutline className="text-xl text-white" />
-                </div>
-                <h3 className={`font-bold text-lg ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                  Yutuqlar
-                </h3>
-              </div>
-              
-              <div className="space-y-3">
-                {recentAchievements.map((achievement, index) => (
-                  <div
-                    key={achievement.id}
-                    className={`group relative overflow-hidden flex items-start gap-3 p-4 rounded-2xl ${
-                      isDarkMode ? 'bg-gray-700/50' : 'bg-gradient-to-br from-yellow-50 to-orange-50'
-                    } hover:shadow-lg transition-all duration-300 cursor-pointer hover:scale-[1.02]`}
-                    style={{ animationDelay: `${index * 100}ms` }}
-                  >
-                    <div className={`relative p-3 rounded-xl bg-gradient-to-br ${achievement.gradient} shadow-lg group-hover:scale-105 transition-transform`}>
-                      <div className="text-white text-xl">
-                        {achievement.icon}
-                      </div>
-                      <div className="absolute -inset-1 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-xl blur opacity-30 group-hover:opacity-60 transition"></div>
-                    </div>
-                    
-                    <div className="flex-1 min-w-0">
-                      <p className={`text-sm font-bold mb-1 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                        {achievement.title}
-                      </p>
-                      <p className="text-xs text-gray-500">{achievement.date}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+          <h1 className="text-3xl md:text-5xl font-bold mb-4 text-white leading-tight">
+            Salom, {user?.firstName || 'Student'}! 👋
+          </h1>
+          <p className="text-base md:text-lg mb-8 max-w-2xl text-white/80 leading-relaxed">
+            Bugun qanday yangi bilim egallashni xohlaysiz? Keling, o&apos;rganishni davom ettiramiz!
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <PrimaryButton className="!bg-white/10 !text-white !border-white/20 hover:!bg-white/20 !shadow-xl !shadow-white/10">
+              <Rocket className="w-5 h-5 flex-shrink-0" />
+              <span>Kurslarni davom ettirish</span>
+              <ArrowRight className="w-4 h-4 flex-shrink-0" />
+            </PrimaryButton>
+            <SecondaryButton className="!bg-white/10 !text-white !border-white/20 hover:!bg-white/20">
+              Yangi kurs topish
+            </SecondaryButton>
           </div>
         </div>
       </div>
-    </StudentLayout>
+
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {stats.map((stat) => (
+          <BenefitCard
+            key={stat.label}
+            icon={stat.icon}
+            title={stat.value}
+            description={`${stat.label} • ${stat.change}`}
+            gradient={stat.gradient}
+            className="hover:scale-[1.02]"
+          />
+        ))}
+      </div>
+
+      {/* Main Content Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Active Courses */}
+        <div className="lg:col-span-2">
+          <GlassCard className="!p-6">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h2 className="text-xl font-bold mb-1 text-gray-900 dark:text-white">
+                  Aktiv kurslar
+                </h2>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Davom ettirish uchun bosing
+                </p>
+              </div>
+              <GhostButton>
+                Barchasini ko&apos;rish <ArrowRight className="w-4 h-4 ml-1" />
+              </GhostButton>
+            </div>
+
+            <div className="space-y-4">
+              {isLoadingCourses ? (
+                <div className="text-center py-8">
+                  <p className="text-gray-600 dark:text-gray-400">Kurslar yuklanmoqda...</p>
+                </div>
+              ) : courses.length === 0 ? (
+                <div className="text-center py-8">
+                  <p className="text-gray-600 dark:text-gray-400">Hozircha kurslar yo&apos;q</p>
+                </div>
+              ) : (
+                courses.map((course: any) => {
+                  // Get course title based on language (default to Uzbek)
+                  const title = course.titleUz || course.titleRu || course.titleEn || 'Kurs';
+                  const categoryName = course.category?.nameUz || course.category?.nameRu || course.category?.nameEn || 'Trading';
+                  const mentorName = `${course.mentor?.firstName || ''} ${course.mentor?.lastName || ''}`.trim() || 'Mentor';
+                  const totalLessons = getTotalLessons(course);
+                  const publishedLessons = getPublishedLessons(course);
+
+                  return (
+                    <div
+                      key={course.id}
+                      className="group rounded-2xl overflow-hidden transition-all duration-300 cursor-pointer hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 hover:border-primary/20 dark:hover:border-primary/20"
+                    >
+                      <div className="flex gap-4 p-4">
+                        {/* Course Image */}
+                        <div className="relative flex-shrink-0">
+                          <img
+                            src={course.coverImage || '/images/course-placeholder.webp'}
+                            alt={title}
+                            className="w-32 h-24 object-cover rounded-xl shadow-md"
+                          />
+                          <div className="absolute inset-0 bg-black/30 rounded-xl flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <PlayCircle className="text-white w-12 h-12" />
+                          </div>
+                        </div>
+
+                        {/* Course Info */}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-start justify-between mb-2">
+                            <div className="flex-1">
+                              <span className="inline-block px-2.5 py-1 text-xs font-semibold rounded-lg mb-2 bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary-400">
+                                {categoryName}
+                              </span>
+                              <h3 className="font-bold text-base mb-1 group-hover:text-primary transition-colors text-gray-900 dark:text-white">
+                                {title}
+                              </h3>
+                            </div>
+                            <button className="inline-flex items-center justify-center p-2 rounded-lg transition-all duration-200 flex-shrink-0 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                              <Bookmark className="w-5 h-5" />
+                            </button>
+                          </div>
+                          <p className="text-sm mb-3 text-gray-600 dark:text-gray-400">
+                            by {mentorName}
+                          </p>
+
+                          <div className="flex items-center gap-4 text-sm mb-3">
+                            <div className="flex items-center gap-1.5">
+                              <CheckCircle className="w-5 h-5 flex-shrink-0 text-green-500" />
+                              <span className="text-gray-600 dark:text-gray-400">
+                                {publishedLessons}/{totalLessons} dars
+                              </span>
+                            </div>
+                            <div className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
+                              {course.level || 'All Levels'}
+                            </div>
+                          </div>
+
+                          {/* Progress Bar */}
+                          <div className="w-full h-2.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden shadow-inner">
+                            <div
+                              className="h-full bg-gradient-to-r from-primary to-primary-600 rounded-full transition-all duration-500 shadow-lg shadow-primary/30"
+                              style={{ width: `0%` }}
+                            />
+                          </div>
+
+                          <p className="text-xs mt-2 text-gray-500 dark:text-gray-500">
+                            {course.duration ? `${Math.floor(course.duration / 60)} soat` : ''}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          </GlassCard>
+        </div>
+
+        {/* Right Sidebar */}
+        <div className="space-y-6">
+          {/* Upcoming Events */}
+          <GlassCard className="!p-6">
+            <div className="flex items-center gap-3 mb-5">
+              <div className="w-10 h-10 flex items-center justify-center rounded-xl flex-shrink-0 bg-gradient-to-br from-primary/10 to-primary-600/10">
+                <Calendar className="w-5 h-5 text-primary" />
+              </div>
+              <h3 className="font-bold text-gray-900 dark:text-white">
+                Yaqin tadbirlar
+              </h3>
+            </div>
+
+            <div className="space-y-3">
+              {upcomingEvents.map((event) => (
+                <div
+                  key={event.id}
+                  className="p-4 rounded-xl transition-all duration-300 cursor-pointer hover:shadow-md hover:shadow-primary/5 hover:-translate-y-0.5 bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 hover:border-primary/20 dark:hover:border-primary/20"
+                >
+                  <div className="flex items-start justify-between mb-2">
+                    <p className="font-semibold text-sm text-gray-900 dark:text-white">
+                      {event.title}
+                    </p>
+                    <span className="px-2.5 py-1 text-xs font-semibold rounded-md flex-shrink-0 bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400">
+                      {event.type}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-2 text-xs mb-2">
+                    <Clock className="w-4 h-4 flex-shrink-0 text-primary" />
+                    <span className="text-gray-600 dark:text-gray-400">
+                      {event.date} • {event.time}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-1">
+                    <div className="flex -space-x-2">
+                      {[...Array(3)].map((_, i) => (
+                        <div key={i} className="w-6 h-6 rounded-full bg-gradient-to-br from-gray-300 to-gray-400 dark:from-gray-600 dark:to-gray-700 border-2 border-white dark:border-gray-800"></div>
+                      ))}
+                    </div>
+                    <div className="flex items-center gap-1 ml-2">
+                      <Users className="w-4 h-4 text-gray-500" />
+                      <span className="text-xs text-gray-500">{event.participants}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </GlassCard>
+
+          {/* Recent Achievements */}
+          <GlassCard className="!p-6">
+            <div className="flex items-center gap-3 mb-5">
+              <div className="w-10 h-10 flex items-center justify-center rounded-xl flex-shrink-0 bg-gradient-to-br from-primary/10 to-primary-600/10">
+                <Trophy className="w-5 h-5 text-primary" />
+              </div>
+              <h3 className="font-bold text-gray-900 dark:text-white">
+                Yutuqlar
+              </h3>
+            </div>
+
+            <div className="space-y-3">
+              {recentAchievements.map((achievement) => (
+                <div
+                  key={achievement.id}
+                  className="flex items-start gap-3 p-4 rounded-xl transition-all duration-300 cursor-pointer hover:shadow-md hover:shadow-primary/5 hover:-translate-y-0.5 bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 hover:border-primary/20 dark:hover:border-primary/20"
+                >
+                  <div className={`w-10 h-10 flex items-center justify-center rounded-lg flex-shrink-0 bg-gradient-to-br ${achievement.gradient} shadow-lg`}>
+                    <achievement.icon className="w-5 h-5 text-white" />
+                  </div>
+
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-semibold mb-1 text-gray-900 dark:text-white">
+                      {achievement.title}
+                    </p>
+                    <p className="text-xs text-gray-500">{achievement.date}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </GlassCard>
+        </div>
+      </div>
+    </div>
   );
 });
+
+StudentDashboard.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <DynamicProviders>
+      <StudentLayout title="Dashboard">{page}</StudentLayout>
+    </DynamicProviders>
+  );
+};
 
 export default StudentDashboard;
