@@ -274,7 +274,7 @@ const CoursesPage: NextPageWithLayout = observer(() => {
                   {/* Play Button Overlay */}
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <div className="w-16 h-16 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg">
-                      <PlayCircle className="w-8 h-8 text-primary" fill="currentColor" />
+                      <PlayCircle className="w-8 h-8 text-primary fill-current" />
                     </div>
                   </div>
 
@@ -300,7 +300,7 @@ const CoursesPage: NextPageWithLayout = observer(() => {
                   {/* Meta Info */}
                   <div className="flex flex-wrap items-center gap-4 text-xs text-gray-600 dark:text-gray-400 mb-4">
                     <div className="flex items-center gap-1">
-                      <Star className="w-3.5 h-3.5 text-yellow-500 fill="currentColor" />
+                      <Star className="w-3.5 h-3.5 text-yellow-500 fill-current" />
                       <span className="font-medium">{rating}</span>
                     </div>
                     <div className="flex items-center gap-1">
