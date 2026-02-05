@@ -84,7 +84,7 @@ const CourseDetailPage: NextPageWithLayout = observer(() => {
     {},
     {
       invalidateQueries: ['course-enrollments', 'courses'],
-      successToast: t("Kursga muvaffaqiyatli yozildingiz"),
+      successToast: t('Kursga muvaffaqiyatli yozildingiz'),
       errorToast: t("Xatolik sodir bo'ldi"),
     },
   );
@@ -102,15 +102,19 @@ const CourseDetailPage: NextPageWithLayout = observer(() => {
     }
 
     Modal.confirm({
-      title: t("Kursga yozilishni tasdiqlaysizmi?"),
+      title: t('Kursga yozilishni tasdiqlaysizmi?'),
       content: (
         <div>
-          <Paragraph>{t('Kurs narxi')}: {course.price} 🪙</Paragraph>
-          <Paragraph>{t('Sizning balancingiz')}: {user?.coins || 0} 🪙</Paragraph>
+          <Paragraph>
+            {t('Kurs narxi')}: {course.price} 🪙
+          </Paragraph>
+          <Paragraph>
+            {t('Sizning balancingiz')}: {user?.coins || 0} 🪙
+          </Paragraph>
         </div>
       ),
       okText: t('Ha, yozilaman'),
-      cancelText: t("Bekor qilish"),
+      cancelText: t('Bekor qilish'),
       onOk: () => {
         createCourseEnrollment({
           data: {
@@ -178,7 +182,7 @@ const CourseDetailPage: NextPageWithLayout = observer(() => {
   }
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="">
       {/* Header */}
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary to-primary-600 p-8 text-white">
         <div className="absolute top-0 right-0 -mt-20 -mr-20 h-80 w-80 rounded-full bg-white/10 blur-3xl"></div>
@@ -190,9 +194,7 @@ const CourseDetailPage: NextPageWithLayout = observer(() => {
                 {course.category?.nameUz || course.category?.nameEn}
               </Tag>
 
-              <h1 className="text-4xl font-bold mb-4">
-                {course.titleUz || course.titleRu || course.titleEn}
-              </h1>
+              <h1 className="text-4xl font-bold mb-4">{course.titleUz || course.titleRu || course.titleEn}</h1>
 
               <Paragraph className="text-lg opacity-90 mb-6 max-w-3xl">
                 {course.descriptionUz || course.descriptionRu || course.descriptionEn}
@@ -206,7 +208,9 @@ const CourseDetailPage: NextPageWithLayout = observer(() => {
 
                 <div className="flex items-center gap-2">
                   <BookOpen className="w-5 h-5" />
-                  <span>{totalLessons} {t('dars')}</span>
+                  <span>
+                    {totalLessons} {t('dars')}
+                  </span>
                 </div>
 
                 <div className="flex items-center gap-2">
@@ -313,9 +317,8 @@ const CourseDetailPage: NextPageWithLayout = observer(() => {
                                 <div className="flex items-center gap-3 text-xs text-gray-500 dark:text-gray-400 mt-1">
                                   <span className="flex items-center gap-1">
                                     <Clock className="w-3 h-3" />
-                                    {Math.floor(lesson.duration / 60)}:{(lesson.duration % 60)
-                                      .toString()
-                                      .padStart(2, '0')}
+                                    {Math.floor(lesson.duration / 60)}:
+                                    {(lesson.duration % 60).toString().padStart(2, '0')}
                                   </span>
                                   {lesson.isFree && (
                                     <Tag color="green" className="text-xs">
@@ -377,11 +380,11 @@ const CourseDetailPage: NextPageWithLayout = observer(() => {
                     <ul className="space-y-2">
                       <li className="flex items-start gap-2 text-gray-600 dark:text-gray-400">
                         <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                        <span>{t('Kursni tugatgandan so\'ng sertifikat olish')}</span>
+                        <span>{t("Kursni tugatgandan so'ng sertifikat olish")}</span>
                       </li>
                       <li className="flex items-start gap-2 text-gray-600 dark:text-gray-400">
                         <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                        <span>{t('Amaliy ko\'nikmalarni o\'zlashtirish')}</span>
+                        <span>{t("Amaliy ko'nikmalarni o'zlashtirish")}</span>
                       </li>
                       <li className="flex items-start gap-2 text-gray-600 dark:text-gray-400">
                         <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
@@ -406,9 +409,7 @@ const CourseDetailPage: NextPageWithLayout = observer(() => {
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-gray-600 dark:text-gray-400">{t('Modullar')}</span>
-                <span className="font-bold text-gray-900 dark:text-white">
-                  {course?.modules?.length || 0}
-                </span>
+                <span className="font-bold text-gray-900 dark:text-white">{course?.modules?.length || 0}</span>
               </div>
 
               <div className="flex items-center justify-between">
@@ -418,16 +419,12 @@ const CourseDetailPage: NextPageWithLayout = observer(() => {
 
               <div className="flex items-center justify-between">
                 <span className="text-gray-600 dark:text-gray-400">{t('Davomiylik')}</span>
-                <span className="font-bold text-gray-900 dark:text-white">
-                  {formatDuration(totalDuration)}
-                </span>
+                <span className="font-bold text-gray-900 dark:text-white">{formatDuration(totalDuration)}</span>
               </div>
 
               <div className="flex items-center justify-between">
                 <span className="text-gray-600 dark:text-gray-400">{t('Daraja')}</span>
-                <span className="font-bold text-gray-900 dark:text-white">
-                  {course.level || 'All Levels'}
-                </span>
+                <span className="font-bold text-gray-900 dark:text-white">{course.level || 'All Levels'}</span>
               </div>
             </div>
           </GlassCard>

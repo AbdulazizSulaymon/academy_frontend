@@ -18,7 +18,6 @@ import {
 import { useLayoutStore } from '@src/stores/layout-store';
 import { useMyTheme } from '@hooks/use-my-theme';
 import { observer } from 'mobx-react';
-import { useCourseEnrollments } from '@src/queries/models/course-enrollment';
 import { useEvents } from '@src/queries/models/event';
 import { get } from 'lodash';
 import { NextPageWithLayout } from '@/types';
@@ -28,38 +27,15 @@ import { GlassCard, BenefitCard } from '@/components/ui/card';
 import { AcademyEventStatus } from '@api/academy-types';
 import Link from 'next/link';
 import { Paragraph } from '@/components/ui/typography';
+import { useUserMe } from '@src/hooks/use-user-me';
 
 const StudentDashboard: NextPageWithLayout = observer(() => {
   const { user } = useLayoutStore();
   const { isDarkMode } = useMyTheme();
+  const { user: meData, isLoading: isLoadingMe } = useUserMe();
 
-  // Fetch enrolled courses with course data
-  const { data: enrollmentsResponse, isLoading: isLoadingCourses } = useCourseEnrollments(
-    {
-      include: {
-        course: {
-          include: {
-            category: true,
-            mentor: true,
-            modules: {
-              include: {
-                lessons: true,
-              },
-            },
-          },
-        },
-      },
-      where: {
-        userId: user?.id,
-      },
-      orderBy: {
-        enrolledAt: 'desc',
-      },
-    },
-    { enabled: !!user?.id },
-  );
-
-  const enrollments = get(enrollmentsResponse, 'data.data', []);
+  // Use enrollments from useUserMe
+  const enrollments = meData?.enrollments || [];
 
   // Extract courses from enrollments
   const courses = enrollments.map((enrollment: any) => enrollment.course);
@@ -100,8 +76,8 @@ const StudentDashboard: NextPageWithLayout = observer(() => {
     {
       icon: BookOpen,
       label: 'Aktiv kurslar',
-      value: String(courses.length || 0),
-      change: `${courses.length || 0} kurs mavjud`,
+      value: String(enrollments.length || 0),
+      change: `${enrollments.length || 0} kurs mavjud`,
       gradient: 'from-blue-500 to-blue-600',
     },
     {
@@ -221,16 +197,17 @@ const StudentDashboard: NextPageWithLayout = observer(() => {
             </div>
 
             <div className="space-y-4">
-              {isLoadingCourses ? (
+              {isLoadingMe ? (
                 <div className="text-center py-8">
                   <Paragraph className="text-gray-600 dark:text-gray-400">Kurslar yuklanmoqda...</Paragraph>
                 </div>
-              ) : courses.length === 0 ? (
+              ) : enrollments.length === 0 ? (
                 <div className="text-center py-8">
                   <Paragraph className="text-gray-600 dark:text-gray-400">Hozircha kurslar yo&apos;q</Paragraph>
                 </div>
               ) : (
-                courses.map((course: any) => {
+                enrollments.map((enrollment: any) => {
+                  const course = enrollment.course;
                   // Get course title based on language (default to Uzbek)
                   const title = course.titleUz || course.titleRu || course.titleEn || 'Kurs';
                   const categoryName =
@@ -239,6 +216,7 @@ const StudentDashboard: NextPageWithLayout = observer(() => {
                     `${course.mentor?.firstName || ''} ${course.mentor?.lastName || ''}`.trim() || 'Mentor';
                   const totalLessons = getTotalLessons(course);
                   const publishedLessons = getPublishedLessons(course);
+                  const progress = Math.round(enrollment.progress || 0);
 
                   return (
                     <Link
@@ -292,13 +270,18 @@ const StudentDashboard: NextPageWithLayout = observer(() => {
                           <div className="w-full h-2.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden shadow-inner">
                             <div
                               className="h-full bg-gradient-to-r from-primary to-primary-600 rounded-full transition-all duration-500 shadow-lg shadow-primary/30"
-                              style={{ width: `0%` }}
+                              style={{ width: `${progress}%` }}
                             />
                           </div>
 
-                          <Paragraph className="text-xs mt-2 text-gray-500 dark:text-gray-500">
-                            {course.duration ? `${Math.floor(course.duration / 60)} soat` : ''}
-                          </Paragraph>
+                          <div className="flex items-center justify-between mt-2">
+                            <Paragraph className="text-xs text-gray-500 dark:text-gray-500">
+                              {course.duration ? `${Math.floor(course.duration / 60)} soat` : ''}
+                            </Paragraph>
+                            <Paragraph className="text-xs font-semibold text-primary">
+                              {progress}%
+                            </Paragraph>
+                          </div>
                         </div>
                       </div>
                     </Link>

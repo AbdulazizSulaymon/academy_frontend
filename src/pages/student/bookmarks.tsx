@@ -1,15 +1,6 @@
 import React, { ReactElement, useState } from 'react';
 import StudentLayout from '@src/components/student-layout';
-import {
-  Bookmark,
-  BookOpen,
-  Clock,
-  PlayCircle,
-  Trash2,
-  Search,
-  Filter,
-  X,
-} from 'lucide-react';
+import { Bookmark, BookOpen, Clock, PlayCircle, Trash2, Search, Filter, X } from 'lucide-react';
 import { useLayoutStore } from '@src/stores/layout-store';
 import { useMyTheme } from '@hooks/use-my-theme';
 import { observer } from 'mobx-react';
@@ -79,7 +70,8 @@ const BookmarksPage: NextPageWithLayout = observer(() => {
   const filteredBookmarks = bookmarks.filter((bookmark: any) => {
     const lesson = bookmark.lesson;
     const title = lesson?.titleUz || lesson?.titleRu || lesson?.titleEn || '';
-    const courseName = lesson?.module?.course?.titleUz || lesson?.module?.course?.titleRu || lesson?.module?.course?.titleEn || '';
+    const courseName =
+      lesson?.module?.course?.titleUz || lesson?.module?.course?.titleRu || lesson?.module?.course?.titleEn || '';
     const query = searchQuery.toLowerCase();
 
     return (
@@ -128,7 +120,7 @@ const BookmarksPage: NextPageWithLayout = observer(() => {
   // Group bookmarks by course
   const groupedByCourse = filteredBookmarks.reduce((acc: any, bookmark: any) => {
     const course = bookmark.lesson?.module?.course;
-    const courseTitle = course?.titleUz || course?.titleRu || course?.titleEn || 'Noma\'lum kurs';
+    const courseTitle = course?.titleUz || course?.titleRu || course?.titleEn || "Noma'lum kurs";
 
     if (!acc[courseTitle]) {
       acc[courseTitle] = {
@@ -142,7 +134,7 @@ const BookmarksPage: NextPageWithLayout = observer(() => {
   }, {});
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -176,11 +168,10 @@ const BookmarksPage: NextPageWithLayout = observer(() => {
         <GlassCard className="p-12 text-center">
           <Bookmark className="w-16 h-16 mx-auto text-gray-400 mb-4" />
           <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-            {t('Saqlangan darslar yo\'q') || "Saqlangan darslar yo'q"}
+            {t("Saqlangan darslar yo'q") || "Saqlangan darslar yo'q"}
           </h3>
           <Paragraph className="text-gray-600 dark:text-gray-400">
-            {t('Darslarni saqlash uchun bookmark qo\'shing') ||
-              "Darslarni saqlash uchun bookmark qo'shing"}
+            {t("Darslarni saqlash uchun bookmark qo'shing") || "Darslarni saqlash uchun bookmark qo'shing"}
           </Paragraph>
         </GlassCard>
       ) : filteredBookmarks.length === 0 ? (
@@ -190,8 +181,7 @@ const BookmarksPage: NextPageWithLayout = observer(() => {
             {t('Hech narsa topilmadi') || 'Hech narsa topilmadi'}
           </h3>
           <Paragraph className="text-gray-600 dark:text-gray-400">
-            {t('Boshqa kalit so\'z bilan urinib ko\'ring') ||
-              "Boshqa kalit so'z bilan urinib ko'ring"}
+            {t("Boshqa kalit so'z bilan urinib ko'ring") || "Boshqa kalit so'z bilan urinib ko'ring"}
           </Paragraph>
         </GlassCard>
       ) : (
@@ -209,10 +199,7 @@ const BookmarksPage: NextPageWithLayout = observer(() => {
                   const lesson = bookmark.lesson;
 
                   return (
-                    <GlassCard
-                      key={bookmark.id}
-                      className="overflow-hidden hover:shadow-lg transition-shadow"
-                    >
+                    <GlassCard key={bookmark.id} className="overflow-hidden hover:shadow-lg transition-shadow">
                       <div className="relative">
                         {lesson.videoThumbnail ? (
                           <img
@@ -255,7 +242,7 @@ const BookmarksPage: NextPageWithLayout = observer(() => {
                           <button
                             onClick={() => handleDeleteBookmark(bookmark.id)}
                             className="p-2 bg-white/90 dark:bg-gray-800/90 rounded-full hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors"
-                            title={t('Olib tashlash') || "Olib tashlash"}
+                            title={t('Olib tashlash') || 'Olib tashlash'}
                           >
                             <Trash2 className="w-4 h-4 text-red-600" />
                           </button>
@@ -287,7 +274,7 @@ const BookmarksPage: NextPageWithLayout = observer(() => {
 
                           <PrimaryButton>
                             <PlayCircle className="w-4 h-4 mr-1" />
-                            {t('Ko\'rish') || 'Ko\'rish'}
+                            {t("Ko'rish") || "Ko'rish"}
                           </PrimaryButton>
                         </div>
                       </div>
@@ -302,7 +289,7 @@ const BookmarksPage: NextPageWithLayout = observer(() => {
 
       {/* Note Modal */}
       <Modal
-        title={t('Eslatma qo\'shish') || "Eslatma qo'shish"}
+        title={t("Eslatma qo'shish") || "Eslatma qo'shish"}
         open={noteModalOpen}
         onOk={handleSaveNote}
         onCancel={() => {
@@ -311,13 +298,13 @@ const BookmarksPage: NextPageWithLayout = observer(() => {
           setNoteText('');
         }}
         okText={t('Saqlash')}
-        cancelText={t("Bekor qilish")}
+        cancelText={t('Bekor qilish')}
       >
         <TextArea
           rows={4}
           value={noteText}
           onChange={(e) => setNoteText(e.target.value)}
-          placeholder={t('Bu dars haqida eslatma yozing...') || "Bu dars haqida eslatma yozing..."}
+          placeholder={t('Bu dars haqida eslatma yozing...') || 'Bu dars haqida eslatma yozing...'}
         />
       </Modal>
     </div>

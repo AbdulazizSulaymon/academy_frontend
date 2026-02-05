@@ -25,10 +25,14 @@ export const useUserMe = () => {
       api.instance.post('api/userMe/me', {
         select: {
           config: true,
-          departments: true,
           lang: true,
           roles: true,
           step: true,
+          enrollments: {
+            include: {
+              course: true,
+            },
+          },
         },
       }),
     enabled: shouldFetch,

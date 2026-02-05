@@ -8,6 +8,8 @@ import { useProducts } from '@src/queries/models/product';
 import { useShopCategories } from '@src/queries/models/shop-category';
 import { useFavoriteProducts } from '@src/queries/models/favorite-product';
 import { useOrders } from '@src/queries/models/order';
+import { useCreateOrder } from '@src/queries/models/order';
+import { useUpdateUser } from '@src/queries/models/user';
 import { get } from 'lodash';
 import { NextPageWithLayout } from '@/types';
 import { StudentDynamicProviders } from '@hocs/dynamic-providers';
@@ -20,9 +22,25 @@ import { getImagePath } from '@utils/util';
 import { useTranslation } from 'react-i18next';
 
 const ShopPage: NextPageWithLayout = observer(() => {
-  const { user } = useLayoutStore();
+  const { user, setUser } = useLayoutStore();
   const { isDarkMode } = useMyTheme();
   const { t } = useTranslation();
+
+  // Create order mutation
+  const { createOrder, isPending: isCreatingOrder } = useCreateOrder(
+    {},
+    {
+      invalidateQueries: ['orders'],
+    },
+  );
+
+  // Update user mutation (to deduct coins)
+  const { updateUser } = useUpdateUser(
+    {},
+    {
+      invalidateQueries: ['user'],
+    },
+  );
 
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState('');
@@ -133,11 +151,48 @@ const ShopPage: NextPageWithLayout = observer(() => {
   };
 
   // Confirm purchase
-  const handleConfirmPurchase = () => {
-    // TODO: Implement purchase mutation
-    message.success(t('Buyurtma muvaffaqiyatli yuborildi'));
-    setDetailModalOpen(false);
-    setSelectedProduct(null);
+  const handleConfirmPurchase = async () => {
+    if (!selectedProduct || !user) return;
+
+    try {
+      // Create order
+      createOrder({
+        data: {
+          userId: user.id,
+          total: selectedProduct.price,
+          status: 'COMPLETED',
+          items: {
+            create: [
+              {
+                productId: selectedProduct.id,
+                quantity: 1,
+                price: selectedProduct.price,
+              },
+            ],
+          },
+        },
+      });
+
+      // Deduct coins from user
+      updateUser({
+        where: { id: user.id },
+        data: {
+          coins: (user.coins || 0) - selectedProduct.price,
+        },
+      });
+
+      // Update local user store immediately
+      setUser({
+        ...user,
+        coins: (user.coins || 0) - selectedProduct.price,
+      });
+
+      message.success(t('Mahsulot muvaffaqiyatli sotib olindi!') || 'Mahsulot muvaffaqiyatli sotib olindi!');
+      setDetailModalOpen(false);
+      setSelectedProduct(null);
+    } catch (error) {
+      message.error(t('Xatolik yuz berdi') || 'Xatolik yuz berdi');
+    }
   };
 
   return (
@@ -398,6 +453,7 @@ const ShopPage: NextPageWithLayout = observer(() => {
                 className="flex-1"
                 onClick={handleConfirmPurchase}
                 disabled={(user?.coins || 0) < selectedProduct.price}
+                loading={isCreatingOrder}
               >
                 <ShoppingBag className="w-4 h-4 mr-2" />
                 {t('Sotib olish')}

@@ -1,16 +1,6 @@
 import React, { ReactElement } from 'react';
 import StudentLayout from '@src/components/student-layout';
-import {
-  TrendingUp,
-  Award,
-  BookOpen,
-  Clock,
-  Target,
-  CheckCircle,
-  Flame,
-  Star,
-  BarChart3,
-} from 'lucide-react';
+import { TrendingUp, Award, BookOpen, Clock, Target, CheckCircle, Flame, Star, BarChart3 } from 'lucide-react';
 import { useLayoutStore } from '@src/stores/layout-store';
 import { useMyTheme } from '@hooks/use-my-theme';
 import { observer } from 'mobx-react';
@@ -92,9 +82,7 @@ const ProgressPage: NextPageWithLayout = observer(() => {
       ? enrollments.reduce((sum: number, e: any) => sum + (e.progress || 0), 0) / enrollments.length
       : 0;
 
-  const gradedAssignments = userAssignments.filter(
-    (ua: any) => ua.status === AssignmentStatus.Graded,
-  ).length;
+  const gradedAssignments = userAssignments.filter((ua: any) => ua.status === AssignmentStatus.Graded).length;
   const avgScore =
     userAssignments.length > 0
       ? userAssignments
@@ -128,14 +116,12 @@ const ProgressPage: NextPageWithLayout = observer(() => {
   const minutes = totalStudyMinutes % 60;
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-          {t('Progress') || 'Progress'}
-        </h1>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{t('Progress') || 'Progress'}</h1>
         <Paragraph className="!text-gray-600 dark:!text-gray-400">
-          {t('O\'quv yutuqlaringiz va statistikangiz') || "O'quv yutuqlaringiz va statistikangiz"}
+          {t("O'quv yutuqlaringiz va statistikangiz") || "O'quv yutuqlaringiz va statistikangiz"}
         </Paragraph>
       </div>
 
@@ -157,14 +143,14 @@ const ProgressPage: NextPageWithLayout = observer(() => {
 
         <BenefitCard
           icon={Award}
-          title={t('O\'rtacha ball') || 'O\'rtacha ball'}
+          title={t("O'rtacha ball") || "O'rtacha ball"}
           description={`${Math.round(avgScore)}%`}
           gradient="from-purple-500 to-purple-600"
         />
 
         <BenefitCard
           icon={Clock}
-          title={t('O\'qish vaqti') || "O'qish vaqti"}
+          title={t("O'qish vaqti") || "O'qish vaqti"}
           description={`${hours} ${t('soat')} ${minutes} ${t('daqiqа')}`}
           gradient="from-orange-500 to-orange-600"
         />
@@ -180,7 +166,7 @@ const ProgressPage: NextPageWithLayout = observer(() => {
             </div>
             <div>
               <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-                {t('Kurslar bo\'yicha progress') || "Kurslar bo'yicha progress"}
+                {t("Kurslar bo'yicha progress") || "Kurslar bo'yicha progress"}
               </h2>
               <Paragraph className="!text-sm !text-gray-600 dark:!text-gray-400">
                 {t('Barcha faol kurslaringiz') || 'Barcha faol kurslaringiz'}
@@ -257,10 +243,7 @@ const ProgressPage: NextPageWithLayout = observer(() => {
             <div className="p-4 bg-orange-50 dark:bg-orange-900/20 rounded-xl">
               <Flame className="w-8 h-8 text-orange-600 dark:text-orange-400 mb-2" />
               <Paragraph className="!text-2xl !font-bold !text-gray-900 dark:!text-white">
-                {
-                  userAssignments.filter((ua: any) => ua.status === AssignmentStatus.NotSubmitted || !ua.status)
-                    .length
-                }
+                {userAssignments.filter((ua: any) => ua.status === AssignmentStatus.NotSubmitted || !ua.status).length}
               </Paragraph>
               <Paragraph className="!text-sm !text-gray-600 dark:!text-gray-400">{t('Kutilmoqda')}</Paragraph>
             </div>
@@ -282,9 +265,7 @@ const ProgressPage: NextPageWithLayout = observer(() => {
               <CheckCircle className="w-6 h-6 text-green-600 dark:text-green-400" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-                {t('Vazifalar') || 'Vazifalar'}
-              </h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">{t('Vazifalar') || 'Vazifalar'}</h2>
               <Paragraph className="!text-sm !text-gray-600 dark:!text-gray-400">
                 {t('Bajarilgan vazifalar') || 'Bajarilgan vazifalar'}
               </Paragraph>
@@ -313,8 +294,8 @@ const ProgressPage: NextPageWithLayout = observer(() => {
                       ut.status === TaskStatus.Completed
                         ? 'bg-green-100 text-green-800'
                         : ut.status === TaskStatus.Checking
-                          ? 'bg-yellow-100 text-yellow-800'
-                          : 'bg-gray-100 text-gray-800'
+                        ? 'bg-yellow-100 text-yellow-800'
+                        : 'bg-gray-100 text-gray-800'
                     }`}
                   >
                     {t(ut.status)}
@@ -337,9 +318,7 @@ const ProgressPage: NextPageWithLayout = observer(() => {
               <Star className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-                {t('Yutuqlar') || 'Yutuqlar'}
-              </h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">{t('Yutuqlar') || 'Yutuqlar'}</h2>
               <Paragraph className="!text-sm !text-gray-600 dark:!text-gray-400">
                 {t('Sizning yutuqlaringiz') || 'Sizning yutuqlaringiz'}
               </Paragraph>
@@ -350,7 +329,7 @@ const ProgressPage: NextPageWithLayout = observer(() => {
             <div className="flex items-center gap-3 p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
               <Flame className="w-8 h-8 text-orange-600" />
               <div>
-                <Paragraph className="!font-medium !text-gray-900 dark:!text-white">{t('Faol o\'quvchi')}</Paragraph>
+                <Paragraph className="!font-medium !text-gray-900 dark:!text-white">{t("Faol o'quvchi")}</Paragraph>
                 <Paragraph className="!text-sm !text-gray-600 dark:!text-gray-400">
                   {t('3+ kurs davom ettirmoqda') || '3+ kurs davom ettirmoqda'}
                 </Paragraph>
@@ -375,7 +354,9 @@ const ProgressPage: NextPageWithLayout = observer(() => {
               <div className="flex items-center gap-3 p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
                 <BarChart3 className="w-8 h-8 text-purple-600" />
                 <div>
-                  <Paragraph className="!font-medium !text-gray-900 dark:!text-white">{t('Topshiriq ustasi')}</Paragraph>
+                  <Paragraph className="!font-medium !text-gray-900 dark:!text-white">
+                    {t('Topshiriq ustasi')}
+                  </Paragraph>
                   <Paragraph className="!text-sm !text-gray-600 dark:!text-gray-400">
                     {gradedAssignments} {t('ta topshiriq bajargan')}
                   </Paragraph>

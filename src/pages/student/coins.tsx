@@ -55,10 +55,7 @@ const CoinsPage: NextPageWithLayout = observer(() => {
   const coinHistory = get(coinHistoryResponse, 'data.data', []);
 
   // Filter by type
-  const filteredHistory =
-    filterType === 'all'
-      ? coinHistory
-      : coinHistory.filter((ch: any) => ch.type === filterType);
+  const filteredHistory = filterType === 'all' ? coinHistory : coinHistory.filter((ch: any) => ch.type === filterType);
 
   // Calculate stats
   const totalEarned = coinHistory
@@ -100,7 +97,7 @@ const CoinsPage: NextPageWithLayout = observer(() => {
           icon: <TrendingUp className="w-5 h-5" />,
           bgColor: 'bg-blue-100 dark:bg-blue-900/30',
           textColor: 'text-blue-600 dark:text-blue-400',
-          label: t("Qaytarish") || "Qaytarish",
+          label: t('Qaytarish') || 'Qaytarish',
         };
       default:
         return {
@@ -109,11 +106,11 @@ const CoinsPage: NextPageWithLayout = observer(() => {
           textColor: 'text-gray-600 dark:text-gray-400',
           label: type,
         };
-      }
+    }
   };
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -216,11 +213,11 @@ const CoinsPage: NextPageWithLayout = observer(() => {
             onChange={setFilterType}
             className="w-40"
             options={[
-              { label: t("Barchasi") || "Barchasi", value: 'all' },
+              { label: t('Barchasi') || 'Barchasi', value: 'all' },
               { label: t('Yutuq') || 'Yutuq', value: CoinTransactionType.Earned },
               { label: t('Xaraj') || 'Xaraj', value: CoinTransactionType.Spent },
               { label: t('Bonus') || 'Bonus', value: CoinTransactionType.Bonus },
-              { label: t("Qaytarish") || "Qaytarish", value: CoinTransactionType.Refund },
+              { label: t('Qaytarish') || 'Qaytarish', value: CoinTransactionType.Refund },
             ]}
           />
         </div>
@@ -254,9 +251,7 @@ const CoinsPage: NextPageWithLayout = observer(() => {
                       : 'bg-red-50 dark:bg-red-900/10 border-red-200 dark:border-red-800'
                   }`}
                 >
-                  <div
-                    className={`p-3 rounded-full ${typeInfo.bgColor} ${typeInfo.textColor} flex-shrink-0`}
-                  >
+                  <div className={`p-3 rounded-full ${typeInfo.bgColor} ${typeInfo.textColor} flex-shrink-0`}>
                     {typeInfo.icon}
                   </div>
 
@@ -273,8 +268,7 @@ const CoinsPage: NextPageWithLayout = observer(() => {
                     </div>
                     {history.balanceBefore !== undefined && history.balanceAfter !== undefined && (
                       <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                        {history.balanceBefore.toLocaleString()} →{' '}
-                        {history.balanceAfter.toLocaleString()}
+                        {history.balanceBefore.toLocaleString()} → {history.balanceAfter.toLocaleString()}
                       </div>
                     )}
                   </div>
@@ -324,8 +318,7 @@ const CoinsPage: NextPageWithLayout = observer(() => {
                 {t('Kurslarni tugatish') || 'Kurslarni tugatish'}
               </h4>
               <Paragraph className="text-sm text-gray-600 dark:text-gray-400">
-                {t('Tayyor bo\'lgan kurs uchun bonus oling') ||
-                  "Tayor bo'lgan kurs uchun bonus oling"}
+                {t("Tayyor bo'lgan kurs uchun bonus oling") || "Tayor bo'lgan kurs uchun bonus oling"}
               </Paragraph>
             </div>
           </div>
@@ -334,11 +327,10 @@ const CoinsPage: NextPageWithLayout = observer(() => {
             <CheckCircle className="w-6 h-6 text-purple-600 dark:text-purple-400 flex-shrink-0 mt-1" />
             <div>
               <h4 className="font-medium text-gray-900 dark:text-white mb-1">
-                {t('Do\'kondan xarid qilish') || "Do'kondan xarid qilish"}
+                {t("Do'kondan xarid qilish") || "Do'kondan xarid qilish"}
               </h4>
               <Paragraph className="text-sm text-gray-600 dark:text-gray-400">
-                {t('Coinlaringizni mahsulotlar uchun ishlatting') ||
-                  'Coinlaringizni mahsulotlar uchun ishlatting'}
+                {t('Coinlaringizni mahsulotlar uchun ishlatting') || 'Coinlaringizni mahsulotlar uchun ishlatting'}
               </Paragraph>
             </div>
           </div>
@@ -350,8 +342,7 @@ const CoinsPage: NextPageWithLayout = observer(() => {
                 {t('Kunlik vazifalar') || 'Kunlik vazifalar'}
               </h4>
               <Paragraph className="text-sm text-gray-600 dark:text-gray-400">
-                {t('Har kuni vazifalarni bajaring va coin yuting') ||
-                  'Har kuni vazifalarni bajaring va coin yuting'}
+                {t('Har kuni vazifalarni bajaring va coin yuting') || 'Har kuni vazifalarni bajaring va coin yuting'}
               </Paragraph>
             </div>
           </div>
@@ -364,13 +355,7 @@ const CoinsPage: NextPageWithLayout = observer(() => {
 // Add CheckCircle icon
 function CheckCircle({ className }: { className?: string }) {
   return (
-    <svg
-      className={className}
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
       <path
         strokeLinecap="round"
         strokeLinejoin="round"

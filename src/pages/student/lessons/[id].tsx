@@ -65,7 +65,7 @@ const LessonDetailPage: NextPageWithLayout = observer(() => {
     { enabled: !!id },
   );
 
-  const lesson = get(lessonResponse, 'data.data', []);
+  const lesson = get(lessonResponse, 'data.data[0]', null);
 
   // Fetch all lessons in this module for navigation
   const { data: moduleLessonsResponse } = useLessons(
@@ -78,7 +78,7 @@ const LessonDetailPage: NextPageWithLayout = observer(() => {
         order: 'asc',
       },
     },
-    { enabled: !!lesson?.moduleId },
+    { enabled: !!lesson?.moduleId && !!lesson },
   );
 
   const moduleLessons = get(moduleLessonsResponse, 'data.data', []);
@@ -261,16 +261,18 @@ const LessonDetailPage: NextPageWithLayout = observer(() => {
                   </Paragraph>
                 </div>
 
-                <button
-                  onClick={handleToggleBookmark}
-                  className={`p-3 rounded-xl transition-all ${
-                    existingBookmark
-                      ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600'
-                      : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-yellow-100 dark:hover:bg-yellow-900/30'
-                  }`}
-                >
-                  <Bookmark className={`w-5 h-5 ${existingBookmark ? 'fill-current' : ''}`} />
-                </button>
+                {lesson && (
+                  <button
+                    onClick={handleToggleBookmark}
+                    className={`p-3 rounded-xl transition-all ${
+                      existingBookmark
+                        ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600'
+                        : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-yellow-100 dark:hover:bg-yellow-900/30'
+                    }`}
+                  >
+                    <Bookmark className={`w-5 h-5 ${existingBookmark ? 'fill-current' : ''}`} />
+                  </button>
+                )}
               </div>
 
               {/* Meta Info */}

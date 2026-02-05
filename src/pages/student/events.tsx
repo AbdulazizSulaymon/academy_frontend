@@ -1,14 +1,6 @@
 import React, { ReactElement } from 'react';
 import StudentLayout from '@src/components/student-layout';
-import {
-  Calendar,
-  MapPin,
-  Users,
-  Video,
-  Clock,
-  ChevronRight,
-  Calendar as CalendarIcon,
-} from 'lucide-react';
+import { Calendar, MapPin, Users, Video, Clock, ChevronRight, Calendar as CalendarIcon } from 'lucide-react';
 import { useMyTheme } from '@hooks/use-my-theme';
 import { observer } from 'mobx-react';
 import { useEvents } from '@src/queries/models/event';
@@ -93,13 +85,11 @@ const EventsPage: NextPageWithLayout = observer(() => {
   const pastEvents = events.filter((e: any) => !isUpcoming(e.startDate));
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-            {t('Tadbirlar') || 'Tadbirlar'}
-          </h1>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{t('Tadbirlar') || 'Tadbirlar'}</h1>
           <Paragraph className="!text-gray-600 dark:!text-gray-400">
             {t('Barcha tadbirlar va voqealar') || 'Barcha tadbirlar va voqealar'}
           </Paragraph>
@@ -114,7 +104,9 @@ const EventsPage: NextPageWithLayout = observer(() => {
               <CalendarIcon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
             </div>
             <div>
-              <Paragraph className="!text-sm !text-gray-600 dark:!text-gray-400">{t('Jami tadbirlar') || 'Jami'}</Paragraph>
+              <Paragraph className="!text-sm !text-gray-600 dark:!text-gray-400">
+                {t('Jami tadbirlar') || 'Jami'}
+              </Paragraph>
               <Paragraph className="!text-2xl !font-bold !text-gray-900 dark:!text-white">{events.length}</Paragraph>
             </div>
           </div>
@@ -127,7 +119,9 @@ const EventsPage: NextPageWithLayout = observer(() => {
             </div>
             <div>
               <Paragraph className="!text-sm !text-gray-600 dark:!text-gray-400">{t('Kelgusi') || 'Kelgusi'}</Paragraph>
-              <Paragraph className="!text-2xl !font-bold !text-gray-900 dark:!text-white">{upcomingEvents.length}</Paragraph>
+              <Paragraph className="!text-2xl !font-bold !text-gray-900 dark:!text-white">
+                {upcomingEvents.length}
+              </Paragraph>
             </div>
           </div>
         </GlassCard>
@@ -138,8 +132,10 @@ const EventsPage: NextPageWithLayout = observer(() => {
               <Calendar className="w-6 h-6 text-purple-600 dark:text-purple-400" />
             </div>
             <div>
-              <Paragraph className="!text-sm !text-gray-600 dark:!text-gray-400">{t('O\'tgan') || 'O\'tgan'}</Paragraph>
-              <Paragraph className="!text-2xl !font-bold !text-gray-900 dark:!text-white">{pastEvents.length}</Paragraph>
+              <Paragraph className="!text-sm !text-gray-600 dark:!text-gray-400">{t("O'tgan") || "O'tgan"}</Paragraph>
+              <Paragraph className="!text-2xl !font-bold !text-gray-900 dark:!text-white">
+                {pastEvents.length}
+              </Paragraph>
             </div>
           </div>
         </GlassCard>
@@ -168,9 +164,7 @@ const EventsPage: NextPageWithLayout = observer(() => {
                           alt={event.titleUz || event.titleEn}
                           className="w-full h-full object-cover"
                         />
-                        <div className="absolute top-4 right-4">
-                          {getStatusBadge(event.status)}
-                        </div>
+                        <div className="absolute top-4 right-4">{getStatusBadge(event.status)}</div>
                       </div>
                     )}
 
@@ -239,7 +233,7 @@ const EventsPage: NextPageWithLayout = observer(() => {
           {pastEvents.length > 0 && (
             <div>
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-                {t('O\'tgan tadbirlar') || 'O\'tgan tadbirlar'}
+                {t("O'tgan tadbirlar") || "O'tgan tadbirlar"}
               </h2>
               <div className="space-y-4">
                 {pastEvents.map((event: any) => (
@@ -294,10 +288,10 @@ const EventsPage: NextPageWithLayout = observer(() => {
             <GlassCard className="p-12 text-center">
               <Calendar className="w-16 h-16 mx-auto text-gray-400 mb-4" />
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                {t('Tadbirlar yo\'q') || "Tadbirlar yo'q"}
+                {t("Tadbirlar yo'q") || "Tadbirlar yo'q"}
               </h3>
               <Paragraph className="!text-gray-600 dark:!text-gray-400">
-                {t('Hozircha tadbirlar mavjud emas') || "Hozircha tadbirlar mavjud emas"}
+                {t('Hozircha tadbirlar mavjud emas') || 'Hozircha tadbirlar mavjud emas'}
               </Paragraph>
             </GlassCard>
           )}
