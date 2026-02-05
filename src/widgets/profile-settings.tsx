@@ -56,7 +56,7 @@ export const ProfileSettings = observer(function Page() {
   const { notifySuccess, notifyError } = useNotification();
   const { t } = useTranslation();
 
-  const { updateUser, isLoading, isError } = useUpdateUser(
+  const { updateUser, isLoadingUpdateUser, isError } = useUpdateUser(
     {},
     { invalidateQueries: ['user-me'], successToast: 'Muvaffaqiyatli saqlandi', errorToast: "Xatolik sodir bo'ldi" },
   );
@@ -244,7 +244,7 @@ export const ProfileSettings = observer(function Page() {
                 </Row>
 
                 <div className={'flex justify-end'}>
-                  <Button className={'w-[130px]'} type={'primary'} htmlType="submit" loading={isLoading}>
+                  <Button className={'w-[130px]'} type={'primary'} htmlType="submit" loading={isLoadingUpdateUser}>
                     {t('Saqlash') || ''}
                   </Button>
                 </div>

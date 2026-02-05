@@ -4,7 +4,7 @@ import { notification } from 'antd';
 
 export type QueryOptions = Record<string, any>;
 export type QuerySecondaryOptions = {
-  invalidateQueries?: any[];
+  invalidateQueries?: string[];
   successToast?: React.ReactNode | string;
   errorToast?: React.ReactNode | string;
 };
@@ -18,7 +18,9 @@ export function getQueryOptions(
     ...options,
     // @ts-ignore
     onSuccess: (...rest) => {
-      if (secondaryOptions?.invalidateQueries) queryClient.invalidateQueries(secondaryOptions?.invalidateQueries);
+      if (secondaryOptions?.invalidateQueries && secondaryOptions.invalidateQueries.length > 0) {
+        queryClient.invalidateQueries({ queryKey: secondaryOptions.invalidateQueries });
+      }
       if (secondaryOptions?.successToast) notification.success({ message: secondaryOptions?.successToast });
       if (options.onSuccess) options.onSuccess(...rest);
     },

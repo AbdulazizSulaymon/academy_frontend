@@ -9,20 +9,9 @@ import { DefaultOptionType } from 'rc-select/es/Select';
 
 import { baseBackendUrl } from '@data/const';
 import { toast } from 'react-toastify';
-import { categoriesQueryKey } from '@src/queries/models/category';
 
 type Item = { id: string } & Record<string, any>;
 export const prettierFormat = (content: string, options: Options = {}) => {
-  // return format(content, {
-  //   parser: "typescript",
-  //   singleQuote: true,
-  //   trailingComma: "all",
-  //   semi: true,
-  //   printWidth: 250,
-  //   arrowParens: "always",
-  //   bracketSpacing: true,
-  //   ...options,
-  // });
   try {
     return prettier.format(content, {
       parser: 'typescript',

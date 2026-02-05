@@ -36,7 +36,7 @@ export const TableLeads = observer(
     const queryClient = useQueryClient();
     const { user } = useUserMe();
 
-    const { mutate: updateStatus, isLoading: isUpdatingStatus } = useMutation({
+    const { mutate: updateStatus, isPending: isUpdatingStatus } = useMutation({
       mutationFn: (data: { leadId: string; newStatusId: string }) =>
         api.apis.Lead.updateOne({
           where: { id: data.leadId },

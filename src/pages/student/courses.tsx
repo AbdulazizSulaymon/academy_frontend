@@ -178,7 +178,7 @@ const CoursesPage: NextPageWithLayout = observer(() => {
               <BookOpen className="w-6 h-6 text-primary" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white my-0">{courses.length}</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white mb-1">{courses.length}</p>
               <p className="text-xs text-gray-600 dark:text-gray-400 my-0">Jami kurslar</p>
             </div>
           </div>
@@ -192,10 +192,10 @@ const CoursesPage: NextPageWithLayout = observer(() => {
               <PlayCircle className="w-6 h-6 text-green-600" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">
+              <p className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
                 {courses.reduce((sum: number, course: Course) => sum + getTotalDuration(course), 0)}
               </p>
-              <p className="text-xs text-gray-600 dark:text-gray-400">Daqiqa</p>
+              <p className="text-xs text-gray-600 dark:text-gray-400 py-0">Daqiqa</p>
             </div>
           </div>
         </GlassCard>
@@ -208,10 +208,10 @@ const CoursesPage: NextPageWithLayout = observer(() => {
               <Users className="w-6 h-6 text-orange-600" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">
+              <p className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
                 {courses.reduce((sum: number, course: Course) => sum + (course.mentor?.totalStudents || 0), 0)}
               </p>
-              <p className="text-xs text-gray-600 dark:text-gray-400">O'quvchilar</p>
+              <p className="text-xs text-gray-600 dark:text-gray-400 my-0">O'quvchilar</p>
             </div>
           </div>
         </GlassCard>
@@ -224,8 +224,8 @@ const CoursesPage: NextPageWithLayout = observer(() => {
               <Star className="w-6 h-6 text-yellow-600" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">4.8</p>
-              <p className="text-xs text-gray-600 dark:text-gray-400">Reyting</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white mb-1">4.8</p>
+              <p className="text-xs text-gray-600 dark:text-gray-400 my-0">Reyting</p>
             </div>
           </div>
         </GlassCard>

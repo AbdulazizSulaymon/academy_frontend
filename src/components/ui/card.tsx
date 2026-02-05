@@ -14,11 +14,12 @@ interface FeatureCardProps extends BaseCardProps {
   gradient?: string;
 }
 
-interface BenefitCardProps extends BaseCardProps {
+interface BenefitCardProps {
   icon: LucideIcon;
   title: string;
   description: string;
   gradient?: string;
+  className?: string;
 }
 
 export const GlassCard: React.FC<BaseCardProps> = ({ children, className }) => {

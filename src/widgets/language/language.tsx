@@ -21,14 +21,12 @@ export const LanguageElements = observer(() => {
   const queryClient = useQueryClient();
   const { t } = useTranslation();
 
-  const { mutate, isLoading, isError } = useMutation(
-    (data: Record<string, any>) => api.instance.patch('api/user/update', data),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(['user-me']);
-      },
+  const { mutate, isPending, isError } = useMutation({
+    mutationFn: (data: Record<string, any>) => api.instance.patch('api/user/update', data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['user-me'] });
     },
-  );
+  });
 
   useEffect(() => {
     const value = localStorage.getItem('lang');

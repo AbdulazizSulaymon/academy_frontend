@@ -53,7 +53,7 @@ const LeadHistory = () => {
   const { updateLeadHistory } = useUpdateLeadHistory({
     onSuccess: () => {
       notifySuccess(t('Successfully updated!'));
-      queryClient.invalidateQueries([leadHistoriesQueryKey]);
+      queryClient.invalidateQueries({ queryKey: [leadHistoriesQueryKey] });
     },
     onError: (error: Error) => {
       notifyError(error);

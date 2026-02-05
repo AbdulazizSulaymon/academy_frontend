@@ -69,16 +69,14 @@ const Notification = () => {
     enabled: !!idNotification,
   });
 
-  const { mutate, isLoading: isLoadingCreate } = useMutation(
-    ({ userId, notificationId }: { userId: number; notificationId: number }) => {
+  const { mutate, isPending: isLoadingCreate } = useMutation({
+    mutationFn: ({ userId, notificationId }: { userId: number; notificationId: number }) => {
       return api.apis.ViewNotification.createOne({ data: { userId, notificationId } });
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(['notifications-modal', notificationsId]);
-      },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['notifications-modal', notificationsId] });
     },
-  );
+  });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenMore, setIsModalOpenMore] = useState(false);

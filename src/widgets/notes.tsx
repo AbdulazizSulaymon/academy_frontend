@@ -77,39 +77,33 @@ export const Notes = observer(() => {
     enabled: !!user?.id,
   });
 
-  const { mutate: createNote } = useMutation(
-    (data: Record<string, any>) => api.apis.Notes.createOne({ data: { ...data, userId: user?.id } }),
-    {
-      onSuccess: () => {
-        notifySuccess(`Muvaffaqiyatli qo'shildi`);
-        queryClient.invalidateQueries({ queryKey: ['notes'] });
-        setNote({ title: '', content: '', background: '' });
-      },
-      onError: () => notifyError(`Xatolik sodir bo'ldi`),
+  const { mutate: createNote } = useMutation({
+    mutationFn: (data: Record<string, any>) => api.apis.Notes.createOne({ data: { ...data, userId: user?.id } }),
+    onSuccess: () => {
+      notifySuccess(`Muvaffaqiyatli qo'shildi`);
+      queryClient.invalidateQueries({ queryKey: ['notes'] });
+      setNote({ title: '', content: '', background: '' });
     },
-  );
+    onError: () => notifyError(`Xatolik sodir bo'ldi`),
+  });
 
-  const { mutate: deleteNode } = useMutation(
-    (data: Record<string, any>) => api.apis.Notes.deleteOne({ where: { id: data.id } }),
-    {
-      onSuccess: () => {
-        notifySuccess(`Muvaffaqiyatli o'chirildi`);
-        queryClient.invalidateQueries({ queryKey: ['notes'] });
-      },
-      onError: () => notifyError(`Xatolik sodir bo'ldi`),
+  const { mutate: deleteNode } = useMutation({
+    mutationFn: (data: Record<string, any>) => api.apis.Notes.deleteOne({ where: { id: data.id } }),
+    onSuccess: () => {
+      notifySuccess(`Muvaffaqiyatli o'chirildi`);
+      queryClient.invalidateQueries({ queryKey: ['notes'] });
     },
-  );
+    onError: () => notifyError(`Xatolik sodir bo'ldi`),
+  });
 
-  const { mutate: editNote } = useMutation(
-    (data: Record<string, any>) => api.apis.Notes.updateOne({ data: data, where: { id: data.id } }),
-    {
-      onSuccess: () => {
-        notifySuccess(`Muvaffaqiyatli o'zgartirildi`);
-        queryClient.invalidateQueries({ queryKey: ['notes'] });
-      },
-      onError: () => notifyError(`Xatolik sodir bo'ldi`),
+  const { mutate: editNote } = useMutation({
+    mutationFn: (data: Record<string, any>) => api.apis.Notes.updateOne({ data: data, where: { id: data.id } }),
+    onSuccess: () => {
+      notifySuccess(`Muvaffaqiyatli o'zgartirildi`);
+      queryClient.invalidateQueries({ queryKey: ['notes'] });
     },
-  );
+    onError: () => notifyError(`Xatolik sodir bo'ldi`),
+  });
 
   function handleOpenNote() {
     setOpenNote(true);
