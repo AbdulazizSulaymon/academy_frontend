@@ -99,7 +99,7 @@ const AssignmentsPage: NextPageWithLayout = observer(() => {
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
             {t('Topshiriqlar') || 'Topshiriqlar'}
           </h1>
-          <Paragraph className="text-gray-600 dark:text-gray-400">
+          <Paragraph className="!text-gray-600 dark:!text-gray-400">
             {t('Barcha topshiriqlaringizni boshqaring') || 'Barcha topshiriqlaringizni boshqaring'}
           </Paragraph>
         </div>
@@ -113,8 +113,8 @@ const AssignmentsPage: NextPageWithLayout = observer(() => {
               <FileText className="w-6 h-6 text-blue-600 dark:text-blue-400" />
             </div>
             <div>
-              <Paragraph className="text-sm text-gray-600 dark:text-gray-400">{t('Jami') || 'Jami'}</Paragraph>
-              <Paragraph className="text-2xl font-bold text-gray-900 dark:text-white">{assignments.length}</Paragraph>
+              <Paragraph className="!text-sm !text-gray-600 dark:!text-gray-400">{t('Jami') || 'Jami'}</Paragraph>
+              <Paragraph className="!text-2xl !font-bold !text-gray-900 dark:!text-white">{assignments.length}</Paragraph>
             </div>
           </div>
         </GlassCard>
@@ -125,8 +125,8 @@ const AssignmentsPage: NextPageWithLayout = observer(() => {
               <Clock className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
             </div>
             <div>
-              <Paragraph className="text-sm text-gray-600 dark:text-gray-400">{t('Kutilmoqda') || 'Kutilmoqda'}</Paragraph>
-              <Paragraph className="text-2xl font-bold text-gray-900 dark:text-white">
+              <Paragraph className="!text-sm !text-gray-600 dark:!text-gray-400">{t('Kutilmoqda') || 'Kutilmoqda'}</Paragraph>
+              <Paragraph className="!text-2xl !font-bold !text-gray-900 dark:!text-white">
                 {assignments.filter((a: any) => {
                   const ua = getUserAssignment(a);
                   return !ua || ua.status === AssignmentStatus.Available;
@@ -142,8 +142,8 @@ const AssignmentsPage: NextPageWithLayout = observer(() => {
               <Upload className="w-6 h-6 text-blue-600 dark:text-blue-400" />
             </div>
             <div>
-              <Paragraph className="text-sm text-gray-600 dark:text-gray-400">{t('Yuborilgan') || 'Yuborilgan'}</Paragraph>
-              <Paragraph className="text-2xl font-bold text-gray-900 dark:text-white">
+              <Paragraph className="!text-sm !text-gray-600 dark:!text-gray-400">{t('Yuborilgan') || 'Yuborilgan'}</Paragraph>
+              <Paragraph className="!text-2xl !font-bold !text-gray-900 dark:!text-white">
                 {assignments.filter((a: any) => {
                   const ua = getUserAssignment(a);
                   return ua?.status === AssignmentStatus.Submitted;
@@ -159,8 +159,8 @@ const AssignmentsPage: NextPageWithLayout = observer(() => {
               <Award className="w-6 h-6 text-purple-600 dark:text-purple-400" />
             </div>
             <div>
-              <Paragraph className="text-sm text-gray-600 dark:text-gray-400">{t('Baholangan') || 'Baholangan'}</Paragraph>
-              <Paragraph className="text-2xl font-bold text-gray-900 dark:text-white">
+              <Paragraph className="!text-sm !text-gray-600 dark:!text-gray-400">{t('Baholangan') || 'Baholangan'}</Paragraph>
+              <Paragraph className="!text-2xl !font-bold !text-gray-900 dark:!text-white">
                 {assignments.filter((a: any) => {
                   const ua = getUserAssignment(a);
                   return ua?.status === AssignmentStatus.Graded;
@@ -183,7 +183,7 @@ const AssignmentsPage: NextPageWithLayout = observer(() => {
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
               {t('Topshiriqlar yo\'q') || "Topshiriqlar yo'q"}
             </h3>
-            <Paragraph className="text-gray-600 dark:text-gray-400">
+            <Paragraph className="!text-gray-600 dark:!text-gray-400">
               {t('Hozircha topshiriqlar mavjud emas') || "Hozircha topshiriqlar mavjud emas"}
             </Paragraph>
           </GlassCard>
@@ -214,7 +214,7 @@ const AssignmentsPage: NextPageWithLayout = observer(() => {
                       )}
                     </div>
 
-                    <Paragraph className="text-gray-600 dark:text-gray-400 mb-4">
+                    <Paragraph className="!text-gray-600 dark:!text-gray-400 !mb-4">
                       {assignment.descriptionUz || assignment.descriptionRu || assignment.descriptionEn}
                     </Paragraph>
 
@@ -241,7 +241,7 @@ const AssignmentsPage: NextPageWithLayout = observer(() => {
 
                     {userAssignment?.feedback && (
                       <div className="mt-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                        <Paragraph className="text-sm text-blue-800 dark:text-blue-200">
+                        <Paragraph className="!text-sm !text-blue-800 dark:!text-blue-200">
                           <strong>{t('Fikr-mulohaza')}:</strong> {userAssignment.feedback}
                         </Paragraph>
                       </div>

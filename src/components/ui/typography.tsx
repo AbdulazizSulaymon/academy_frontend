@@ -4,15 +4,12 @@ import clsx from 'clsx';
 
 const { Title, Text, Paragraph } = AntTypography;
 
-interface StyledTitleProps extends AntTypographyProps {
+interface StyledTitleProps extends Omit<AntTypographyProps, 'className'> {
   level?: 1 | 2 | 3 | 4 | 5;
+  className?: string;
 }
 
-export const StyledTitle: React.FC<StyledTitleProps> = ({
-  level = 2,
-  className,
-  ...props
-}) => {
+export const StyledTitle: React.FC<StyledTitleProps> = ({ level = 2, className, ...props }) => {
   const levelClasses = {
     1: 'text-3xl md:text-4xl lg:text-5xl',
     2: 'text-2xl md:text-3xl',
@@ -24,11 +21,7 @@ export const StyledTitle: React.FC<StyledTitleProps> = ({
   return (
     <Title
       level={level}
-      className={clsx(
-        '!font-bold !text-gray-900 dark:!text-white',
-        levelClasses[level],
-        className,
-      )}
+      className={clsx('!mb-0 !font-bold !text-gray-900 dark:!text-white', levelClasses[level], className)}
       {...props}
     />
   );
@@ -36,13 +29,12 @@ export const StyledTitle: React.FC<StyledTitleProps> = ({
 
 export const CustomTitle = StyledTitle;
 
-interface StyledTextProps extends AntTypographyProps {}
+interface StyledTextProps extends Omit<AntTypographyProps, 'className' | 'type'> {
+  className?: string;
+  type?: 'secondary' | 'success' | 'warning' | 'danger';
+}
 
-export const StyledText: React.FC<StyledTextProps> = ({
-  className,
-  type,
-  ...props
-}) => {
+export const StyledText: React.FC<StyledTextProps> = ({ className, type, ...props }) => {
   const typeClasses = {
     secondary: '!text-gray-500 dark:!text-gray-400',
     success: '!text-green-600 dark:!text-green-400',
@@ -64,21 +56,12 @@ export const StyledText: React.FC<StyledTextProps> = ({
 
 export const CustomText = StyledText;
 
-interface StyledParagraphProps extends AntTypographyProps {}
+interface StyledParagraphProps extends Omit<AntTypographyProps, 'className'> {
+  className?: string;
+}
 
-export const StyledParagraph: React.FC<StyledParagraphProps> = ({
-  className,
-  ...props
-}) => {
-  return (
-    <Paragraph
-      className={clsx(
-        '!text-gray-600 dark:!text-gray-400 !leading-relaxed',
-        className,
-      )}
-      {...props}
-    />
-  );
+export const StyledParagraph: React.FC<StyledParagraphProps> = ({ className, ...props }) => {
+  return <Paragraph className={clsx('!text-gray-600 dark:!text-gray-400 !leading-relaxed', className)} {...props} />;
 };
 
 export const CustomParagraph = StyledParagraph;

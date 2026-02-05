@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Button, Dropdown } from 'antd';
 import {
   IoHomeOutline,
   IoBookOutline,
@@ -110,15 +111,6 @@ const StudentLayout: React.FC<StudentLayoutProps> = observer(({ children, title 
                 />
               </div>
             </Link>
-            <button
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              className={`absolute top-1/2 -translate-y-1/2 lg:flex inline-flex items-center justify-center w-6 h-6 rounded-full border-0 ${
-                isDarkMode ? 'bg-gray-800 hover:bg-gray-700' : 'bg-gray-100 hover:bg-gray-200'
-              } transition-colors`}
-              style={{ right: '-12px' }}
-            >
-              <IoMenuOutline className={`w-3 h-3 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`} />
-            </button>
           </div>
 
           {/* User Profile Card */}
@@ -222,25 +214,19 @@ const StudentLayout: React.FC<StudentLayoutProps> = observer(({ children, title 
               )}
               <div className="absolute inset-0 bg-gray-50 dark:bg-gray-800/50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity -z-10"></div>
             </Link>
-            <button
+            <Button
               onClick={() => {
                 api.logOut();
                 setUser(null);
                 router.push('/login');
               }}
-              className={`group relative w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 overflow-hidden shadow-sm hover:shadow-md ${
-                isDarkMode
-                  ? 'border border-red-900/30 hover:border-red-800/50 hover:bg-red-950/30 hover:shadow-red-900/20'
-                  : 'border border-red-200 hover:border-red-300 hover:bg-red-50 hover:shadow-red-200/50'
-              }`}
+              danger
+              block
+              icon={<IoLogOutOutline className="text-base" />}
+              className={`!rounded-xl !font-medium ${sidebarOpen ? '!flex !items-center !gap-3' : '!w-10 !h-10'}`}
             >
-              <div className="w-5 h-5 flex items-center justify-center flex-shrink-0 text-base text-red-600 dark:text-red-400 group-hover:text-red-700 dark:group-hover:text-red-300">
-                <IoLogOutOutline />
-              </div>
-              {sidebarOpen && (
-                <span className="font-medium text-sm text-red-600 dark:text-red-400 relative z-10">Chiqish</span>
-              )}
-            </button>
+              {sidebarOpen && 'Chiqish'}
+            </Button>
           </div>
         </div>
       </aside>
@@ -264,12 +250,22 @@ const StudentLayout: React.FC<StudentLayoutProps> = observer(({ children, title 
             {/* Left side */}
             <div className="flex items-center gap-4">
               <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className={`lg:hidden inline-flex items-center justify-center p-2 rounded-lg transition-colors border-0 ${
+                onClick={() => {
+                  if (window.innerWidth < 1024) {
+                    setMobileMenuOpen(!mobileMenuOpen);
+                  } else {
+                    setSidebarOpen(!sidebarOpen);
+                  }
+                }}
+                className={`inline-flex items-center justify-center p-2 rounded-lg transition-colors border-0 ${
                   isDarkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'
                 }`}
               >
-                {mobileMenuOpen ? <IoCloseOutline className="w-5 h-5" /> : <IoMenuOutline className="w-5 h-5" />}
+                {(window.innerWidth < 1024 ? mobileMenuOpen : !sidebarOpen) ? (
+                  <IoCloseOutline className="w-5 h-5" />
+                ) : (
+                  <IoMenuOutline className="w-5 h-5" />
+                )}
               </button>
               <div>
                 <h1 className={`text-xl font-semibold mb-0 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
@@ -304,7 +300,46 @@ const StudentLayout: React.FC<StudentLayoutProps> = observer(({ children, title 
               </button>
 
               {/* Profile */}
-              <div className="relative">
+              <Dropdown
+                menu={{
+                  items: [
+                    {
+                      key: 'profile',
+                      icon: <IoPersonOutline className="text-base" />,
+                      label: (
+                        <Link href="/student/profile" className="flex items-center gap-3">
+                          Profil
+                        </Link>
+                      ),
+                    },
+                    ...(accessRoles.length > 1
+                      ? [
+                          {
+                            key: 'roles',
+                            icon: <IoPeopleOutline className="text-base" />,
+                            label: (
+                              <Link href="/roles" className="flex items-center gap-3">
+                                Rollar
+                              </Link>
+                            ),
+                          },
+                        ]
+                      : []),
+                    {
+                      key: 'settings',
+                      icon: <IoSettingsOutline className="text-base" />,
+                      label: (
+                        <Link href="/student/settings" className="flex items-center gap-3">
+                          Sozlamalar
+                        </Link>
+                      ),
+                    },
+                  ],
+                }}
+                open={profileDropdownOpen}
+                onOpenChange={setProfileDropdownOpen}
+                trigger={['click']}
+              >
                 <button
                   onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
                   className={`inline-flex items-center justify-center w-10 h-10 rounded-lg transition-colors flex-shrink-0 border-0 ${
@@ -315,48 +350,7 @@ const StudentLayout: React.FC<StudentLayoutProps> = observer(({ children, title 
                     {user?.firstName?.[0] || 'S'}
                   </span>
                 </button>
-
-                {profileDropdownOpen && (
-                  <div
-                    className={`absolute right-0 mt-2 w-48 rounded-lg border shadow-sm overflow-hidden ${
-                      isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
-                    }`}
-                  >
-                    <Link
-                      href="/student/profile"
-                      className={`inline-flex items-center gap-3 w-full px-4 py-3 transition-colors border-0 ${
-                        isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-50'
-                      }`}
-                      onClick={() => setProfileDropdownOpen(false)}
-                    >
-                      <IoPersonOutline className="text-base flex-shrink-0" />
-                      <span className="text-sm font-medium">Profil</span>
-                    </Link>
-                    {accessRoles.length > 1 && (
-                      <Link
-                        href="/roles"
-                        className={`inline-flex items-center gap-3 w-full px-4 py-3 transition-colors border-0 ${
-                          isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-50'
-                        }`}
-                        onClick={() => setProfileDropdownOpen(false)}
-                      >
-                        <IoPeopleOutline className="text-base flex-shrink-0" />
-                        <span className="text-sm font-medium">Rollar</span>
-                      </Link>
-                    )}
-                    <Link
-                      href="/student/settings"
-                      className={`inline-flex items-center gap-3 w-full px-4 py-3 transition-colors border-0 ${
-                        isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-50'
-                      }`}
-                      onClick={() => setProfileDropdownOpen(false)}
-                    >
-                      <IoSettingsOutline className="text-base flex-shrink-0" />
-                      <span className="text-sm font-medium">Sozlamalar</span>
-                    </Link>
-                  </div>
-                )}
-              </div>
+              </Dropdown>
             </div>
           </div>
         </header>

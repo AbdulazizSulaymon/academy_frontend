@@ -7,7 +7,6 @@ import {
   UserTestResult,
   TestStatus,
   QuestionType,
-  UserAnswerInput,
 } from '@src/api/academy-types';
 
 // ============================================================
@@ -176,15 +175,16 @@ export const useTestTaking = (testId: string, userId: string, enabled = true) =>
   const { data: currentResult, isLoading: isLoadingResult } = useQuery({
     queryKey: ['current-test-attempt', testId, userId],
     queryFn: async () => {
-      const { data } = await api.apis.UserTestResult.findFirst({
+      const { data } = await api.apis.UserTestResult.findMany({
         where: {
           testId,
           userId,
           status: 'IN_PROGRESS',
         },
         orderBy: { attemptNumber: 'desc' },
+        take: 1,
       });
-      return data;
+      return data?.[0];
     },
     enabled: enabled && !!testId && !!userId,
   });

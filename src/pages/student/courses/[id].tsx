@@ -73,7 +73,7 @@ const CourseDetailPage: NextPageWithLayout = observer(() => {
     { enabled: !!id },
   );
 
-  const course = get(courseResponse, 'data');
+  const course = get(courseResponse, 'data') as any;
 
   // Check if user is enrolled
   const enrollment = course?.enrollments?.[0];

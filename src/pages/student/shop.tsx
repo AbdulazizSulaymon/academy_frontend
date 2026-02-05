@@ -225,15 +225,16 @@ const ShopPage: NextPageWithLayout = observer(() => {
               <div className="relative">
                 {product.image ? (
                   <img
-                    src={getImagePath(product.image)}
+                    // src={getImagePath(product.image)}
+                    src={'https://online.hbsakademiya.uz/media/2025/04/02/Frame_163.webp'}
                     alt={product.nameUz || product.nameEn}
-                    className="w-full h-48 object-cover"
+                    className="w-full h-48 object-cover rounded-xl"
                   />
                 ) : product.images?.[0] ? (
                   <img
                     src={getImagePath(product.images[0])}
                     alt={product.nameUz || product.nameEn}
-                    className="w-full h-48 object-cover"
+                    className="w-full h-48 object-cover rounded-xl"
                   />
                 ) : (
                   <div className="w-full h-48 bg-gradient-to-br from-primary/20 to-primary-600/20 flex items-center justify-center">
@@ -246,7 +247,7 @@ const ShopPage: NextPageWithLayout = observer(() => {
 
                 {/* Favorite Button */}
                 <button
-                  className={`absolute top-3 right-3 p-2 rounded-full transition-all ${
+                  className={`absolute top-3 right-3 p-2 rounded-full transition-all border-0 shadow ${
                     isFavorite(product.id)
                       ? 'bg-red-500 text-white'
                       : 'bg-white/90 dark:bg-gray-800/90 text-gray-600 dark:text-gray-300 hover:bg-red-100 dark:hover:bg-red-900/30'
@@ -257,13 +258,13 @@ const ShopPage: NextPageWithLayout = observer(() => {
 
                 {/* Stock Badge */}
                 {product.stock < 10 && (
-                  <div className="absolute bottom-3 left-3 px-2 py-1 bg-red-500 text-white text-xs rounded-full">
+                  <div className="absolute bottom-3 left-3 py-1 bg-red-500 text-white text-xs rounded-full">
                     {t('Cheklangan') || 'Cheklangan'}
                   </div>
                 )}
               </div>
 
-              <div className="p-4">
+              <div className="py-2 pb-3">
                 <h3 className="font-semibold text-gray-900 dark:text-white mb-2 line-clamp-2">
                   {product.nameUz || product.nameRu || product.nameEn}
                 </h3>

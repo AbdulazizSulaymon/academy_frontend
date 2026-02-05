@@ -244,7 +244,7 @@ const BookmarksPage: NextPageWithLayout = observer(() => {
                               stroke="currentColor"
                               viewBox="0 0 24 24"
                             >
-                              <Paragraphath
+                              <path
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
                                 strokeWidth={2}
