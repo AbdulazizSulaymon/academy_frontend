@@ -266,7 +266,11 @@ const AssignmentsPage: NextPageWithLayout = observer(() => {
 });
 
 AssignmentsPage.getLayout = function getLayout(page: ReactElement) {
-  return <StudentDynamicProviders>{page}</StudentDynamicProviders>;
+  return (
+    <StudentDynamicProviders>
+      <StudentLayout title="Topshiriqlar">{page}</StudentLayout>
+    </StudentDynamicProviders>
+  );
 };
 
 export default AssignmentsPage;

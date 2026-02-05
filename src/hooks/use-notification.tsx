@@ -1,19 +1,17 @@
 import { isAxiosError } from 'axios';
-import { App } from 'antd';
+import { notification } from 'antd';
 
 export const useNotification = () => {
-  const { notification } = App.useApp();
-
-  const notifyInfo = (title: string) => {
-    notification.info({ message: title });
+  const notifyInfo = (title: string, description?: string) => {
+    notification.info({ message: title, description });
   };
 
-  const notifyWarning = (title: string) => {
-    notification.warning({ message: title });
+  const notifyWarning = (title: string, description?: string) => {
+    notification.warning({ message: title, description });
   };
 
-  const notifySuccess = (title?: string | null) => {
-    notification.success({ message: title || 'Successfully saved!' });
+  const notifySuccess = (title?: string | null, description?: string) => {
+    notification.success({ message: title || 'Successfully saved!', description });
   };
 
   const notifyError = (error: Error | null | string) => {
@@ -22,7 +20,7 @@ export const useNotification = () => {
       const errObj = error.response?.data as { error_msg?: string | string[]; message?: string | string[] };
       const message = errObj.error_msg || errObj.message || error.message || 'Xatolik yuz berdi!';
 
-      void notification.error({
+      notification.error({
         message: (Array.isArray(message) ? message.at(-1) : message) || 'An error occurred!',
       });
     } else if (typeof error === 'string') {
@@ -42,5 +40,12 @@ export const useNotification = () => {
     return 'Xatolik yuz berdi';
   };
 
-  return { notification, notifyInfo, notifyWarning, notifySuccess, notifyError, getErrorText };
+  return {
+    notification,
+    notifyInfo,
+    notifyWarning,
+    notifySuccess,
+    notifyError,
+    getErrorText
+  };
 };

@@ -44,6 +44,13 @@ export const readyModels = {
   OrderItem: { plural: 'OrderItems', singular: 'OrderItem' },
   /// Coins
   CoinHistory: { plural: 'CoinHistories', singular: 'CoinHistory' },
+  /// Test System
+  Test: { plural: 'Tests', singular: 'Test' },
+  Question: { plural: 'Questions', singular: 'Question' },
+  QuestionOption: { plural: 'QuestionOptions', singular: 'QuestionOption' },
+  UserTestResult: { plural: 'UserTestResults', singular: 'UserTestResult' },
+  UserAnswer: { plural: 'UserAnswers', singular: 'UserAnswer' },
+  LessonProgress: { plural: 'LessonProgresses', singular: 'LessonProgress' },
 };
 
 // export type Models = Record<string, Record<string, unknown> & { name: string }>;

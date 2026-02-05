@@ -53,6 +53,33 @@ export enum CoinTransactionType {
 }
 
 // ============================================
+// TEST SYSTEM ENUMS
+// ============================================
+
+export enum LessonType {
+  VIDEO = 'VIDEO',
+  TEST = 'TEST',
+  TEXT = 'TEXT',
+  MIXED = 'MIXED',
+}
+
+export enum QuestionType {
+  SINGLE_CHOICE = 'SINGLE_CHOICE',
+  MULTIPLE_CHOICE = 'MULTIPLE_CHOICE',
+  TRUE_FALSE = 'TRUE_FALSE',
+  SHORT_ANSWER = 'SHORT_ANSWER',
+  ESSAY = 'ESSAY',
+}
+
+export enum TestStatus {
+  IN_PROGRESS = 'IN_PROGRESS',
+  COMPLETED = 'COMPLETED',
+  PASSED = 'PASSED',
+  FAILED = 'FAILED',
+  EXPIRED = 'EXPIRED',
+}
+
+// ============================================
 // MENTOR INTERFACE
 // ============================================
 
@@ -168,7 +195,13 @@ export interface Lesson {
   videoUrl?: string;
   videoThumbnail?: string;
   videoDuration?: number;
+  // New fields for test system
+  lessonType: LessonType;
+  content?: string; // MDX content for TEXT and MIXED lessons
+  testId?: string;
+  test?: Test;
   bookmarks?: Bookmark[];
+  lessonProgress?: LessonProgress[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -461,4 +494,204 @@ export const getStatusColor = (status: string): string => {
 export const calculateProgress = (completed: number, total: number): number => {
   if (total === 0) return 0;
   return Math.round((completed / total) * 100);
+};
+
+// ============================================
+// TEST SYSTEM INTERFACES
+// ============================================
+
+export interface Test {
+  id: string;
+  titleUz: string;
+  titleRu?: string;
+  titleEn?: string;
+  descriptionUz?: string;
+  descriptionRu?: string;
+  descriptionEn?: string;
+  duration?: number; // in minutes
+  passingScore: number; // percentage
+  maxAttempts: number;
+  shuffleQuestions: boolean;
+  shuffleOptions: boolean;
+  showCorrectAnswers: boolean;
+  isActive: boolean;
+  lesson?: Lesson;
+  questions?: Question[];
+  userTestResults?: UserTestResult[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface Question {
+  id: string;
+  testId: string;
+  test?: Test;
+  contentUz: string;
+  contentRu?: string;
+  contentEn?: string;
+  image?: string;
+  questionType: QuestionType;
+  order: number;
+  points: number;
+  explanationUz?: string;
+  explanationRu?: string;
+  explanationEn?: string;
+  options?: QuestionOption[];
+  userAnswers?: UserAnswer[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface QuestionOption {
+  id: string;
+  questionId: string;
+  question?: Question;
+  contentUz: string;
+  contentRu?: string;
+  contentEn?: string;
+  image?: string;
+  isCorrect: boolean;
+  order: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface UserTestResult {
+  id: string;
+  userId: string;
+  testId: string;
+  test?: Test;
+  startedAt: Date;
+  completedAt?: Date;
+  timeSpent?: number; // in seconds
+  score: number; // percentage
+  correctAnswers: number;
+  totalQuestions: number;
+  points: number;
+  status: TestStatus;
+  passed: boolean;
+  attemptNumber: number;
+  answers?: UserAnswer[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface UserAnswer {
+  id: string;
+  userTestResultId: string;
+  userTestResult?: UserTestResult;
+  questionId: string;
+  question?: Question;
+  selectedOptions?: string; // JSON array of option IDs
+  textAnswer?: string;
+  isCorrect?: boolean;
+  pointsEarned: number;
+  timeSpent?: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface LessonProgress {
+  id: string;
+  userId: string;
+  lessonId: string;
+  lesson?: Lesson;
+  isCompleted: boolean;
+  completedAt?: Date;
+  watchTime?: number;
+  testPassed?: boolean;
+  testScore?: number;
+  lastAccessedAt: Date;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+// ============================================
+// TEST SYSTEM HELPER FUNCTIONS
+// ============================================
+
+// Get question type label
+export const getQuestionTypeLabel = (type: QuestionType, lang: 'uz' | 'ru' | 'en' = 'uz'): string => {
+  const labels: Record<QuestionType, Record<'uz' | 'ru' | 'en', string>> = {
+    [QuestionType.SINGLE_CHOICE]: {
+      uz: 'Bitta javob',
+      ru: 'Один ответ',
+      en: 'Single Choice',
+    },
+    [QuestionType.MULTIPLE_CHOICE]: {
+      uz: 'Bir nechta javob',
+      ru: 'Несколько ответов',
+      en: 'Multiple Choice',
+    },
+    [QuestionType.TRUE_FALSE]: {
+      uz: 'Ha/Yo\'q',
+      ru: 'Да/Нет',
+      en: 'True/False',
+    },
+    [QuestionType.SHORT_ANSWER]: {
+      uz: 'Qisqa javob',
+      ru: 'Краткий ответ',
+      en: 'Short Answer',
+    },
+    [QuestionType.ESSAY]: {
+      uz: 'Insho',
+      ru: 'Эссе',
+      en: 'Essay',
+    },
+  };
+
+  return labels[type][lang];
+};
+
+// Get lesson type label
+export const getLessonTypeLabel = (type: LessonType, lang: 'uz' | 'ru' | 'en' = 'uz'): string => {
+  const labels: Record<LessonType, Record<'uz' | 'ru' | 'en', string>> = {
+    [LessonType.VIDEO]: {
+      uz: 'Video dars',
+      ru: 'Видео урок',
+      en: 'Video Lesson',
+    },
+    [LessonType.TEST]: {
+      uz: 'Test',
+      ru: 'Тест',
+      en: 'Test',
+    },
+    [LessonType.TEXT]: {
+      uz: 'Matn dars',
+      ru: 'Текстовый урок',
+      en: 'Text Lesson',
+    },
+    [LessonType.MIXED]: {
+      uz: 'Aralash',
+      ru: 'Смешанный',
+      en: 'Mixed',
+    },
+  };
+
+  return labels[type][lang];
+};
+
+// Get lesson type icon
+export const getLessonTypeIcon = (type: LessonType): string => {
+  const icons: Record<LessonType, string> = {
+    [LessonType.VIDEO]: '🎬',
+    [LessonType.TEST]: '📝',
+    [LessonType.TEXT]: '📖',
+    [LessonType.MIXED]: '🔄',
+  };
+
+  return icons[type];
+};
+
+// Get test status color
+export const getTestStatusColor = (status: TestStatus): string => {
+  const colors: Record<TestStatus, string> = {
+    [TestStatus.IN_PROGRESS]: '#3B82F6',
+    [TestStatus.COMPLETED]: '#8B5CF6',
+    [TestStatus.PASSED]: '#10B981',
+    [TestStatus.FAILED]: '#EF4444',
+    [TestStatus.EXPIRED]: '#6B7280',
+  };
+
+  return colors[status] || '#6B7280';
 };

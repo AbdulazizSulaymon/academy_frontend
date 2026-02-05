@@ -20,10 +20,14 @@ import {
   IoMoonOutline,
   IoSunnyOutline,
   IoChevronDownOutline,
+  IoPeopleOutline,
 } from 'react-icons/io5';
 import { observer } from 'mobx-react';
 import { useLayoutStore } from '@src/stores/layout-store';
 import { useMyTheme } from '@hooks/use-my-theme';
+import { useCheckRoles } from '@hooks/use-check-roles';
+import { useApi } from '@src/api';
+import { useTranslation } from 'react-i18next';
 
 interface MenuItem {
   icon: React.ReactNode;
@@ -44,6 +48,9 @@ const StudentLayout: React.FC<StudentLayoutProps> = observer(({ children, title 
   const router = useRouter();
   const { user, setUser } = useLayoutStore();
   const { isDarkMode, toggleTheme } = useMyTheme();
+  const { accessRoles } = useCheckRoles();
+  const api = useApi();
+  const { t } = useTranslation();
 
   const menuItems: MenuItem[] = [
     { icon: <IoHomeOutline />, label: 'Bosh sahifa', path: '/student' },
@@ -52,7 +59,7 @@ const StudentLayout: React.FC<StudentLayoutProps> = observer(({ children, title 
     { icon: <IoCalendarOutline />, label: 'Tadbirlar', path: '/student/events' },
     { icon: <IoBookmarkOutline />, label: 'Saqlangan', path: '/student/bookmarks' },
     { icon: <IoStatsChartOutline />, label: 'Progress', path: '/student/progress' },
-    { icon: <IoWalletOutline />, label: 'Coin', path: '/student/coins', badge: user?.coins },
+    { icon: <IoWalletOutline />, label: 'Coin', path: '/student/coins', badge: user?.coins ?? 0 },
     { icon: <IoCartOutline />, label: "Do'kon", path: '/student/shop' },
   ];
 
@@ -137,7 +144,7 @@ const StudentLayout: React.FC<StudentLayoutProps> = observer(({ children, title 
                           className={`w-3.5 h-3.5 flex-shrink-0 ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}
                         />
                         <span className={`text-xs font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                          {user?.coins || 0} coins
+                          {user?.coins ?? 0} coins
                         </span>
                       </div>
                     </div>
@@ -217,6 +224,7 @@ const StudentLayout: React.FC<StudentLayoutProps> = observer(({ children, title 
             </Link>
             <button
               onClick={() => {
+                api.logOut();
                 setUser(null);
                 router.push('/login');
               }}
@@ -329,6 +337,18 @@ const StudentLayout: React.FC<StudentLayoutProps> = observer(({ children, title 
                       <IoPersonOutline className="text-base flex-shrink-0" />
                       <span className="text-sm font-medium">Profil</span>
                     </Link>
+                    {accessRoles.length > 1 && (
+                      <Link
+                        href="/roles"
+                        className={`inline-flex items-center gap-3 w-full px-4 py-3 transition-colors border-0 ${
+                          isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-50'
+                        }`}
+                      onClick={() => setProfileDropdownOpen(false)}
+                      >
+                        <IoPeopleOutline className="text-base flex-shrink-0" />
+                        <span className="text-sm font-medium">Rollar</span>
+                      </Link>
+                    )}
                     <Link
                       href="/student/settings"
                       className={`inline-flex items-center gap-3 w-full px-4 py-3 transition-colors border-0 ${

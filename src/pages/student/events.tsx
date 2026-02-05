@@ -307,7 +307,11 @@ const EventsPage: NextPageWithLayout = observer(() => {
 });
 
 EventsPage.getLayout = function getLayout(page: ReactElement) {
-  return <StudentDynamicProviders>{page}</StudentDynamicProviders>;
+  return (
+    <StudentDynamicProviders>
+      <StudentLayout title="Tadbirlar">{page}</StudentLayout>
+    </StudentDynamicProviders>
+  );
 };
 
 export default EventsPage;

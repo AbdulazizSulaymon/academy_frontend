@@ -381,7 +381,11 @@ function CheckCircle({ className }: { className?: string }) {
 }
 
 CoinsPage.getLayout = function getLayout(page: ReactElement) {
-  return <StudentDynamicProviders>{page}</StudentDynamicProviders>;
+  return (
+    <StudentDynamicProviders>
+      <StudentLayout title="Coins">{page}</StudentLayout>
+    </StudentDynamicProviders>
+  );
 };
 
 export default CoinsPage;

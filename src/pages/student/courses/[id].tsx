@@ -458,7 +458,11 @@ const CourseDetailPage: NextPageWithLayout = observer(() => {
 });
 
 CourseDetailPage.getLayout = function getLayout(page: ReactElement) {
-  return <StudentDynamicProviders>{page}</StudentDynamicProviders>;
+  return (
+    <StudentDynamicProviders>
+      <StudentLayout title="Kurs detal">{page}</StudentLayout>
+    </StudentDynamicProviders>
+  );
 };
 
 export default CourseDetailPage;

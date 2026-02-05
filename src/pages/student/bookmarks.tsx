@@ -324,7 +324,11 @@ const BookmarksPage: NextPageWithLayout = observer(() => {
 });
 
 BookmarksPage.getLayout = function getLayout(page: ReactElement) {
-  return <StudentDynamicProviders>{page}</StudentDynamicProviders>;
+  return (
+    <StudentDynamicProviders>
+      <StudentLayout title="Saqlangan">{page}</StudentLayout>
+    </StudentDynamicProviders>
+  );
 };
 
 export default BookmarksPage;

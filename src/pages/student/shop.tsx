@@ -418,7 +418,11 @@ const ShopPage: NextPageWithLayout = observer(() => {
 });
 
 ShopPage.getLayout = function getLayout(page: ReactElement) {
-  return <StudentDynamicProviders>{page}</StudentDynamicProviders>;
+  return (
+    <StudentDynamicProviders>
+      <StudentLayout title="Do'kon">{page}</StudentLayout>
+    </StudentDynamicProviders>
+  );
 };
 
 export default ShopPage;

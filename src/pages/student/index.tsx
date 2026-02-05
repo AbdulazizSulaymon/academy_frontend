@@ -25,6 +25,7 @@ import { NextPageWithLayout } from '@/types';
 import { DynamicProviders, StudentDynamicProviders } from '@hocs/dynamic-providers';
 import { PrimaryButton, SecondaryButton, GhostButton } from '@/components/ui/button';
 import { GlassCard, BenefitCard } from '@/components/ui/card';
+import { AcademyEventStatus } from '@api/academy-types';
 
 const StudentDashboard: NextPageWithLayout = observer(() => {
   const { user } = useLayoutStore();
@@ -59,10 +60,10 @@ const StudentDashboard: NextPageWithLayout = observer(() => {
   const { data: eventsResponse, isLoading: isLoadingEvents } = useEvents(
     {
       where: {
-        status: 'upcoming',
+        status: AcademyEventStatus.Expected,
       },
       orderBy: {
-        eventDate: 'asc',
+        startDate: 'asc',
       },
       take: 5,
     },
@@ -322,7 +323,7 @@ const StudentDashboard: NextPageWithLayout = observer(() => {
               ) : (
                 events.map((event: any) => {
                   // Format date and time from API response
-                  const eventDate = new Date(event.eventDate);
+                  const eventDate = new Date(event.startDate);
                   const formattedDate = eventDate.toLocaleDateString('uz-UZ', {
                     year: 'numeric',
                     month: '2-digit',

@@ -389,7 +389,11 @@ const ProgressPage: NextPageWithLayout = observer(() => {
 });
 
 ProgressPage.getLayout = function getLayout(page: ReactElement) {
-  return <StudentDynamicProviders>{page}</StudentDynamicProviders>;
+  return (
+    <StudentDynamicProviders>
+      <StudentLayout title="Progress">{page}</StudentLayout>
+    </StudentDynamicProviders>
+  );
 };
 
 export default ProgressPage;
