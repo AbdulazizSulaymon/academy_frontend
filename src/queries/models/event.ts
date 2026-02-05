@@ -20,7 +20,9 @@ export const useAggregateEvents = (props: Record<string, any>, options: QueryOpt
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingAggregateEvent: res.isLoading,
+    isError: res.isError,
     isErrorAggregateEvent: res.isError,
     aggregateEvents: res.data,
   };
@@ -35,7 +37,9 @@ export const useCountEvents = (props: Record<string, any>, options: QueryOptions
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingCountEvent: res.isLoading,
+    isError: res.isError,
     isErrorCountEvent: res.isError,
     countEvents: res.data,
   };
@@ -50,7 +54,9 @@ export const useExistEvent = (props: Record<string, any>, options: QueryOptions 
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingExistEvent: res.isLoading,
+    isError: res.isError,
     isErrorExistEvent: res.isError,
     existEvent: res.data,
   };
@@ -71,7 +77,14 @@ export const useEventsWithPagination = (props: Record<string, any>, options: Que
     ...options,
   });
 
-  return { ...res, isLoadingEvents: res.isLoading, isErrorEvents: res.isError, eventsData: res.data };
+  return {
+    ...res,
+    isLoading: res.isLoading,
+    isLoadingEvents: res.isLoading,
+    isError: res.isError,
+    isErrorEvents: res.isError,
+    eventsData: res.data,
+  };
 };
 
 export const useEvents = (props: Record<string, any>, options: QueryOptions = {}) => {
@@ -82,7 +95,14 @@ export const useEvents = (props: Record<string, any>, options: QueryOptions = {}
     enabled: options.enabled != undefined ? !!options.enabled : undefined,
     ...options,
   });
-  return { ...res, isLoadingEvents: res.isLoading, isErrorEvents: res.isError, eventsData: res.data };
+  return {
+    ...res,
+    isLoading: res.isLoading,
+    isLoadingEvents: res.isLoading,
+    isError: res.isError,
+    isErrorEvents: res.isError,
+    eventsData: res.data,
+  };
 };
 
 export const useEvent = (props: Record<string, any>, options: QueryOptions = {}) => {
@@ -94,7 +114,9 @@ export const useEvent = (props: Record<string, any>, options: QueryOptions = {})
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingEvent: res.isLoading,
+    isError: res.isError,
     isErrorEvent: res.isError,
     eventData: res.data as Record<string, any> | undefined,
   };
@@ -112,7 +134,9 @@ export const useCreateEvents = (options: QueryOptions, secondaryOptions?: QueryS
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateEvents: res.isPending,
+    isError: res.isError,
     isErrorCreateEvents: res.isError,
     createEvents: res.mutate,
     createdEvents: res.data,
@@ -131,7 +155,9 @@ export const useCreateListEvents = (options: QueryOptions, secondaryOptions?: Qu
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateListEvents: res.isPending,
+    isError: res.isError,
     isErrorCreateListEvents: res.isError,
     createListEvents: res.mutate,
     createdListEvents: res.data,
@@ -149,7 +175,9 @@ export const useCreateEvent = (options: QueryOptions, secondaryOptions?: QuerySe
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateEvent: res.isPending,
+    isError: res.isError,
     isErrorCreateEvent: res.isError,
     createEvent: res.mutate,
     createdEvent: res.data,
@@ -167,7 +195,9 @@ export const useUpdateEvents = (options: QueryOptions, secondaryOptions?: QueryS
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateEvents: res.isPending,
+    isError: res.isError,
     isErrorUpdateEvents: res.isError,
     updateEvents: res.mutate,
     updatedEvents: res.data,
@@ -185,7 +215,9 @@ export const useUpdateListEvents = (options: QueryOptions, secondaryOptions?: Qu
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateListEvents: res.isPending,
+    isError: res.isError,
     isErrorUpdateListEvents: res.isError,
     updateListEvents: res.mutate,
     updatedListEvents: res.data,
@@ -203,7 +235,9 @@ export const useUpdateEventsList = (options: QueryOptions, secondaryOptions?: Qu
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateEventsList: res.isPending,
+    isError: res.isError,
     isErrorUpdateEventsList: res.isError,
     updateEventsList: res.mutate,
     updatedEventsList: res.data,
@@ -221,7 +255,9 @@ export const useUpdateEvent = (options: QueryOptions, secondaryOptions?: QuerySe
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateEvent: res.isPending,
+    isError: res.isError,
     isErrorUpdateEvent: res.isError,
     updateEvent: res.mutate,
     updatedEvent: res.data,
@@ -239,7 +275,9 @@ export const useDeleteEvents = (options: QueryOptions, secondaryOptions?: QueryS
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteEvents: res.isPending,
+    isError: res.isError,
     isErrorDeleteEvents: res.isError,
     deleteEvents: res.mutate,
   };
@@ -256,7 +294,9 @@ export const useDeleteAllEvents = (options: QueryOptions, secondaryOptions?: Que
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteAllEvents: res.isPending,
+    isError: res.isError,
     isErrorDeleteAllEvents: res.isError,
     deleteAllEvents: res.mutate,
   };
@@ -281,7 +321,9 @@ export const useDeleteEvent = (options: QueryOptions, secondaryOptions?: QuerySe
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteEvent: res.isPending,
+    isError: res.isError,
     isErrorDeleteEvent: res.isError,
     deleteEvent: res.mutate,
     deleteEventFromTable,

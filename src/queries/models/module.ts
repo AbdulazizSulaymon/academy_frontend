@@ -20,7 +20,9 @@ export const useAggregateModules = (props: Record<string, any>, options: QueryOp
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingAggregateModule: res.isLoading,
+    isError: res.isError,
     isErrorAggregateModule: res.isError,
     aggregateModules: res.data,
   };
@@ -35,7 +37,9 @@ export const useCountModules = (props: Record<string, any>, options: QueryOption
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingCountModule: res.isLoading,
+    isError: res.isError,
     isErrorCountModule: res.isError,
     countModules: res.data,
   };
@@ -50,7 +54,9 @@ export const useExistModule = (props: Record<string, any>, options: QueryOptions
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingExistModule: res.isLoading,
+    isError: res.isError,
     isErrorExistModule: res.isError,
     existModule: res.data,
   };
@@ -71,7 +77,14 @@ export const useModulesWithPagination = (props: Record<string, any>, options: Qu
     ...options,
   });
 
-  return { ...res, isLoadingModules: res.isLoading, isErrorModules: res.isError, modulesData: res.data };
+  return {
+    ...res,
+    isLoading: res.isLoading,
+    isLoadingModules: res.isLoading,
+    isError: res.isError,
+    isErrorModules: res.isError,
+    modulesData: res.data,
+  };
 };
 
 export const useModules = (props: Record<string, any>, options: QueryOptions = {}) => {
@@ -82,7 +95,14 @@ export const useModules = (props: Record<string, any>, options: QueryOptions = {
     enabled: options.enabled != undefined ? !!options.enabled : undefined,
     ...options,
   });
-  return { ...res, isLoadingModules: res.isLoading, isErrorModules: res.isError, modulesData: res.data };
+  return {
+    ...res,
+    isLoading: res.isLoading,
+    isLoadingModules: res.isLoading,
+    isError: res.isError,
+    isErrorModules: res.isError,
+    modulesData: res.data,
+  };
 };
 
 export const useModule = (props: Record<string, any>, options: QueryOptions = {}) => {
@@ -94,7 +114,9 @@ export const useModule = (props: Record<string, any>, options: QueryOptions = {}
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingModule: res.isLoading,
+    isError: res.isError,
     isErrorModule: res.isError,
     moduleData: res.data as Record<string, any> | undefined,
   };
@@ -112,7 +134,9 @@ export const useCreateModules = (options: QueryOptions, secondaryOptions?: Query
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateModules: res.isPending,
+    isError: res.isError,
     isErrorCreateModules: res.isError,
     createModules: res.mutate,
     createdModules: res.data,
@@ -131,7 +155,9 @@ export const useCreateListModules = (options: QueryOptions, secondaryOptions?: Q
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateListModules: res.isPending,
+    isError: res.isError,
     isErrorCreateListModules: res.isError,
     createListModules: res.mutate,
     createdListModules: res.data,
@@ -149,7 +175,9 @@ export const useCreateModule = (options: QueryOptions, secondaryOptions?: QueryS
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateModule: res.isPending,
+    isError: res.isError,
     isErrorCreateModule: res.isError,
     createModule: res.mutate,
     createdModule: res.data,
@@ -167,7 +195,9 @@ export const useUpdateModules = (options: QueryOptions, secondaryOptions?: Query
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateModules: res.isPending,
+    isError: res.isError,
     isErrorUpdateModules: res.isError,
     updateModules: res.mutate,
     updatedModules: res.data,
@@ -185,7 +215,9 @@ export const useUpdateListModules = (options: QueryOptions, secondaryOptions?: Q
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateListModules: res.isPending,
+    isError: res.isError,
     isErrorUpdateListModules: res.isError,
     updateListModules: res.mutate,
     updatedListModules: res.data,
@@ -203,7 +235,9 @@ export const useUpdateModulesList = (options: QueryOptions, secondaryOptions?: Q
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateModulesList: res.isPending,
+    isError: res.isError,
     isErrorUpdateModulesList: res.isError,
     updateModulesList: res.mutate,
     updatedModulesList: res.data,
@@ -221,7 +255,9 @@ export const useUpdateModule = (options: QueryOptions, secondaryOptions?: QueryS
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateModule: res.isPending,
+    isError: res.isError,
     isErrorUpdateModule: res.isError,
     updateModule: res.mutate,
     updatedModule: res.data,
@@ -239,7 +275,9 @@ export const useDeleteModules = (options: QueryOptions, secondaryOptions?: Query
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteModules: res.isPending,
+    isError: res.isError,
     isErrorDeleteModules: res.isError,
     deleteModules: res.mutate,
   };
@@ -256,7 +294,9 @@ export const useDeleteAllModules = (options: QueryOptions, secondaryOptions?: Qu
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteAllModules: res.isPending,
+    isError: res.isError,
     isErrorDeleteAllModules: res.isError,
     deleteAllModules: res.mutate,
   };
@@ -281,7 +321,9 @@ export const useDeleteModule = (options: QueryOptions, secondaryOptions?: QueryS
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteModule: res.isPending,
+    isError: res.isError,
     isErrorDeleteModule: res.isError,
     deleteModule: res.mutate,
     deleteModuleFromTable,

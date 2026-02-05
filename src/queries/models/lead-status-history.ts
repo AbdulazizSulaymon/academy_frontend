@@ -20,7 +20,9 @@ export const useAggregateLeadStatusHistories = (props: Record<string, any>, opti
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingAggregateLeadStatusHistory: res.isLoading,
+    isError: res.isError,
     isErrorAggregateLeadStatusHistory: res.isError,
     aggregateLeadStatusHistories: res.data,
   };
@@ -35,7 +37,9 @@ export const useCountLeadStatusHistories = (props: Record<string, any>, options:
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingCountLeadStatusHistory: res.isLoading,
+    isError: res.isError,
     isErrorCountLeadStatusHistory: res.isError,
     countLeadStatusHistories: res.data,
   };
@@ -50,7 +54,9 @@ export const useExistLeadStatusHistory = (props: Record<string, any>, options: Q
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingExistLeadStatusHistory: res.isLoading,
+    isError: res.isError,
     isErrorExistLeadStatusHistory: res.isError,
     existLeadStatusHistory: res.data,
   };
@@ -73,7 +79,9 @@ export const useLeadStatusHistoriesWithPagination = (props: Record<string, any>,
 
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingLeadStatusHistories: res.isLoading,
+    isError: res.isError,
     isErrorLeadStatusHistories: res.isError,
     leadStatusHistoriesData: res.data,
   };
@@ -89,7 +97,9 @@ export const useLeadStatusHistories = (props: Record<string, any>, options: Quer
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingLeadStatusHistories: res.isLoading,
+    isError: res.isError,
     isErrorLeadStatusHistories: res.isError,
     leadStatusHistoriesData: res.data,
   };
@@ -104,7 +114,9 @@ export const useLeadStatusHistory = (props: Record<string, any>, options: QueryO
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingLeadStatusHistory: res.isLoading,
+    isError: res.isError,
     isErrorLeadStatusHistory: res.isError,
     leadStatusHistoryData: res.data as Record<string, any> | undefined,
   };
@@ -122,7 +134,9 @@ export const useCreateLeadStatusHistories = (options: QueryOptions, secondaryOpt
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateLeadStatusHistories: res.isPending,
+    isError: res.isError,
     isErrorCreateLeadStatusHistories: res.isError,
     createLeadStatusHistories: res.mutate,
     createdLeadStatusHistories: res.data,
@@ -141,7 +155,9 @@ export const useCreateListLeadStatusHistories = (options: QueryOptions, secondar
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateListLeadStatusHistories: res.isPending,
+    isError: res.isError,
     isErrorCreateListLeadStatusHistories: res.isError,
     createListLeadStatusHistories: res.mutate,
     createdListLeadStatusHistories: res.data,
@@ -159,7 +175,9 @@ export const useCreateLeadStatusHistory = (options: QueryOptions, secondaryOptio
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateLeadStatusHistory: res.isPending,
+    isError: res.isError,
     isErrorCreateLeadStatusHistory: res.isError,
     createLeadStatusHistory: res.mutate,
     createdLeadStatusHistory: res.data,
@@ -177,7 +195,9 @@ export const useUpdateLeadStatusHistories = (options: QueryOptions, secondaryOpt
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateLeadStatusHistories: res.isPending,
+    isError: res.isError,
     isErrorUpdateLeadStatusHistories: res.isError,
     updateLeadStatusHistories: res.mutate,
     updatedLeadStatusHistories: res.data,
@@ -195,7 +215,9 @@ export const useUpdateListLeadStatusHistories = (options: QueryOptions, secondar
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateListLeadStatusHistories: res.isPending,
+    isError: res.isError,
     isErrorUpdateListLeadStatusHistories: res.isError,
     updateListLeadStatusHistories: res.mutate,
     updatedListLeadStatusHistories: res.data,
@@ -213,7 +235,9 @@ export const useUpdateLeadStatusHistoriesList = (options: QueryOptions, secondar
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateLeadStatusHistoriesList: res.isPending,
+    isError: res.isError,
     isErrorUpdateLeadStatusHistoriesList: res.isError,
     updateLeadStatusHistoriesList: res.mutate,
     updatedLeadStatusHistoriesList: res.data,
@@ -231,7 +255,9 @@ export const useUpdateLeadStatusHistory = (options: QueryOptions, secondaryOptio
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateLeadStatusHistory: res.isPending,
+    isError: res.isError,
     isErrorUpdateLeadStatusHistory: res.isError,
     updateLeadStatusHistory: res.mutate,
     updatedLeadStatusHistory: res.data,
@@ -249,7 +275,9 @@ export const useDeleteLeadStatusHistories = (options: QueryOptions, secondaryOpt
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteLeadStatusHistories: res.isPending,
+    isError: res.isError,
     isErrorDeleteLeadStatusHistories: res.isError,
     deleteLeadStatusHistories: res.mutate,
   };
@@ -266,7 +294,9 @@ export const useDeleteAllLeadStatusHistories = (options: QueryOptions, secondary
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteAllLeadStatusHistories: res.isPending,
+    isError: res.isError,
     isErrorDeleteAllLeadStatusHistories: res.isError,
     deleteAllLeadStatusHistories: res.mutate,
   };
@@ -291,7 +321,9 @@ export const useDeleteLeadStatusHistory = (options: QueryOptions, secondaryOptio
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteLeadStatusHistory: res.isPending,
+    isError: res.isError,
     isErrorDeleteLeadStatusHistory: res.isError,
     deleteLeadStatusHistory: res.mutate,
     deleteLeadStatusHistoryFromTable,

@@ -20,7 +20,9 @@ export const useAggregateFavoriteProducts = (props: Record<string, any>, options
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingAggregateFavoriteProduct: res.isLoading,
+    isError: res.isError,
     isErrorAggregateFavoriteProduct: res.isError,
     aggregateFavoriteProducts: res.data,
   };
@@ -35,7 +37,9 @@ export const useCountFavoriteProducts = (props: Record<string, any>, options: Qu
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingCountFavoriteProduct: res.isLoading,
+    isError: res.isError,
     isErrorCountFavoriteProduct: res.isError,
     countFavoriteProducts: res.data,
   };
@@ -50,7 +54,9 @@ export const useExistFavoriteProduct = (props: Record<string, any>, options: Que
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingExistFavoriteProduct: res.isLoading,
+    isError: res.isError,
     isErrorExistFavoriteProduct: res.isError,
     existFavoriteProduct: res.data,
   };
@@ -73,7 +79,9 @@ export const useFavoriteProductsWithPagination = (props: Record<string, any>, op
 
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingFavoriteProducts: res.isLoading,
+    isError: res.isError,
     isErrorFavoriteProducts: res.isError,
     favoriteProductsData: res.data,
   };
@@ -89,7 +97,9 @@ export const useFavoriteProducts = (props: Record<string, any>, options: QueryOp
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingFavoriteProducts: res.isLoading,
+    isError: res.isError,
     isErrorFavoriteProducts: res.isError,
     favoriteProductsData: res.data,
   };
@@ -104,7 +114,9 @@ export const useFavoriteProduct = (props: Record<string, any>, options: QueryOpt
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingFavoriteProduct: res.isLoading,
+    isError: res.isError,
     isErrorFavoriteProduct: res.isError,
     favoriteProductData: res.data as Record<string, any> | undefined,
   };
@@ -122,7 +134,9 @@ export const useCreateFavoriteProducts = (options: QueryOptions, secondaryOption
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateFavoriteProducts: res.isPending,
+    isError: res.isError,
     isErrorCreateFavoriteProducts: res.isError,
     createFavoriteProducts: res.mutate,
     createdFavoriteProducts: res.data,
@@ -141,7 +155,9 @@ export const useCreateListFavoriteProducts = (options: QueryOptions, secondaryOp
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateListFavoriteProducts: res.isPending,
+    isError: res.isError,
     isErrorCreateListFavoriteProducts: res.isError,
     createListFavoriteProducts: res.mutate,
     createdListFavoriteProducts: res.data,
@@ -159,7 +175,9 @@ export const useCreateFavoriteProduct = (options: QueryOptions, secondaryOptions
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateFavoriteProduct: res.isPending,
+    isError: res.isError,
     isErrorCreateFavoriteProduct: res.isError,
     createFavoriteProduct: res.mutate,
     createdFavoriteProduct: res.data,
@@ -177,7 +195,9 @@ export const useUpdateFavoriteProducts = (options: QueryOptions, secondaryOption
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateFavoriteProducts: res.isPending,
+    isError: res.isError,
     isErrorUpdateFavoriteProducts: res.isError,
     updateFavoriteProducts: res.mutate,
     updatedFavoriteProducts: res.data,
@@ -195,7 +215,9 @@ export const useUpdateListFavoriteProducts = (options: QueryOptions, secondaryOp
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateListFavoriteProducts: res.isPending,
+    isError: res.isError,
     isErrorUpdateListFavoriteProducts: res.isError,
     updateListFavoriteProducts: res.mutate,
     updatedListFavoriteProducts: res.data,
@@ -213,7 +235,9 @@ export const useUpdateFavoriteProductsList = (options: QueryOptions, secondaryOp
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateFavoriteProductsList: res.isPending,
+    isError: res.isError,
     isErrorUpdateFavoriteProductsList: res.isError,
     updateFavoriteProductsList: res.mutate,
     updatedFavoriteProductsList: res.data,
@@ -231,7 +255,9 @@ export const useUpdateFavoriteProduct = (options: QueryOptions, secondaryOptions
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateFavoriteProduct: res.isPending,
+    isError: res.isError,
     isErrorUpdateFavoriteProduct: res.isError,
     updateFavoriteProduct: res.mutate,
     updatedFavoriteProduct: res.data,
@@ -249,7 +275,9 @@ export const useDeleteFavoriteProducts = (options: QueryOptions, secondaryOption
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteFavoriteProducts: res.isPending,
+    isError: res.isError,
     isErrorDeleteFavoriteProducts: res.isError,
     deleteFavoriteProducts: res.mutate,
   };
@@ -266,7 +294,9 @@ export const useDeleteAllFavoriteProducts = (options: QueryOptions, secondaryOpt
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteAllFavoriteProducts: res.isPending,
+    isError: res.isError,
     isErrorDeleteAllFavoriteProducts: res.isError,
     deleteAllFavoriteProducts: res.mutate,
   };
@@ -291,7 +321,9 @@ export const useDeleteFavoriteProduct = (options: QueryOptions, secondaryOptions
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteFavoriteProduct: res.isPending,
+    isError: res.isError,
     isErrorDeleteFavoriteProduct: res.isError,
     deleteFavoriteProduct: res.mutate,
     deleteFavoriteProductFromTable,

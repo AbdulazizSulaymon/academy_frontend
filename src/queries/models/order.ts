@@ -20,7 +20,9 @@ export const useAggregateOrders = (props: Record<string, any>, options: QueryOpt
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingAggregateOrder: res.isLoading,
+    isError: res.isError,
     isErrorAggregateOrder: res.isError,
     aggregateOrders: res.data,
   };
@@ -35,7 +37,9 @@ export const useCountOrders = (props: Record<string, any>, options: QueryOptions
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingCountOrder: res.isLoading,
+    isError: res.isError,
     isErrorCountOrder: res.isError,
     countOrders: res.data,
   };
@@ -50,7 +54,9 @@ export const useExistOrder = (props: Record<string, any>, options: QueryOptions 
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingExistOrder: res.isLoading,
+    isError: res.isError,
     isErrorExistOrder: res.isError,
     existOrder: res.data,
   };
@@ -71,7 +77,14 @@ export const useOrdersWithPagination = (props: Record<string, any>, options: Que
     ...options,
   });
 
-  return { ...res, isLoadingOrders: res.isLoading, isErrorOrders: res.isError, ordersData: res.data };
+  return {
+    ...res,
+    isLoading: res.isLoading,
+    isLoadingOrders: res.isLoading,
+    isError: res.isError,
+    isErrorOrders: res.isError,
+    ordersData: res.data,
+  };
 };
 
 export const useOrders = (props: Record<string, any>, options: QueryOptions = {}) => {
@@ -82,7 +95,14 @@ export const useOrders = (props: Record<string, any>, options: QueryOptions = {}
     enabled: options.enabled != undefined ? !!options.enabled : undefined,
     ...options,
   });
-  return { ...res, isLoadingOrders: res.isLoading, isErrorOrders: res.isError, ordersData: res.data };
+  return {
+    ...res,
+    isLoading: res.isLoading,
+    isLoadingOrders: res.isLoading,
+    isError: res.isError,
+    isErrorOrders: res.isError,
+    ordersData: res.data,
+  };
 };
 
 export const useOrder = (props: Record<string, any>, options: QueryOptions = {}) => {
@@ -94,7 +114,9 @@ export const useOrder = (props: Record<string, any>, options: QueryOptions = {})
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingOrder: res.isLoading,
+    isError: res.isError,
     isErrorOrder: res.isError,
     orderData: res.data as Record<string, any> | undefined,
   };
@@ -112,7 +134,9 @@ export const useCreateOrders = (options: QueryOptions, secondaryOptions?: QueryS
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateOrders: res.isPending,
+    isError: res.isError,
     isErrorCreateOrders: res.isError,
     createOrders: res.mutate,
     createdOrders: res.data,
@@ -131,7 +155,9 @@ export const useCreateListOrders = (options: QueryOptions, secondaryOptions?: Qu
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateListOrders: res.isPending,
+    isError: res.isError,
     isErrorCreateListOrders: res.isError,
     createListOrders: res.mutate,
     createdListOrders: res.data,
@@ -149,7 +175,9 @@ export const useCreateOrder = (options: QueryOptions, secondaryOptions?: QuerySe
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateOrder: res.isPending,
+    isError: res.isError,
     isErrorCreateOrder: res.isError,
     createOrder: res.mutate,
     createdOrder: res.data,
@@ -167,7 +195,9 @@ export const useUpdateOrders = (options: QueryOptions, secondaryOptions?: QueryS
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateOrders: res.isPending,
+    isError: res.isError,
     isErrorUpdateOrders: res.isError,
     updateOrders: res.mutate,
     updatedOrders: res.data,
@@ -185,7 +215,9 @@ export const useUpdateListOrders = (options: QueryOptions, secondaryOptions?: Qu
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateListOrders: res.isPending,
+    isError: res.isError,
     isErrorUpdateListOrders: res.isError,
     updateListOrders: res.mutate,
     updatedListOrders: res.data,
@@ -203,7 +235,9 @@ export const useUpdateOrdersList = (options: QueryOptions, secondaryOptions?: Qu
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateOrdersList: res.isPending,
+    isError: res.isError,
     isErrorUpdateOrdersList: res.isError,
     updateOrdersList: res.mutate,
     updatedOrdersList: res.data,
@@ -221,7 +255,9 @@ export const useUpdateOrder = (options: QueryOptions, secondaryOptions?: QuerySe
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateOrder: res.isPending,
+    isError: res.isError,
     isErrorUpdateOrder: res.isError,
     updateOrder: res.mutate,
     updatedOrder: res.data,
@@ -239,7 +275,9 @@ export const useDeleteOrders = (options: QueryOptions, secondaryOptions?: QueryS
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteOrders: res.isPending,
+    isError: res.isError,
     isErrorDeleteOrders: res.isError,
     deleteOrders: res.mutate,
   };
@@ -256,7 +294,9 @@ export const useDeleteAllOrders = (options: QueryOptions, secondaryOptions?: Que
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteAllOrders: res.isPending,
+    isError: res.isError,
     isErrorDeleteAllOrders: res.isError,
     deleteAllOrders: res.mutate,
   };
@@ -281,7 +321,9 @@ export const useDeleteOrder = (options: QueryOptions, secondaryOptions?: QuerySe
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteOrder: res.isPending,
+    isError: res.isError,
     isErrorDeleteOrder: res.isError,
     deleteOrder: res.mutate,
     deleteOrderFromTable,

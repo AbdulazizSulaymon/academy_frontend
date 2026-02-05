@@ -20,7 +20,9 @@ export const useAggregateViewNotifications = (props: Record<string, any>, option
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingAggregateViewNotification: res.isLoading,
+    isError: res.isError,
     isErrorAggregateViewNotification: res.isError,
     aggregateViewNotifications: res.data,
   };
@@ -35,7 +37,9 @@ export const useCountViewNotifications = (props: Record<string, any>, options: Q
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingCountViewNotification: res.isLoading,
+    isError: res.isError,
     isErrorCountViewNotification: res.isError,
     countViewNotifications: res.data,
   };
@@ -50,7 +54,9 @@ export const useExistViewNotification = (props: Record<string, any>, options: Qu
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingExistViewNotification: res.isLoading,
+    isError: res.isError,
     isErrorExistViewNotification: res.isError,
     existViewNotification: res.data,
   };
@@ -73,7 +79,9 @@ export const useViewNotificationsWithPagination = (props: Record<string, any>, o
 
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingViewNotifications: res.isLoading,
+    isError: res.isError,
     isErrorViewNotifications: res.isError,
     viewNotificationsData: res.data,
   };
@@ -89,7 +97,9 @@ export const useViewNotifications = (props: Record<string, any>, options: QueryO
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingViewNotifications: res.isLoading,
+    isError: res.isError,
     isErrorViewNotifications: res.isError,
     viewNotificationsData: res.data,
   };
@@ -104,7 +114,9 @@ export const useViewNotification = (props: Record<string, any>, options: QueryOp
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingViewNotification: res.isLoading,
+    isError: res.isError,
     isErrorViewNotification: res.isError,
     viewNotificationData: res.data as Record<string, any> | undefined,
   };
@@ -122,7 +134,9 @@ export const useCreateViewNotifications = (options: QueryOptions, secondaryOptio
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateViewNotifications: res.isPending,
+    isError: res.isError,
     isErrorCreateViewNotifications: res.isError,
     createViewNotifications: res.mutate,
     createdViewNotifications: res.data,
@@ -141,7 +155,9 @@ export const useCreateListViewNotifications = (options: QueryOptions, secondaryO
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateListViewNotifications: res.isPending,
+    isError: res.isError,
     isErrorCreateListViewNotifications: res.isError,
     createListViewNotifications: res.mutate,
     createdListViewNotifications: res.data,
@@ -159,7 +175,9 @@ export const useCreateViewNotification = (options: QueryOptions, secondaryOption
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateViewNotification: res.isPending,
+    isError: res.isError,
     isErrorCreateViewNotification: res.isError,
     createViewNotification: res.mutate,
     createdViewNotification: res.data,
@@ -177,7 +195,9 @@ export const useUpdateViewNotifications = (options: QueryOptions, secondaryOptio
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateViewNotifications: res.isPending,
+    isError: res.isError,
     isErrorUpdateViewNotifications: res.isError,
     updateViewNotifications: res.mutate,
     updatedViewNotifications: res.data,
@@ -195,7 +215,9 @@ export const useUpdateListViewNotifications = (options: QueryOptions, secondaryO
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateListViewNotifications: res.isPending,
+    isError: res.isError,
     isErrorUpdateListViewNotifications: res.isError,
     updateListViewNotifications: res.mutate,
     updatedListViewNotifications: res.data,
@@ -213,7 +235,9 @@ export const useUpdateViewNotificationsList = (options: QueryOptions, secondaryO
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateViewNotificationsList: res.isPending,
+    isError: res.isError,
     isErrorUpdateViewNotificationsList: res.isError,
     updateViewNotificationsList: res.mutate,
     updatedViewNotificationsList: res.data,
@@ -231,7 +255,9 @@ export const useUpdateViewNotification = (options: QueryOptions, secondaryOption
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateViewNotification: res.isPending,
+    isError: res.isError,
     isErrorUpdateViewNotification: res.isError,
     updateViewNotification: res.mutate,
     updatedViewNotification: res.data,
@@ -249,7 +275,9 @@ export const useDeleteViewNotifications = (options: QueryOptions, secondaryOptio
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteViewNotifications: res.isPending,
+    isError: res.isError,
     isErrorDeleteViewNotifications: res.isError,
     deleteViewNotifications: res.mutate,
   };
@@ -266,7 +294,9 @@ export const useDeleteAllViewNotifications = (options: QueryOptions, secondaryOp
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteAllViewNotifications: res.isPending,
+    isError: res.isError,
     isErrorDeleteAllViewNotifications: res.isError,
     deleteAllViewNotifications: res.mutate,
   };
@@ -291,7 +321,9 @@ export const useDeleteViewNotification = (options: QueryOptions, secondaryOption
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteViewNotification: res.isPending,
+    isError: res.isError,
     isErrorDeleteViewNotification: res.isError,
     deleteViewNotification: res.mutate,
     deleteViewNotificationFromTable,

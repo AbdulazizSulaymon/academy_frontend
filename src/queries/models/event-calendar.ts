@@ -20,7 +20,9 @@ export const useAggregateEventCalendars = (props: Record<string, any>, options: 
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingAggregateEventCalendar: res.isLoading,
+    isError: res.isError,
     isErrorAggregateEventCalendar: res.isError,
     aggregateEventCalendars: res.data,
   };
@@ -35,7 +37,9 @@ export const useCountEventCalendars = (props: Record<string, any>, options: Quer
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingCountEventCalendar: res.isLoading,
+    isError: res.isError,
     isErrorCountEventCalendar: res.isError,
     countEventCalendars: res.data,
   };
@@ -50,7 +54,9 @@ export const useExistEventCalendar = (props: Record<string, any>, options: Query
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingExistEventCalendar: res.isLoading,
+    isError: res.isError,
     isErrorExistEventCalendar: res.isError,
     existEventCalendar: res.data,
   };
@@ -73,7 +79,9 @@ export const useEventCalendarsWithPagination = (props: Record<string, any>, opti
 
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingEventCalendars: res.isLoading,
+    isError: res.isError,
     isErrorEventCalendars: res.isError,
     eventCalendarsData: res.data,
   };
@@ -89,7 +97,9 @@ export const useEventCalendars = (props: Record<string, any>, options: QueryOpti
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingEventCalendars: res.isLoading,
+    isError: res.isError,
     isErrorEventCalendars: res.isError,
     eventCalendarsData: res.data,
   };
@@ -104,7 +114,9 @@ export const useEventCalendar = (props: Record<string, any>, options: QueryOptio
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingEventCalendar: res.isLoading,
+    isError: res.isError,
     isErrorEventCalendar: res.isError,
     eventCalendarData: res.data as Record<string, any> | undefined,
   };
@@ -122,7 +134,9 @@ export const useCreateEventCalendars = (options: QueryOptions, secondaryOptions?
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateEventCalendars: res.isPending,
+    isError: res.isError,
     isErrorCreateEventCalendars: res.isError,
     createEventCalendars: res.mutate,
     createdEventCalendars: res.data,
@@ -141,7 +155,9 @@ export const useCreateListEventCalendars = (options: QueryOptions, secondaryOpti
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateListEventCalendars: res.isPending,
+    isError: res.isError,
     isErrorCreateListEventCalendars: res.isError,
     createListEventCalendars: res.mutate,
     createdListEventCalendars: res.data,
@@ -159,7 +175,9 @@ export const useCreateEventCalendar = (options: QueryOptions, secondaryOptions?:
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateEventCalendar: res.isPending,
+    isError: res.isError,
     isErrorCreateEventCalendar: res.isError,
     createEventCalendar: res.mutate,
     createdEventCalendar: res.data,
@@ -177,7 +195,9 @@ export const useUpdateEventCalendars = (options: QueryOptions, secondaryOptions?
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateEventCalendars: res.isPending,
+    isError: res.isError,
     isErrorUpdateEventCalendars: res.isError,
     updateEventCalendars: res.mutate,
     updatedEventCalendars: res.data,
@@ -195,7 +215,9 @@ export const useUpdateListEventCalendars = (options: QueryOptions, secondaryOpti
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateListEventCalendars: res.isPending,
+    isError: res.isError,
     isErrorUpdateListEventCalendars: res.isError,
     updateListEventCalendars: res.mutate,
     updatedListEventCalendars: res.data,
@@ -213,7 +235,9 @@ export const useUpdateEventCalendarsList = (options: QueryOptions, secondaryOpti
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateEventCalendarsList: res.isPending,
+    isError: res.isError,
     isErrorUpdateEventCalendarsList: res.isError,
     updateEventCalendarsList: res.mutate,
     updatedEventCalendarsList: res.data,
@@ -231,7 +255,9 @@ export const useUpdateEventCalendar = (options: QueryOptions, secondaryOptions?:
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateEventCalendar: res.isPending,
+    isError: res.isError,
     isErrorUpdateEventCalendar: res.isError,
     updateEventCalendar: res.mutate,
     updatedEventCalendar: res.data,
@@ -249,7 +275,9 @@ export const useDeleteEventCalendars = (options: QueryOptions, secondaryOptions?
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteEventCalendars: res.isPending,
+    isError: res.isError,
     isErrorDeleteEventCalendars: res.isError,
     deleteEventCalendars: res.mutate,
   };
@@ -266,7 +294,9 @@ export const useDeleteAllEventCalendars = (options: QueryOptions, secondaryOptio
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteAllEventCalendars: res.isPending,
+    isError: res.isError,
     isErrorDeleteAllEventCalendars: res.isError,
     deleteAllEventCalendars: res.mutate,
   };
@@ -291,7 +321,9 @@ export const useDeleteEventCalendar = (options: QueryOptions, secondaryOptions?:
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteEventCalendar: res.isPending,
+    isError: res.isError,
     isErrorDeleteEventCalendar: res.isError,
     deleteEventCalendar: res.mutate,
     deleteEventCalendarFromTable,

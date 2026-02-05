@@ -47,7 +47,9 @@ export const useAggregate${plural} = (props: Record<string, any>, options: Query
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingAggregate${name}: res.isLoading,
+    isError: res.isError,
     isErrorAggregate${name}: res.isError,
     aggregate${plural}: res.data,
   };
@@ -75,7 +77,9 @@ export const useCount${plural} = (props: Record<string, any>, options: QueryOpti
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingCount${name}: res.isLoading,
+    isError: res.isError,
     isErrorCount${name}: res.isError,
     count${plural}: res.data,
   };
@@ -90,7 +94,9 @@ export const useExist${singular} = (props: Record<string, any>, options: QueryOp
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingExist${name}: res.isLoading,
+    isError: res.isError,
     isErrorExist${name}: res.isError,
     exist${singular}: res.data,
   };
@@ -111,7 +117,14 @@ export const use${plural}WithPagination = (props: Record<string, any>, options: 
     ...options,
   });
 
-  return { ...res, isLoading${plural}: res.isLoading, isError${plural}: res.isError, ${pluralCamel}Data: res.data };
+  return {
+    ...res,
+    isLoading: res.isLoading,
+    isLoading${plural}: res.isLoading,
+    isError: res.isError,
+    isError${plural}: res.isError,
+    ${pluralCamel}Data: res.data
+  };
 };
 
 export const use${plural} = (props: Record<string, any>, options: QueryOptions = {}) => {
@@ -122,7 +135,14 @@ export const use${plural} = (props: Record<string, any>, options: QueryOptions =
     enabled: options.enabled != undefined ? !!options.enabled : undefined,
     ...options,
   });
-  return { ...res, isLoading${plural}: res.isLoading, isError${plural}: res.isError, ${pluralCamel}Data: res.data };
+  return {
+    ...res,
+    isLoading: res.isLoading,
+    isLoading${plural}: res.isLoading,
+    isError: res.isError,
+    isError${plural}: res.isError,
+    ${pluralCamel}Data: res.data
+  };
 };
 
 export const use${singular} = (props: Record<string, any>, options: QueryOptions = {}) => {
@@ -132,7 +152,14 @@ export const use${singular} = (props: Record<string, any>, options: QueryOptions
     queryFn: () => api.apis.${name}.findOne({ ...props }),
     ...(options as any),
   });
-  return { ...res, isLoading${singular}: res.isLoading, isError${singular}: res.isError, ${singularCamel}Data: res.data as Record<string, any> | undefined };
+  return {
+    ...res,
+    isLoading: res.isLoading,
+    isLoading${singular}: res.isLoading,
+    isError: res.isError,
+    isError${singular}: res.isError,
+    ${singularCamel}Data: res.data as Record<string, any> | undefined
+  };
 };
 
 export const useCreate${plural} = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
@@ -147,7 +174,9 @@ export const useCreate${plural} = (options: QueryOptions, secondaryOptions?: Que
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreate${plural}: res.isPending,
+    isError: res.isError,
     isErrorCreate${plural}: res.isError,
     create${plural}: res.mutate,
     created${plural}: res.data,
@@ -166,7 +195,9 @@ export const useCreateList${plural} = (options: QueryOptions, secondaryOptions?:
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateList${plural}: res.isPending,
+    isError: res.isError,
     isErrorCreateList${plural}: res.isError,
     createList${plural}: res.mutate,
     createdList${plural}: res.data,
@@ -184,7 +215,9 @@ export const useCreate${singular} = (options: QueryOptions, secondaryOptions?: Q
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreate${singular}: res.isPending,
+    isError: res.isError,
     isErrorCreate${singular}: res.isError,
     create${singular}: res.mutate,
     created${singular}: res.data,
@@ -202,7 +235,9 @@ export const useUpdate${plural} = (options: QueryOptions, secondaryOptions?: Que
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdate${plural}: res.isPending,
+    isError: res.isError,
     isErrorUpdate${plural}: res.isError,
     update${plural}: res.mutate,
     updated${plural}: res.data,
@@ -220,7 +255,9 @@ export const useUpdateList${plural} = (options: QueryOptions, secondaryOptions?:
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateList${plural}: res.isPending,
+    isError: res.isError,
     isErrorUpdateList${plural}: res.isError,
     updateList${plural}: res.mutate,
     updatedList${plural}: res.data,
@@ -238,7 +275,9 @@ export const useUpdate${plural}List = (options: QueryOptions, secondaryOptions?:
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdate${plural}List: res.isPending,
+    isError: res.isError,
     isErrorUpdate${plural}List: res.isError,
     update${plural}List: res.mutate,
     updated${plural}List: res.data,
@@ -256,7 +295,9 @@ export const useUpdate${singular} = (options: QueryOptions, secondaryOptions?: Q
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdate${singular}: res.isPending,
+    isError: res.isError,
     isErrorUpdate${singular}: res.isError,
     update${singular}: res.mutate,
     updated${singular}: res.data,
@@ -274,7 +315,9 @@ export const useDelete${plural} = (options: QueryOptions, secondaryOptions?: Que
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDelete${plural}: res.isPending,
+    isError: res.isError,
     isErrorDelete${plural}: res.isError,
     delete${plural}: res.mutate,
   };
@@ -291,7 +334,9 @@ export const useDeleteAll${plural} = (options: QueryOptions, secondaryOptions?: 
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteAll${plural}: res.isPending,
+    isError: res.isError,
     isErrorDeleteAll${plural}: res.isError,
     deleteAll${plural}: res.mutate,
   };
@@ -316,7 +361,9 @@ export const useDelete${singular} = (options: QueryOptions, secondaryOptions?: Q
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDelete${singular}: res.isPending,
+    isError: res.isError,
     isErrorDelete${singular}: res.isError,
     delete${singular}: res.mutate,
     delete${singular}FromTable,

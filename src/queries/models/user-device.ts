@@ -20,7 +20,9 @@ export const useAggregateUserDevices = (props: Record<string, any>, options: Que
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingAggregateUserDevice: res.isLoading,
+    isError: res.isError,
     isErrorAggregateUserDevice: res.isError,
     aggregateUserDevices: res.data,
   };
@@ -35,7 +37,9 @@ export const useCountUserDevices = (props: Record<string, any>, options: QueryOp
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingCountUserDevice: res.isLoading,
+    isError: res.isError,
     isErrorCountUserDevice: res.isError,
     countUserDevices: res.data,
   };
@@ -50,7 +54,9 @@ export const useExistUserDevice = (props: Record<string, any>, options: QueryOpt
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingExistUserDevice: res.isLoading,
+    isError: res.isError,
     isErrorExistUserDevice: res.isError,
     existUserDevice: res.data,
   };
@@ -71,7 +77,14 @@ export const useUserDevicesWithPagination = (props: Record<string, any>, options
     ...options,
   });
 
-  return { ...res, isLoadingUserDevices: res.isLoading, isErrorUserDevices: res.isError, userDevicesData: res.data };
+  return {
+    ...res,
+    isLoading: res.isLoading,
+    isLoadingUserDevices: res.isLoading,
+    isError: res.isError,
+    isErrorUserDevices: res.isError,
+    userDevicesData: res.data,
+  };
 };
 
 export const useUserDevices = (props: Record<string, any>, options: QueryOptions = {}) => {
@@ -82,7 +95,14 @@ export const useUserDevices = (props: Record<string, any>, options: QueryOptions
     enabled: options.enabled != undefined ? !!options.enabled : undefined,
     ...options,
   });
-  return { ...res, isLoadingUserDevices: res.isLoading, isErrorUserDevices: res.isError, userDevicesData: res.data };
+  return {
+    ...res,
+    isLoading: res.isLoading,
+    isLoadingUserDevices: res.isLoading,
+    isError: res.isError,
+    isErrorUserDevices: res.isError,
+    userDevicesData: res.data,
+  };
 };
 
 export const useUserDevice = (props: Record<string, any>, options: QueryOptions = {}) => {
@@ -94,7 +114,9 @@ export const useUserDevice = (props: Record<string, any>, options: QueryOptions 
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingUserDevice: res.isLoading,
+    isError: res.isError,
     isErrorUserDevice: res.isError,
     userDeviceData: res.data as Record<string, any> | undefined,
   };
@@ -112,7 +134,9 @@ export const useCreateUserDevices = (options: QueryOptions, secondaryOptions?: Q
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateUserDevices: res.isPending,
+    isError: res.isError,
     isErrorCreateUserDevices: res.isError,
     createUserDevices: res.mutate,
     createdUserDevices: res.data,
@@ -131,7 +155,9 @@ export const useCreateListUserDevices = (options: QueryOptions, secondaryOptions
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateListUserDevices: res.isPending,
+    isError: res.isError,
     isErrorCreateListUserDevices: res.isError,
     createListUserDevices: res.mutate,
     createdListUserDevices: res.data,
@@ -149,7 +175,9 @@ export const useCreateUserDevice = (options: QueryOptions, secondaryOptions?: Qu
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateUserDevice: res.isPending,
+    isError: res.isError,
     isErrorCreateUserDevice: res.isError,
     createUserDevice: res.mutate,
     createdUserDevice: res.data,
@@ -167,7 +195,9 @@ export const useUpdateUserDevices = (options: QueryOptions, secondaryOptions?: Q
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateUserDevices: res.isPending,
+    isError: res.isError,
     isErrorUpdateUserDevices: res.isError,
     updateUserDevices: res.mutate,
     updatedUserDevices: res.data,
@@ -185,7 +215,9 @@ export const useUpdateListUserDevices = (options: QueryOptions, secondaryOptions
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateListUserDevices: res.isPending,
+    isError: res.isError,
     isErrorUpdateListUserDevices: res.isError,
     updateListUserDevices: res.mutate,
     updatedListUserDevices: res.data,
@@ -203,7 +235,9 @@ export const useUpdateUserDevicesList = (options: QueryOptions, secondaryOptions
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateUserDevicesList: res.isPending,
+    isError: res.isError,
     isErrorUpdateUserDevicesList: res.isError,
     updateUserDevicesList: res.mutate,
     updatedUserDevicesList: res.data,
@@ -221,7 +255,9 @@ export const useUpdateUserDevice = (options: QueryOptions, secondaryOptions?: Qu
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateUserDevice: res.isPending,
+    isError: res.isError,
     isErrorUpdateUserDevice: res.isError,
     updateUserDevice: res.mutate,
     updatedUserDevice: res.data,
@@ -239,7 +275,9 @@ export const useDeleteUserDevices = (options: QueryOptions, secondaryOptions?: Q
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteUserDevices: res.isPending,
+    isError: res.isError,
     isErrorDeleteUserDevices: res.isError,
     deleteUserDevices: res.mutate,
   };
@@ -256,7 +294,9 @@ export const useDeleteAllUserDevices = (options: QueryOptions, secondaryOptions?
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteAllUserDevices: res.isPending,
+    isError: res.isError,
     isErrorDeleteAllUserDevices: res.isError,
     deleteAllUserDevices: res.mutate,
   };
@@ -281,7 +321,9 @@ export const useDeleteUserDevice = (options: QueryOptions, secondaryOptions?: Qu
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteUserDevice: res.isPending,
+    isError: res.isError,
     isErrorDeleteUserDevice: res.isError,
     deleteUserDevice: res.mutate,
     deleteUserDeviceFromTable,

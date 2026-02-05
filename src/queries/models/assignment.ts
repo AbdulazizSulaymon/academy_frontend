@@ -20,7 +20,9 @@ export const useAggregateAssignments = (props: Record<string, any>, options: Que
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingAggregateAssignment: res.isLoading,
+    isError: res.isError,
     isErrorAggregateAssignment: res.isError,
     aggregateAssignments: res.data,
   };
@@ -35,7 +37,9 @@ export const useCountAssignments = (props: Record<string, any>, options: QueryOp
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingCountAssignment: res.isLoading,
+    isError: res.isError,
     isErrorCountAssignment: res.isError,
     countAssignments: res.data,
   };
@@ -50,7 +54,9 @@ export const useExistAssignment = (props: Record<string, any>, options: QueryOpt
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingExistAssignment: res.isLoading,
+    isError: res.isError,
     isErrorExistAssignment: res.isError,
     existAssignment: res.data,
   };
@@ -71,7 +77,14 @@ export const useAssignmentsWithPagination = (props: Record<string, any>, options
     ...options,
   });
 
-  return { ...res, isLoadingAssignments: res.isLoading, isErrorAssignments: res.isError, assignmentsData: res.data };
+  return {
+    ...res,
+    isLoading: res.isLoading,
+    isLoadingAssignments: res.isLoading,
+    isError: res.isError,
+    isErrorAssignments: res.isError,
+    assignmentsData: res.data,
+  };
 };
 
 export const useAssignments = (props: Record<string, any>, options: QueryOptions = {}) => {
@@ -82,7 +95,14 @@ export const useAssignments = (props: Record<string, any>, options: QueryOptions
     enabled: options.enabled != undefined ? !!options.enabled : undefined,
     ...options,
   });
-  return { ...res, isLoadingAssignments: res.isLoading, isErrorAssignments: res.isError, assignmentsData: res.data };
+  return {
+    ...res,
+    isLoading: res.isLoading,
+    isLoadingAssignments: res.isLoading,
+    isError: res.isError,
+    isErrorAssignments: res.isError,
+    assignmentsData: res.data,
+  };
 };
 
 export const useAssignment = (props: Record<string, any>, options: QueryOptions = {}) => {
@@ -94,7 +114,9 @@ export const useAssignment = (props: Record<string, any>, options: QueryOptions 
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingAssignment: res.isLoading,
+    isError: res.isError,
     isErrorAssignment: res.isError,
     assignmentData: res.data as Record<string, any> | undefined,
   };
@@ -112,7 +134,9 @@ export const useCreateAssignments = (options: QueryOptions, secondaryOptions?: Q
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateAssignments: res.isPending,
+    isError: res.isError,
     isErrorCreateAssignments: res.isError,
     createAssignments: res.mutate,
     createdAssignments: res.data,
@@ -131,7 +155,9 @@ export const useCreateListAssignments = (options: QueryOptions, secondaryOptions
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateListAssignments: res.isPending,
+    isError: res.isError,
     isErrorCreateListAssignments: res.isError,
     createListAssignments: res.mutate,
     createdListAssignments: res.data,
@@ -149,7 +175,9 @@ export const useCreateAssignment = (options: QueryOptions, secondaryOptions?: Qu
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateAssignment: res.isPending,
+    isError: res.isError,
     isErrorCreateAssignment: res.isError,
     createAssignment: res.mutate,
     createdAssignment: res.data,
@@ -167,7 +195,9 @@ export const useUpdateAssignments = (options: QueryOptions, secondaryOptions?: Q
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateAssignments: res.isPending,
+    isError: res.isError,
     isErrorUpdateAssignments: res.isError,
     updateAssignments: res.mutate,
     updatedAssignments: res.data,
@@ -185,7 +215,9 @@ export const useUpdateListAssignments = (options: QueryOptions, secondaryOptions
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateListAssignments: res.isPending,
+    isError: res.isError,
     isErrorUpdateListAssignments: res.isError,
     updateListAssignments: res.mutate,
     updatedListAssignments: res.data,
@@ -203,7 +235,9 @@ export const useUpdateAssignmentsList = (options: QueryOptions, secondaryOptions
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateAssignmentsList: res.isPending,
+    isError: res.isError,
     isErrorUpdateAssignmentsList: res.isError,
     updateAssignmentsList: res.mutate,
     updatedAssignmentsList: res.data,
@@ -221,7 +255,9 @@ export const useUpdateAssignment = (options: QueryOptions, secondaryOptions?: Qu
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateAssignment: res.isPending,
+    isError: res.isError,
     isErrorUpdateAssignment: res.isError,
     updateAssignment: res.mutate,
     updatedAssignment: res.data,
@@ -239,7 +275,9 @@ export const useDeleteAssignments = (options: QueryOptions, secondaryOptions?: Q
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteAssignments: res.isPending,
+    isError: res.isError,
     isErrorDeleteAssignments: res.isError,
     deleteAssignments: res.mutate,
   };
@@ -256,7 +294,9 @@ export const useDeleteAllAssignments = (options: QueryOptions, secondaryOptions?
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteAllAssignments: res.isPending,
+    isError: res.isError,
     isErrorDeleteAllAssignments: res.isError,
     deleteAllAssignments: res.mutate,
   };
@@ -281,7 +321,9 @@ export const useDeleteAssignment = (options: QueryOptions, secondaryOptions?: Qu
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteAssignment: res.isPending,
+    isError: res.isError,
     isErrorDeleteAssignment: res.isError,
     deleteAssignment: res.mutate,
     deleteAssignmentFromTable,

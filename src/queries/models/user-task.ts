@@ -20,7 +20,9 @@ export const useAggregateUserTasks = (props: Record<string, any>, options: Query
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingAggregateUserTask: res.isLoading,
+    isError: res.isError,
     isErrorAggregateUserTask: res.isError,
     aggregateUserTasks: res.data,
   };
@@ -35,7 +37,9 @@ export const useCountUserTasks = (props: Record<string, any>, options: QueryOpti
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingCountUserTask: res.isLoading,
+    isError: res.isError,
     isErrorCountUserTask: res.isError,
     countUserTasks: res.data,
   };
@@ -50,7 +54,9 @@ export const useExistUserTask = (props: Record<string, any>, options: QueryOptio
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingExistUserTask: res.isLoading,
+    isError: res.isError,
     isErrorExistUserTask: res.isError,
     existUserTask: res.data,
   };
@@ -71,7 +77,14 @@ export const useUserTasksWithPagination = (props: Record<string, any>, options: 
     ...options,
   });
 
-  return { ...res, isLoadingUserTasks: res.isLoading, isErrorUserTasks: res.isError, userTasksData: res.data };
+  return {
+    ...res,
+    isLoading: res.isLoading,
+    isLoadingUserTasks: res.isLoading,
+    isError: res.isError,
+    isErrorUserTasks: res.isError,
+    userTasksData: res.data,
+  };
 };
 
 export const useUserTasks = (props: Record<string, any>, options: QueryOptions = {}) => {
@@ -82,7 +95,14 @@ export const useUserTasks = (props: Record<string, any>, options: QueryOptions =
     enabled: options.enabled != undefined ? !!options.enabled : undefined,
     ...options,
   });
-  return { ...res, isLoadingUserTasks: res.isLoading, isErrorUserTasks: res.isError, userTasksData: res.data };
+  return {
+    ...res,
+    isLoading: res.isLoading,
+    isLoadingUserTasks: res.isLoading,
+    isError: res.isError,
+    isErrorUserTasks: res.isError,
+    userTasksData: res.data,
+  };
 };
 
 export const useUserTask = (props: Record<string, any>, options: QueryOptions = {}) => {
@@ -94,7 +114,9 @@ export const useUserTask = (props: Record<string, any>, options: QueryOptions = 
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingUserTask: res.isLoading,
+    isError: res.isError,
     isErrorUserTask: res.isError,
     userTaskData: res.data as Record<string, any> | undefined,
   };
@@ -112,7 +134,9 @@ export const useCreateUserTasks = (options: QueryOptions, secondaryOptions?: Que
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateUserTasks: res.isPending,
+    isError: res.isError,
     isErrorCreateUserTasks: res.isError,
     createUserTasks: res.mutate,
     createdUserTasks: res.data,
@@ -131,7 +155,9 @@ export const useCreateListUserTasks = (options: QueryOptions, secondaryOptions?:
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateListUserTasks: res.isPending,
+    isError: res.isError,
     isErrorCreateListUserTasks: res.isError,
     createListUserTasks: res.mutate,
     createdListUserTasks: res.data,
@@ -149,7 +175,9 @@ export const useCreateUserTask = (options: QueryOptions, secondaryOptions?: Quer
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateUserTask: res.isPending,
+    isError: res.isError,
     isErrorCreateUserTask: res.isError,
     createUserTask: res.mutate,
     createdUserTask: res.data,
@@ -167,7 +195,9 @@ export const useUpdateUserTasks = (options: QueryOptions, secondaryOptions?: Que
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateUserTasks: res.isPending,
+    isError: res.isError,
     isErrorUpdateUserTasks: res.isError,
     updateUserTasks: res.mutate,
     updatedUserTasks: res.data,
@@ -185,7 +215,9 @@ export const useUpdateListUserTasks = (options: QueryOptions, secondaryOptions?:
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateListUserTasks: res.isPending,
+    isError: res.isError,
     isErrorUpdateListUserTasks: res.isError,
     updateListUserTasks: res.mutate,
     updatedListUserTasks: res.data,
@@ -203,7 +235,9 @@ export const useUpdateUserTasksList = (options: QueryOptions, secondaryOptions?:
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateUserTasksList: res.isPending,
+    isError: res.isError,
     isErrorUpdateUserTasksList: res.isError,
     updateUserTasksList: res.mutate,
     updatedUserTasksList: res.data,
@@ -221,7 +255,9 @@ export const useUpdateUserTask = (options: QueryOptions, secondaryOptions?: Quer
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateUserTask: res.isPending,
+    isError: res.isError,
     isErrorUpdateUserTask: res.isError,
     updateUserTask: res.mutate,
     updatedUserTask: res.data,
@@ -239,7 +275,9 @@ export const useDeleteUserTasks = (options: QueryOptions, secondaryOptions?: Que
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteUserTasks: res.isPending,
+    isError: res.isError,
     isErrorDeleteUserTasks: res.isError,
     deleteUserTasks: res.mutate,
   };
@@ -256,7 +294,9 @@ export const useDeleteAllUserTasks = (options: QueryOptions, secondaryOptions?: 
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteAllUserTasks: res.isPending,
+    isError: res.isError,
     isErrorDeleteAllUserTasks: res.isError,
     deleteAllUserTasks: res.mutate,
   };
@@ -281,7 +321,9 @@ export const useDeleteUserTask = (options: QueryOptions, secondaryOptions?: Quer
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteUserTask: res.isPending,
+    isError: res.isError,
     isErrorDeleteUserTask: res.isError,
     deleteUserTask: res.mutate,
     deleteUserTaskFromTable,

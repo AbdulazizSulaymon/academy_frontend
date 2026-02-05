@@ -20,7 +20,9 @@ export const useAggregateErrorFeedbacks = (props: Record<string, any>, options: 
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingAggregateErrorFeedback: res.isLoading,
+    isError: res.isError,
     isErrorAggregateErrorFeedback: res.isError,
     aggregateErrorFeedbacks: res.data,
   };
@@ -35,7 +37,9 @@ export const useCountErrorFeedbacks = (props: Record<string, any>, options: Quer
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingCountErrorFeedback: res.isLoading,
+    isError: res.isError,
     isErrorCountErrorFeedback: res.isError,
     countErrorFeedbacks: res.data,
   };
@@ -50,7 +54,9 @@ export const useExistErrorFeedback = (props: Record<string, any>, options: Query
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingExistErrorFeedback: res.isLoading,
+    isError: res.isError,
     isErrorExistErrorFeedback: res.isError,
     existErrorFeedback: res.data,
   };
@@ -73,7 +79,9 @@ export const useErrorFeedbacksWithPagination = (props: Record<string, any>, opti
 
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingErrorFeedbacks: res.isLoading,
+    isError: res.isError,
     isErrorErrorFeedbacks: res.isError,
     errorFeedbacksData: res.data,
   };
@@ -89,7 +97,9 @@ export const useErrorFeedbacks = (props: Record<string, any>, options: QueryOpti
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingErrorFeedbacks: res.isLoading,
+    isError: res.isError,
     isErrorErrorFeedbacks: res.isError,
     errorFeedbacksData: res.data,
   };
@@ -104,7 +114,9 @@ export const useErrorFeedback = (props: Record<string, any>, options: QueryOptio
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingErrorFeedback: res.isLoading,
+    isError: res.isError,
     isErrorErrorFeedback: res.isError,
     errorFeedbackData: res.data as Record<string, any> | undefined,
   };
@@ -122,7 +134,9 @@ export const useCreateErrorFeedbacks = (options: QueryOptions, secondaryOptions?
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateErrorFeedbacks: res.isPending,
+    isError: res.isError,
     isErrorCreateErrorFeedbacks: res.isError,
     createErrorFeedbacks: res.mutate,
     createdErrorFeedbacks: res.data,
@@ -141,7 +155,9 @@ export const useCreateListErrorFeedbacks = (options: QueryOptions, secondaryOpti
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateListErrorFeedbacks: res.isPending,
+    isError: res.isError,
     isErrorCreateListErrorFeedbacks: res.isError,
     createListErrorFeedbacks: res.mutate,
     createdListErrorFeedbacks: res.data,
@@ -159,7 +175,9 @@ export const useCreateErrorFeedback = (options: QueryOptions, secondaryOptions?:
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateErrorFeedback: res.isPending,
+    isError: res.isError,
     isErrorCreateErrorFeedback: res.isError,
     createErrorFeedback: res.mutate,
     createdErrorFeedback: res.data,
@@ -177,7 +195,9 @@ export const useUpdateErrorFeedbacks = (options: QueryOptions, secondaryOptions?
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateErrorFeedbacks: res.isPending,
+    isError: res.isError,
     isErrorUpdateErrorFeedbacks: res.isError,
     updateErrorFeedbacks: res.mutate,
     updatedErrorFeedbacks: res.data,
@@ -195,7 +215,9 @@ export const useUpdateListErrorFeedbacks = (options: QueryOptions, secondaryOpti
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateListErrorFeedbacks: res.isPending,
+    isError: res.isError,
     isErrorUpdateListErrorFeedbacks: res.isError,
     updateListErrorFeedbacks: res.mutate,
     updatedListErrorFeedbacks: res.data,
@@ -213,7 +235,9 @@ export const useUpdateErrorFeedbacksList = (options: QueryOptions, secondaryOpti
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateErrorFeedbacksList: res.isPending,
+    isError: res.isError,
     isErrorUpdateErrorFeedbacksList: res.isError,
     updateErrorFeedbacksList: res.mutate,
     updatedErrorFeedbacksList: res.data,
@@ -231,7 +255,9 @@ export const useUpdateErrorFeedback = (options: QueryOptions, secondaryOptions?:
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateErrorFeedback: res.isPending,
+    isError: res.isError,
     isErrorUpdateErrorFeedback: res.isError,
     updateErrorFeedback: res.mutate,
     updatedErrorFeedback: res.data,
@@ -249,7 +275,9 @@ export const useDeleteErrorFeedbacks = (options: QueryOptions, secondaryOptions?
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteErrorFeedbacks: res.isPending,
+    isError: res.isError,
     isErrorDeleteErrorFeedbacks: res.isError,
     deleteErrorFeedbacks: res.mutate,
   };
@@ -266,7 +294,9 @@ export const useDeleteAllErrorFeedbacks = (options: QueryOptions, secondaryOptio
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteAllErrorFeedbacks: res.isPending,
+    isError: res.isError,
     isErrorDeleteAllErrorFeedbacks: res.isError,
     deleteAllErrorFeedbacks: res.mutate,
   };
@@ -291,7 +321,9 @@ export const useDeleteErrorFeedback = (options: QueryOptions, secondaryOptions?:
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteErrorFeedback: res.isPending,
+    isError: res.isError,
     isErrorDeleteErrorFeedback: res.isError,
     deleteErrorFeedback: res.mutate,
     deleteErrorFeedbackFromTable,

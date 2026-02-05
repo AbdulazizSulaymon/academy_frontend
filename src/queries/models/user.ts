@@ -20,7 +20,9 @@ export const useAggregateUsers = (props: Record<string, any>, options: QueryOpti
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingAggregateUser: res.isLoading,
+    isError: res.isError,
     isErrorAggregateUser: res.isError,
     aggregateUsers: res.data,
   };
@@ -35,7 +37,9 @@ export const useCountUsers = (props: Record<string, any>, options: QueryOptions 
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingCountUser: res.isLoading,
+    isError: res.isError,
     isErrorCountUser: res.isError,
     countUsers: res.data,
   };
@@ -50,7 +54,9 @@ export const useExistUser = (props: Record<string, any>, options: QueryOptions =
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingExistUser: res.isLoading,
+    isError: res.isError,
     isErrorExistUser: res.isError,
     existUser: res.data,
   };
@@ -71,7 +77,14 @@ export const useUsersWithPagination = (props: Record<string, any>, options: Quer
     ...options,
   });
 
-  return { ...res, isLoadingUsers: res.isLoading, isErrorUsers: res.isError, usersData: res.data };
+  return {
+    ...res,
+    isLoading: res.isLoading,
+    isLoadingUsers: res.isLoading,
+    isError: res.isError,
+    isErrorUsers: res.isError,
+    usersData: res.data,
+  };
 };
 
 export const useUsers = (props: Record<string, any>, options: QueryOptions = {}) => {
@@ -82,7 +95,14 @@ export const useUsers = (props: Record<string, any>, options: QueryOptions = {})
     enabled: options.enabled != undefined ? !!options.enabled : undefined,
     ...options,
   });
-  return { ...res, isLoadingUsers: res.isLoading, isErrorUsers: res.isError, usersData: res.data };
+  return {
+    ...res,
+    isLoading: res.isLoading,
+    isLoadingUsers: res.isLoading,
+    isError: res.isError,
+    isErrorUsers: res.isError,
+    usersData: res.data,
+  };
 };
 
 export const useUser = (props: Record<string, any>, options: QueryOptions = {}) => {
@@ -94,7 +114,9 @@ export const useUser = (props: Record<string, any>, options: QueryOptions = {}) 
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingUser: res.isLoading,
+    isError: res.isError,
     isErrorUser: res.isError,
     userData: res.data as Record<string, any> | undefined,
   };
@@ -112,7 +134,9 @@ export const useCreateUsers = (options: QueryOptions, secondaryOptions?: QuerySe
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateUsers: res.isPending,
+    isError: res.isError,
     isErrorCreateUsers: res.isError,
     createUsers: res.mutate,
     createdUsers: res.data,
@@ -131,7 +155,9 @@ export const useCreateListUsers = (options: QueryOptions, secondaryOptions?: Que
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateListUsers: res.isPending,
+    isError: res.isError,
     isErrorCreateListUsers: res.isError,
     createListUsers: res.mutate,
     createdListUsers: res.data,
@@ -149,7 +175,9 @@ export const useCreateUser = (options: QueryOptions, secondaryOptions?: QuerySec
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateUser: res.isPending,
+    isError: res.isError,
     isErrorCreateUser: res.isError,
     createUser: res.mutate,
     createdUser: res.data,
@@ -167,7 +195,9 @@ export const useUpdateUsers = (options: QueryOptions, secondaryOptions?: QuerySe
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateUsers: res.isPending,
+    isError: res.isError,
     isErrorUpdateUsers: res.isError,
     updateUsers: res.mutate,
     updatedUsers: res.data,
@@ -185,7 +215,9 @@ export const useUpdateListUsers = (options: QueryOptions, secondaryOptions?: Que
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateListUsers: res.isPending,
+    isError: res.isError,
     isErrorUpdateListUsers: res.isError,
     updateListUsers: res.mutate,
     updatedListUsers: res.data,
@@ -203,7 +235,9 @@ export const useUpdateUsersList = (options: QueryOptions, secondaryOptions?: Que
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateUsersList: res.isPending,
+    isError: res.isError,
     isErrorUpdateUsersList: res.isError,
     updateUsersList: res.mutate,
     updatedUsersList: res.data,
@@ -221,7 +255,9 @@ export const useUpdateUser = (options: QueryOptions, secondaryOptions?: QuerySec
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateUser: res.isPending,
+    isError: res.isError,
     isErrorUpdateUser: res.isError,
     updateUser: res.mutate,
     updatedUser: res.data,
@@ -239,7 +275,9 @@ export const useDeleteUsers = (options: QueryOptions, secondaryOptions?: QuerySe
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteUsers: res.isPending,
+    isError: res.isError,
     isErrorDeleteUsers: res.isError,
     deleteUsers: res.mutate,
   };
@@ -256,7 +294,9 @@ export const useDeleteAllUsers = (options: QueryOptions, secondaryOptions?: Quer
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteAllUsers: res.isPending,
+    isError: res.isError,
     isErrorDeleteAllUsers: res.isError,
     deleteAllUsers: res.mutate,
   };
@@ -281,7 +321,9 @@ export const useDeleteUser = (options: QueryOptions, secondaryOptions?: QuerySec
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteUser: res.isPending,
+    isError: res.isError,
     isErrorDeleteUser: res.isError,
     deleteUser: res.mutate,
     deleteUserFromTable,

@@ -20,7 +20,9 @@ export const useAggregatePartners = (props: Record<string, any>, options: QueryO
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingAggregatePartner: res.isLoading,
+    isError: res.isError,
     isErrorAggregatePartner: res.isError,
     aggregatePartners: res.data,
   };
@@ -35,7 +37,9 @@ export const useCountPartners = (props: Record<string, any>, options: QueryOptio
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingCountPartner: res.isLoading,
+    isError: res.isError,
     isErrorCountPartner: res.isError,
     countPartners: res.data,
   };
@@ -50,7 +54,9 @@ export const useExistPartner = (props: Record<string, any>, options: QueryOption
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingExistPartner: res.isLoading,
+    isError: res.isError,
     isErrorExistPartner: res.isError,
     existPartner: res.data,
   };
@@ -71,7 +77,14 @@ export const usePartnersWithPagination = (props: Record<string, any>, options: Q
     ...options,
   });
 
-  return { ...res, isLoadingPartners: res.isLoading, isErrorPartners: res.isError, partnersData: res.data };
+  return {
+    ...res,
+    isLoading: res.isLoading,
+    isLoadingPartners: res.isLoading,
+    isError: res.isError,
+    isErrorPartners: res.isError,
+    partnersData: res.data,
+  };
 };
 
 export const usePartners = (props: Record<string, any>, options: QueryOptions = {}) => {
@@ -82,7 +95,14 @@ export const usePartners = (props: Record<string, any>, options: QueryOptions = 
     enabled: options.enabled != undefined ? !!options.enabled : undefined,
     ...options,
   });
-  return { ...res, isLoadingPartners: res.isLoading, isErrorPartners: res.isError, partnersData: res.data };
+  return {
+    ...res,
+    isLoading: res.isLoading,
+    isLoadingPartners: res.isLoading,
+    isError: res.isError,
+    isErrorPartners: res.isError,
+    partnersData: res.data,
+  };
 };
 
 export const usePartner = (props: Record<string, any>, options: QueryOptions = {}) => {
@@ -94,7 +114,9 @@ export const usePartner = (props: Record<string, any>, options: QueryOptions = {
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingPartner: res.isLoading,
+    isError: res.isError,
     isErrorPartner: res.isError,
     partnerData: res.data as Record<string, any> | undefined,
   };
@@ -112,7 +134,9 @@ export const useCreatePartners = (options: QueryOptions, secondaryOptions?: Quer
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreatePartners: res.isPending,
+    isError: res.isError,
     isErrorCreatePartners: res.isError,
     createPartners: res.mutate,
     createdPartners: res.data,
@@ -131,7 +155,9 @@ export const useCreateListPartners = (options: QueryOptions, secondaryOptions?: 
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateListPartners: res.isPending,
+    isError: res.isError,
     isErrorCreateListPartners: res.isError,
     createListPartners: res.mutate,
     createdListPartners: res.data,
@@ -149,7 +175,9 @@ export const useCreatePartner = (options: QueryOptions, secondaryOptions?: Query
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreatePartner: res.isPending,
+    isError: res.isError,
     isErrorCreatePartner: res.isError,
     createPartner: res.mutate,
     createdPartner: res.data,
@@ -167,7 +195,9 @@ export const useUpdatePartners = (options: QueryOptions, secondaryOptions?: Quer
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdatePartners: res.isPending,
+    isError: res.isError,
     isErrorUpdatePartners: res.isError,
     updatePartners: res.mutate,
     updatedPartners: res.data,
@@ -185,7 +215,9 @@ export const useUpdateListPartners = (options: QueryOptions, secondaryOptions?: 
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateListPartners: res.isPending,
+    isError: res.isError,
     isErrorUpdateListPartners: res.isError,
     updateListPartners: res.mutate,
     updatedListPartners: res.data,
@@ -203,7 +235,9 @@ export const useUpdatePartnersList = (options: QueryOptions, secondaryOptions?: 
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdatePartnersList: res.isPending,
+    isError: res.isError,
     isErrorUpdatePartnersList: res.isError,
     updatePartnersList: res.mutate,
     updatedPartnersList: res.data,
@@ -221,7 +255,9 @@ export const useUpdatePartner = (options: QueryOptions, secondaryOptions?: Query
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdatePartner: res.isPending,
+    isError: res.isError,
     isErrorUpdatePartner: res.isError,
     updatePartner: res.mutate,
     updatedPartner: res.data,
@@ -239,7 +275,9 @@ export const useDeletePartners = (options: QueryOptions, secondaryOptions?: Quer
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeletePartners: res.isPending,
+    isError: res.isError,
     isErrorDeletePartners: res.isError,
     deletePartners: res.mutate,
   };
@@ -256,7 +294,9 @@ export const useDeleteAllPartners = (options: QueryOptions, secondaryOptions?: Q
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteAllPartners: res.isPending,
+    isError: res.isError,
     isErrorDeleteAllPartners: res.isError,
     deleteAllPartners: res.mutate,
   };
@@ -281,7 +321,9 @@ export const useDeletePartner = (options: QueryOptions, secondaryOptions?: Query
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeletePartner: res.isPending,
+    isError: res.isError,
     isErrorDeletePartner: res.isError,
     deletePartner: res.mutate,
     deletePartnerFromTable,

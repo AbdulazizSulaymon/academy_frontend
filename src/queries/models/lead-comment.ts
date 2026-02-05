@@ -20,7 +20,9 @@ export const useAggregateLeadComments = (props: Record<string, any>, options: Qu
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingAggregateLeadComment: res.isLoading,
+    isError: res.isError,
     isErrorAggregateLeadComment: res.isError,
     aggregateLeadComments: res.data,
   };
@@ -35,7 +37,9 @@ export const useCountLeadComments = (props: Record<string, any>, options: QueryO
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingCountLeadComment: res.isLoading,
+    isError: res.isError,
     isErrorCountLeadComment: res.isError,
     countLeadComments: res.data,
   };
@@ -50,7 +54,9 @@ export const useExistLeadComment = (props: Record<string, any>, options: QueryOp
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingExistLeadComment: res.isLoading,
+    isError: res.isError,
     isErrorExistLeadComment: res.isError,
     existLeadComment: res.data,
   };
@@ -71,7 +77,14 @@ export const useLeadCommentsWithPagination = (props: Record<string, any>, option
     ...options,
   });
 
-  return { ...res, isLoadingLeadComments: res.isLoading, isErrorLeadComments: res.isError, leadCommentsData: res.data };
+  return {
+    ...res,
+    isLoading: res.isLoading,
+    isLoadingLeadComments: res.isLoading,
+    isError: res.isError,
+    isErrorLeadComments: res.isError,
+    leadCommentsData: res.data,
+  };
 };
 
 export const useLeadComments = (props: Record<string, any>, options: QueryOptions = {}) => {
@@ -82,7 +95,14 @@ export const useLeadComments = (props: Record<string, any>, options: QueryOption
     enabled: options.enabled != undefined ? !!options.enabled : undefined,
     ...options,
   });
-  return { ...res, isLoadingLeadComments: res.isLoading, isErrorLeadComments: res.isError, leadCommentsData: res.data };
+  return {
+    ...res,
+    isLoading: res.isLoading,
+    isLoadingLeadComments: res.isLoading,
+    isError: res.isError,
+    isErrorLeadComments: res.isError,
+    leadCommentsData: res.data,
+  };
 };
 
 export const useLeadComment = (props: Record<string, any>, options: QueryOptions = {}) => {
@@ -94,7 +114,9 @@ export const useLeadComment = (props: Record<string, any>, options: QueryOptions
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingLeadComment: res.isLoading,
+    isError: res.isError,
     isErrorLeadComment: res.isError,
     leadCommentData: res.data as Record<string, any> | undefined,
   };
@@ -112,7 +134,9 @@ export const useCreateLeadComments = (options: QueryOptions, secondaryOptions?: 
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateLeadComments: res.isPending,
+    isError: res.isError,
     isErrorCreateLeadComments: res.isError,
     createLeadComments: res.mutate,
     createdLeadComments: res.data,
@@ -131,7 +155,9 @@ export const useCreateListLeadComments = (options: QueryOptions, secondaryOption
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateListLeadComments: res.isPending,
+    isError: res.isError,
     isErrorCreateListLeadComments: res.isError,
     createListLeadComments: res.mutate,
     createdListLeadComments: res.data,
@@ -149,7 +175,9 @@ export const useCreateLeadComment = (options: QueryOptions, secondaryOptions?: Q
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateLeadComment: res.isPending,
+    isError: res.isError,
     isErrorCreateLeadComment: res.isError,
     createLeadComment: res.mutate,
     createdLeadComment: res.data,
@@ -167,7 +195,9 @@ export const useUpdateLeadComments = (options: QueryOptions, secondaryOptions?: 
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateLeadComments: res.isPending,
+    isError: res.isError,
     isErrorUpdateLeadComments: res.isError,
     updateLeadComments: res.mutate,
     updatedLeadComments: res.data,
@@ -185,7 +215,9 @@ export const useUpdateListLeadComments = (options: QueryOptions, secondaryOption
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateListLeadComments: res.isPending,
+    isError: res.isError,
     isErrorUpdateListLeadComments: res.isError,
     updateListLeadComments: res.mutate,
     updatedListLeadComments: res.data,
@@ -203,7 +235,9 @@ export const useUpdateLeadCommentsList = (options: QueryOptions, secondaryOption
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateLeadCommentsList: res.isPending,
+    isError: res.isError,
     isErrorUpdateLeadCommentsList: res.isError,
     updateLeadCommentsList: res.mutate,
     updatedLeadCommentsList: res.data,
@@ -221,7 +255,9 @@ export const useUpdateLeadComment = (options: QueryOptions, secondaryOptions?: Q
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateLeadComment: res.isPending,
+    isError: res.isError,
     isErrorUpdateLeadComment: res.isError,
     updateLeadComment: res.mutate,
     updatedLeadComment: res.data,
@@ -239,7 +275,9 @@ export const useDeleteLeadComments = (options: QueryOptions, secondaryOptions?: 
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteLeadComments: res.isPending,
+    isError: res.isError,
     isErrorDeleteLeadComments: res.isError,
     deleteLeadComments: res.mutate,
   };
@@ -256,7 +294,9 @@ export const useDeleteAllLeadComments = (options: QueryOptions, secondaryOptions
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteAllLeadComments: res.isPending,
+    isError: res.isError,
     isErrorDeleteAllLeadComments: res.isError,
     deleteAllLeadComments: res.mutate,
   };
@@ -281,7 +321,9 @@ export const useDeleteLeadComment = (options: QueryOptions, secondaryOptions?: Q
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteLeadComment: res.isPending,
+    isError: res.isError,
     isErrorDeleteLeadComment: res.isError,
     deleteLeadComment: res.mutate,
     deleteLeadCommentFromTable,

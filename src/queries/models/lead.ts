@@ -20,7 +20,9 @@ export const useAggregateLeads = (props: Record<string, any>, options: QueryOpti
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingAggregateLead: res.isLoading,
+    isError: res.isError,
     isErrorAggregateLead: res.isError,
     aggregateLeads: res.data,
   };
@@ -35,7 +37,9 @@ export const useCountLeads = (props: Record<string, any>, options: QueryOptions 
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingCountLead: res.isLoading,
+    isError: res.isError,
     isErrorCountLead: res.isError,
     countLeads: res.data,
   };
@@ -50,7 +54,9 @@ export const useExistLead = (props: Record<string, any>, options: QueryOptions =
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingExistLead: res.isLoading,
+    isError: res.isError,
     isErrorExistLead: res.isError,
     existLead: res.data,
   };
@@ -71,7 +77,14 @@ export const useLeadsWithPagination = (props: Record<string, any>, options: Quer
     ...options,
   });
 
-  return { ...res, isLoadingLeads: res.isLoading, isErrorLeads: res.isError, leadsData: res.data };
+  return {
+    ...res,
+    isLoading: res.isLoading,
+    isLoadingLeads: res.isLoading,
+    isError: res.isError,
+    isErrorLeads: res.isError,
+    leadsData: res.data,
+  };
 };
 
 export const useLeads = (props: Record<string, any>, options: QueryOptions = {}) => {
@@ -82,7 +95,14 @@ export const useLeads = (props: Record<string, any>, options: QueryOptions = {})
     enabled: options.enabled != undefined ? !!options.enabled : undefined,
     ...options,
   });
-  return { ...res, isLoadingLeads: res.isLoading, isErrorLeads: res.isError, leadsData: res.data };
+  return {
+    ...res,
+    isLoading: res.isLoading,
+    isLoadingLeads: res.isLoading,
+    isError: res.isError,
+    isErrorLeads: res.isError,
+    leadsData: res.data,
+  };
 };
 
 export const useLead = (props: Record<string, any>, options: QueryOptions = {}) => {
@@ -94,7 +114,9 @@ export const useLead = (props: Record<string, any>, options: QueryOptions = {}) 
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingLead: res.isLoading,
+    isError: res.isError,
     isErrorLead: res.isError,
     leadData: res.data as Record<string, any> | undefined,
   };
@@ -112,7 +134,9 @@ export const useCreateLeads = (options: QueryOptions, secondaryOptions?: QuerySe
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateLeads: res.isPending,
+    isError: res.isError,
     isErrorCreateLeads: res.isError,
     createLeads: res.mutate,
     createdLeads: res.data,
@@ -131,7 +155,9 @@ export const useCreateListLeads = (options: QueryOptions, secondaryOptions?: Que
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateListLeads: res.isPending,
+    isError: res.isError,
     isErrorCreateListLeads: res.isError,
     createListLeads: res.mutate,
     createdListLeads: res.data,
@@ -149,7 +175,9 @@ export const useCreateLead = (options: QueryOptions, secondaryOptions?: QuerySec
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateLead: res.isPending,
+    isError: res.isError,
     isErrorCreateLead: res.isError,
     createLead: res.mutate,
     createdLead: res.data,
@@ -167,7 +195,9 @@ export const useUpdateLeads = (options: QueryOptions, secondaryOptions?: QuerySe
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateLeads: res.isPending,
+    isError: res.isError,
     isErrorUpdateLeads: res.isError,
     updateLeads: res.mutate,
     updatedLeads: res.data,
@@ -185,7 +215,9 @@ export const useUpdateListLeads = (options: QueryOptions, secondaryOptions?: Que
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateListLeads: res.isPending,
+    isError: res.isError,
     isErrorUpdateListLeads: res.isError,
     updateListLeads: res.mutate,
     updatedListLeads: res.data,
@@ -203,7 +235,9 @@ export const useUpdateLeadsList = (options: QueryOptions, secondaryOptions?: Que
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateLeadsList: res.isPending,
+    isError: res.isError,
     isErrorUpdateLeadsList: res.isError,
     updateLeadsList: res.mutate,
     updatedLeadsList: res.data,
@@ -221,7 +255,9 @@ export const useUpdateLead = (options: QueryOptions, secondaryOptions?: QuerySec
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateLead: res.isPending,
+    isError: res.isError,
     isErrorUpdateLead: res.isError,
     updateLead: res.mutate,
     updatedLead: res.data,
@@ -239,7 +275,9 @@ export const useDeleteLeads = (options: QueryOptions, secondaryOptions?: QuerySe
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteLeads: res.isPending,
+    isError: res.isError,
     isErrorDeleteLeads: res.isError,
     deleteLeads: res.mutate,
   };
@@ -256,7 +294,9 @@ export const useDeleteAllLeads = (options: QueryOptions, secondaryOptions?: Quer
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteAllLeads: res.isPending,
+    isError: res.isError,
     isErrorDeleteAllLeads: res.isError,
     deleteAllLeads: res.mutate,
   };
@@ -281,7 +321,9 @@ export const useDeleteLead = (options: QueryOptions, secondaryOptions?: QuerySec
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteLead: res.isPending,
+    isError: res.isError,
     isErrorDeleteLead: res.isError,
     deleteLead: res.mutate,
     deleteLeadFromTable,

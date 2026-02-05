@@ -20,7 +20,9 @@ export const useAggregateSuggestions = (props: Record<string, any>, options: Que
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingAggregateSuggestions: res.isLoading,
+    isError: res.isError,
     isErrorAggregateSuggestions: res.isError,
     aggregateSuggestions: res.data,
   };
@@ -35,7 +37,9 @@ export const useCountSuggestions = (props: Record<string, any>, options: QueryOp
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingCountSuggestions: res.isLoading,
+    isError: res.isError,
     isErrorCountSuggestions: res.isError,
     countSuggestions: res.data,
   };
@@ -50,7 +54,9 @@ export const useExistSuggestion = (props: Record<string, any>, options: QueryOpt
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingExistSuggestions: res.isLoading,
+    isError: res.isError,
     isErrorExistSuggestions: res.isError,
     existSuggestion: res.data,
   };
@@ -71,7 +77,14 @@ export const useSuggestionsWithPagination = (props: Record<string, any>, options
     ...options,
   });
 
-  return { ...res, isLoadingSuggestions: res.isLoading, isErrorSuggestions: res.isError, suggestionsData: res.data };
+  return {
+    ...res,
+    isLoading: res.isLoading,
+    isLoadingSuggestions: res.isLoading,
+    isError: res.isError,
+    isErrorSuggestions: res.isError,
+    suggestionsData: res.data,
+  };
 };
 
 export const useSuggestions = (props: Record<string, any>, options: QueryOptions = {}) => {
@@ -82,7 +95,14 @@ export const useSuggestions = (props: Record<string, any>, options: QueryOptions
     enabled: options.enabled != undefined ? !!options.enabled : undefined,
     ...options,
   });
-  return { ...res, isLoadingSuggestions: res.isLoading, isErrorSuggestions: res.isError, suggestionsData: res.data };
+  return {
+    ...res,
+    isLoading: res.isLoading,
+    isLoadingSuggestions: res.isLoading,
+    isError: res.isError,
+    isErrorSuggestions: res.isError,
+    suggestionsData: res.data,
+  };
 };
 
 export const useSuggestion = (props: Record<string, any>, options: QueryOptions = {}) => {
@@ -94,7 +114,9 @@ export const useSuggestion = (props: Record<string, any>, options: QueryOptions 
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingSuggestion: res.isLoading,
+    isError: res.isError,
     isErrorSuggestion: res.isError,
     suggestionData: res.data as Record<string, any> | undefined,
   };
@@ -112,7 +134,9 @@ export const useCreateSuggestions = (options: QueryOptions, secondaryOptions?: Q
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateSuggestions: res.isPending,
+    isError: res.isError,
     isErrorCreateSuggestions: res.isError,
     createSuggestions: res.mutate,
     createdSuggestions: res.data,
@@ -131,7 +155,9 @@ export const useCreateListSuggestions = (options: QueryOptions, secondaryOptions
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateListSuggestions: res.isPending,
+    isError: res.isError,
     isErrorCreateListSuggestions: res.isError,
     createListSuggestions: res.mutate,
     createdListSuggestions: res.data,
@@ -149,7 +175,9 @@ export const useCreateSuggestion = (options: QueryOptions, secondaryOptions?: Qu
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateSuggestion: res.isPending,
+    isError: res.isError,
     isErrorCreateSuggestion: res.isError,
     createSuggestion: res.mutate,
     createdSuggestion: res.data,
@@ -167,7 +195,9 @@ export const useUpdateSuggestions = (options: QueryOptions, secondaryOptions?: Q
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateSuggestions: res.isPending,
+    isError: res.isError,
     isErrorUpdateSuggestions: res.isError,
     updateSuggestions: res.mutate,
     updatedSuggestions: res.data,
@@ -185,7 +215,9 @@ export const useUpdateListSuggestions = (options: QueryOptions, secondaryOptions
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateListSuggestions: res.isPending,
+    isError: res.isError,
     isErrorUpdateListSuggestions: res.isError,
     updateListSuggestions: res.mutate,
     updatedListSuggestions: res.data,
@@ -203,7 +235,9 @@ export const useUpdateSuggestionsList = (options: QueryOptions, secondaryOptions
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateSuggestionsList: res.isPending,
+    isError: res.isError,
     isErrorUpdateSuggestionsList: res.isError,
     updateSuggestionsList: res.mutate,
     updatedSuggestionsList: res.data,
@@ -221,7 +255,9 @@ export const useUpdateSuggestion = (options: QueryOptions, secondaryOptions?: Qu
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateSuggestion: res.isPending,
+    isError: res.isError,
     isErrorUpdateSuggestion: res.isError,
     updateSuggestion: res.mutate,
     updatedSuggestion: res.data,
@@ -239,7 +275,9 @@ export const useDeleteSuggestions = (options: QueryOptions, secondaryOptions?: Q
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteSuggestions: res.isPending,
+    isError: res.isError,
     isErrorDeleteSuggestions: res.isError,
     deleteSuggestions: res.mutate,
   };
@@ -256,7 +294,9 @@ export const useDeleteAllSuggestions = (options: QueryOptions, secondaryOptions?
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteAllSuggestions: res.isPending,
+    isError: res.isError,
     isErrorDeleteAllSuggestions: res.isError,
     deleteAllSuggestions: res.mutate,
   };
@@ -281,7 +321,9 @@ export const useDeleteSuggestion = (options: QueryOptions, secondaryOptions?: Qu
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteSuggestion: res.isPending,
+    isError: res.isError,
     isErrorDeleteSuggestion: res.isError,
     deleteSuggestion: res.mutate,
     deleteSuggestionFromTable,

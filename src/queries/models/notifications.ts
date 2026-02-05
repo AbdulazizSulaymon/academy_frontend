@@ -20,7 +20,9 @@ export const useAggregateNotifications = (props: Record<string, any>, options: Q
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingAggregateNotifications: res.isLoading,
+    isError: res.isError,
     isErrorAggregateNotifications: res.isError,
     aggregateNotifications: res.data,
   };
@@ -35,7 +37,9 @@ export const useCountNotifications = (props: Record<string, any>, options: Query
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingCountNotifications: res.isLoading,
+    isError: res.isError,
     isErrorCountNotifications: res.isError,
     countNotifications: res.data,
   };
@@ -50,7 +54,9 @@ export const useExistNotification = (props: Record<string, any>, options: QueryO
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingExistNotifications: res.isLoading,
+    isError: res.isError,
     isErrorExistNotifications: res.isError,
     existNotification: res.data,
   };
@@ -73,7 +79,9 @@ export const useNotificationsWithPagination = (props: Record<string, any>, optio
 
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingNotifications: res.isLoading,
+    isError: res.isError,
     isErrorNotifications: res.isError,
     notificationsData: res.data,
   };
@@ -89,7 +97,9 @@ export const useNotifications = (props: Record<string, any>, options: QueryOptio
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingNotifications: res.isLoading,
+    isError: res.isError,
     isErrorNotifications: res.isError,
     notificationsData: res.data,
   };
@@ -104,7 +114,9 @@ export const useNotification = (props: Record<string, any>, options: QueryOption
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingNotification: res.isLoading,
+    isError: res.isError,
     isErrorNotification: res.isError,
     notificationData: res.data as Record<string, any> | undefined,
   };
@@ -122,7 +134,9 @@ export const useCreateNotifications = (options: QueryOptions, secondaryOptions?:
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateNotifications: res.isPending,
+    isError: res.isError,
     isErrorCreateNotifications: res.isError,
     createNotifications: res.mutate,
     createdNotifications: res.data,
@@ -141,7 +155,9 @@ export const useCreateListNotifications = (options: QueryOptions, secondaryOptio
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateListNotifications: res.isPending,
+    isError: res.isError,
     isErrorCreateListNotifications: res.isError,
     createListNotifications: res.mutate,
     createdListNotifications: res.data,
@@ -159,7 +175,9 @@ export const useCreateNotification = (options: QueryOptions, secondaryOptions?: 
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateNotification: res.isPending,
+    isError: res.isError,
     isErrorCreateNotification: res.isError,
     createNotification: res.mutate,
     createdNotification: res.data,
@@ -177,7 +195,9 @@ export const useUpdateNotifications = (options: QueryOptions, secondaryOptions?:
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateNotifications: res.isPending,
+    isError: res.isError,
     isErrorUpdateNotifications: res.isError,
     updateNotifications: res.mutate,
     updatedNotifications: res.data,
@@ -195,7 +215,9 @@ export const useUpdateListNotifications = (options: QueryOptions, secondaryOptio
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateListNotifications: res.isPending,
+    isError: res.isError,
     isErrorUpdateListNotifications: res.isError,
     updateListNotifications: res.mutate,
     updatedListNotifications: res.data,
@@ -213,7 +235,9 @@ export const useUpdateNotificationsList = (options: QueryOptions, secondaryOptio
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateNotificationsList: res.isPending,
+    isError: res.isError,
     isErrorUpdateNotificationsList: res.isError,
     updateNotificationsList: res.mutate,
     updatedNotificationsList: res.data,
@@ -231,7 +255,9 @@ export const useUpdateNotification = (options: QueryOptions, secondaryOptions?: 
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateNotification: res.isPending,
+    isError: res.isError,
     isErrorUpdateNotification: res.isError,
     updateNotification: res.mutate,
     updatedNotification: res.data,
@@ -249,7 +275,9 @@ export const useDeleteNotifications = (options: QueryOptions, secondaryOptions?:
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteNotifications: res.isPending,
+    isError: res.isError,
     isErrorDeleteNotifications: res.isError,
     deleteNotifications: res.mutate,
   };
@@ -266,7 +294,9 @@ export const useDeleteAllNotifications = (options: QueryOptions, secondaryOption
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteAllNotifications: res.isPending,
+    isError: res.isError,
     isErrorDeleteAllNotifications: res.isError,
     deleteAllNotifications: res.mutate,
   };
@@ -291,7 +321,9 @@ export const useDeleteNotification = (options: QueryOptions, secondaryOptions?: 
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteNotification: res.isPending,
+    isError: res.isError,
     isErrorDeleteNotification: res.isError,
     deleteNotification: res.mutate,
     deleteNotificationFromTable,

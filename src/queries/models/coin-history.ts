@@ -20,7 +20,9 @@ export const useAggregateCoinHistories = (props: Record<string, any>, options: Q
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingAggregateCoinHistory: res.isLoading,
+    isError: res.isError,
     isErrorAggregateCoinHistory: res.isError,
     aggregateCoinHistories: res.data,
   };
@@ -35,7 +37,9 @@ export const useCountCoinHistories = (props: Record<string, any>, options: Query
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingCountCoinHistory: res.isLoading,
+    isError: res.isError,
     isErrorCountCoinHistory: res.isError,
     countCoinHistories: res.data,
   };
@@ -50,7 +54,9 @@ export const useExistCoinHistory = (props: Record<string, any>, options: QueryOp
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingExistCoinHistory: res.isLoading,
+    isError: res.isError,
     isErrorExistCoinHistory: res.isError,
     existCoinHistory: res.data,
   };
@@ -73,7 +79,9 @@ export const useCoinHistoriesWithPagination = (props: Record<string, any>, optio
 
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingCoinHistories: res.isLoading,
+    isError: res.isError,
     isErrorCoinHistories: res.isError,
     coinHistoriesData: res.data,
   };
@@ -89,7 +97,9 @@ export const useCoinHistories = (props: Record<string, any>, options: QueryOptio
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingCoinHistories: res.isLoading,
+    isError: res.isError,
     isErrorCoinHistories: res.isError,
     coinHistoriesData: res.data,
   };
@@ -104,7 +114,9 @@ export const useCoinHistory = (props: Record<string, any>, options: QueryOptions
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingCoinHistory: res.isLoading,
+    isError: res.isError,
     isErrorCoinHistory: res.isError,
     coinHistoryData: res.data as Record<string, any> | undefined,
   };
@@ -122,7 +134,9 @@ export const useCreateCoinHistories = (options: QueryOptions, secondaryOptions?:
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateCoinHistories: res.isPending,
+    isError: res.isError,
     isErrorCreateCoinHistories: res.isError,
     createCoinHistories: res.mutate,
     createdCoinHistories: res.data,
@@ -141,7 +155,9 @@ export const useCreateListCoinHistories = (options: QueryOptions, secondaryOptio
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateListCoinHistories: res.isPending,
+    isError: res.isError,
     isErrorCreateListCoinHistories: res.isError,
     createListCoinHistories: res.mutate,
     createdListCoinHistories: res.data,
@@ -159,7 +175,9 @@ export const useCreateCoinHistory = (options: QueryOptions, secondaryOptions?: Q
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateCoinHistory: res.isPending,
+    isError: res.isError,
     isErrorCreateCoinHistory: res.isError,
     createCoinHistory: res.mutate,
     createdCoinHistory: res.data,
@@ -177,7 +195,9 @@ export const useUpdateCoinHistories = (options: QueryOptions, secondaryOptions?:
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateCoinHistories: res.isPending,
+    isError: res.isError,
     isErrorUpdateCoinHistories: res.isError,
     updateCoinHistories: res.mutate,
     updatedCoinHistories: res.data,
@@ -195,7 +215,9 @@ export const useUpdateListCoinHistories = (options: QueryOptions, secondaryOptio
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateListCoinHistories: res.isPending,
+    isError: res.isError,
     isErrorUpdateListCoinHistories: res.isError,
     updateListCoinHistories: res.mutate,
     updatedListCoinHistories: res.data,
@@ -213,7 +235,9 @@ export const useUpdateCoinHistoriesList = (options: QueryOptions, secondaryOptio
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateCoinHistoriesList: res.isPending,
+    isError: res.isError,
     isErrorUpdateCoinHistoriesList: res.isError,
     updateCoinHistoriesList: res.mutate,
     updatedCoinHistoriesList: res.data,
@@ -231,7 +255,9 @@ export const useUpdateCoinHistory = (options: QueryOptions, secondaryOptions?: Q
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateCoinHistory: res.isPending,
+    isError: res.isError,
     isErrorUpdateCoinHistory: res.isError,
     updateCoinHistory: res.mutate,
     updatedCoinHistory: res.data,
@@ -249,7 +275,9 @@ export const useDeleteCoinHistories = (options: QueryOptions, secondaryOptions?:
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteCoinHistories: res.isPending,
+    isError: res.isError,
     isErrorDeleteCoinHistories: res.isError,
     deleteCoinHistories: res.mutate,
   };
@@ -266,7 +294,9 @@ export const useDeleteAllCoinHistories = (options: QueryOptions, secondaryOption
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteAllCoinHistories: res.isPending,
+    isError: res.isError,
     isErrorDeleteAllCoinHistories: res.isError,
     deleteAllCoinHistories: res.mutate,
   };
@@ -291,7 +321,9 @@ export const useDeleteCoinHistory = (options: QueryOptions, secondaryOptions?: Q
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteCoinHistory: res.isPending,
+    isError: res.isError,
     isErrorDeleteCoinHistory: res.isError,
     deleteCoinHistory: res.mutate,
     deleteCoinHistoryFromTable,

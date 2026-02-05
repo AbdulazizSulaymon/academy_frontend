@@ -20,7 +20,9 @@ export const useAggregateProducts = (props: Record<string, any>, options: QueryO
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingAggregateProduct: res.isLoading,
+    isError: res.isError,
     isErrorAggregateProduct: res.isError,
     aggregateProducts: res.data,
   };
@@ -35,7 +37,9 @@ export const useCountProducts = (props: Record<string, any>, options: QueryOptio
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingCountProduct: res.isLoading,
+    isError: res.isError,
     isErrorCountProduct: res.isError,
     countProducts: res.data,
   };
@@ -50,7 +54,9 @@ export const useExistProduct = (props: Record<string, any>, options: QueryOption
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingExistProduct: res.isLoading,
+    isError: res.isError,
     isErrorExistProduct: res.isError,
     existProduct: res.data,
   };
@@ -71,7 +77,14 @@ export const useProductsWithPagination = (props: Record<string, any>, options: Q
     ...options,
   });
 
-  return { ...res, isLoadingProducts: res.isLoading, isErrorProducts: res.isError, productsData: res.data };
+  return {
+    ...res,
+    isLoading: res.isLoading,
+    isLoadingProducts: res.isLoading,
+    isError: res.isError,
+    isErrorProducts: res.isError,
+    productsData: res.data,
+  };
 };
 
 export const useProducts = (props: Record<string, any>, options: QueryOptions = {}) => {
@@ -82,7 +95,14 @@ export const useProducts = (props: Record<string, any>, options: QueryOptions = 
     enabled: options.enabled != undefined ? !!options.enabled : undefined,
     ...options,
   });
-  return { ...res, isLoadingProducts: res.isLoading, isErrorProducts: res.isError, productsData: res.data };
+  return {
+    ...res,
+    isLoading: res.isLoading,
+    isLoadingProducts: res.isLoading,
+    isError: res.isError,
+    isErrorProducts: res.isError,
+    productsData: res.data,
+  };
 };
 
 export const useProduct = (props: Record<string, any>, options: QueryOptions = {}) => {
@@ -94,7 +114,9 @@ export const useProduct = (props: Record<string, any>, options: QueryOptions = {
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingProduct: res.isLoading,
+    isError: res.isError,
     isErrorProduct: res.isError,
     productData: res.data as Record<string, any> | undefined,
   };
@@ -112,7 +134,9 @@ export const useCreateProducts = (options: QueryOptions, secondaryOptions?: Quer
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateProducts: res.isPending,
+    isError: res.isError,
     isErrorCreateProducts: res.isError,
     createProducts: res.mutate,
     createdProducts: res.data,
@@ -131,7 +155,9 @@ export const useCreateListProducts = (options: QueryOptions, secondaryOptions?: 
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateListProducts: res.isPending,
+    isError: res.isError,
     isErrorCreateListProducts: res.isError,
     createListProducts: res.mutate,
     createdListProducts: res.data,
@@ -149,7 +175,9 @@ export const useCreateProduct = (options: QueryOptions, secondaryOptions?: Query
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateProduct: res.isPending,
+    isError: res.isError,
     isErrorCreateProduct: res.isError,
     createProduct: res.mutate,
     createdProduct: res.data,
@@ -167,7 +195,9 @@ export const useUpdateProducts = (options: QueryOptions, secondaryOptions?: Quer
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateProducts: res.isPending,
+    isError: res.isError,
     isErrorUpdateProducts: res.isError,
     updateProducts: res.mutate,
     updatedProducts: res.data,
@@ -185,7 +215,9 @@ export const useUpdateListProducts = (options: QueryOptions, secondaryOptions?: 
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateListProducts: res.isPending,
+    isError: res.isError,
     isErrorUpdateListProducts: res.isError,
     updateListProducts: res.mutate,
     updatedListProducts: res.data,
@@ -203,7 +235,9 @@ export const useUpdateProductsList = (options: QueryOptions, secondaryOptions?: 
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateProductsList: res.isPending,
+    isError: res.isError,
     isErrorUpdateProductsList: res.isError,
     updateProductsList: res.mutate,
     updatedProductsList: res.data,
@@ -221,7 +255,9 @@ export const useUpdateProduct = (options: QueryOptions, secondaryOptions?: Query
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateProduct: res.isPending,
+    isError: res.isError,
     isErrorUpdateProduct: res.isError,
     updateProduct: res.mutate,
     updatedProduct: res.data,
@@ -239,7 +275,9 @@ export const useDeleteProducts = (options: QueryOptions, secondaryOptions?: Quer
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteProducts: res.isPending,
+    isError: res.isError,
     isErrorDeleteProducts: res.isError,
     deleteProducts: res.mutate,
   };
@@ -256,7 +294,9 @@ export const useDeleteAllProducts = (options: QueryOptions, secondaryOptions?: Q
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteAllProducts: res.isPending,
+    isError: res.isError,
     isErrorDeleteAllProducts: res.isError,
     deleteAllProducts: res.mutate,
   };
@@ -281,7 +321,9 @@ export const useDeleteProduct = (options: QueryOptions, secondaryOptions?: Query
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteProduct: res.isPending,
+    isError: res.isError,
     isErrorDeleteProduct: res.isError,
     deleteProduct: res.mutate,
     deleteProductFromTable,

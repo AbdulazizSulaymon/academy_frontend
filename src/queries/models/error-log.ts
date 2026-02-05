@@ -20,7 +20,9 @@ export const useAggregateErrorLogs = (props: Record<string, any>, options: Query
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingAggregateErrorLog: res.isLoading,
+    isError: res.isError,
     isErrorAggregateErrorLog: res.isError,
     aggregateErrorLogs: res.data,
   };
@@ -35,7 +37,9 @@ export const useCountErrorLogs = (props: Record<string, any>, options: QueryOpti
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingCountErrorLog: res.isLoading,
+    isError: res.isError,
     isErrorCountErrorLog: res.isError,
     countErrorLogs: res.data,
   };
@@ -50,7 +54,9 @@ export const useExistErrorLog = (props: Record<string, any>, options: QueryOptio
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingExistErrorLog: res.isLoading,
+    isError: res.isError,
     isErrorExistErrorLog: res.isError,
     existErrorLog: res.data,
   };
@@ -71,7 +77,14 @@ export const useErrorLogsWithPagination = (props: Record<string, any>, options: 
     ...options,
   });
 
-  return { ...res, isLoadingErrorLogs: res.isLoading, isErrorErrorLogs: res.isError, errorLogsData: res.data };
+  return {
+    ...res,
+    isLoading: res.isLoading,
+    isLoadingErrorLogs: res.isLoading,
+    isError: res.isError,
+    isErrorErrorLogs: res.isError,
+    errorLogsData: res.data,
+  };
 };
 
 export const useErrorLogs = (props: Record<string, any>, options: QueryOptions = {}) => {
@@ -82,7 +95,14 @@ export const useErrorLogs = (props: Record<string, any>, options: QueryOptions =
     enabled: options.enabled != undefined ? !!options.enabled : undefined,
     ...options,
   });
-  return { ...res, isLoadingErrorLogs: res.isLoading, isErrorErrorLogs: res.isError, errorLogsData: res.data };
+  return {
+    ...res,
+    isLoading: res.isLoading,
+    isLoadingErrorLogs: res.isLoading,
+    isError: res.isError,
+    isErrorErrorLogs: res.isError,
+    errorLogsData: res.data,
+  };
 };
 
 export const useErrorLog = (props: Record<string, any>, options: QueryOptions = {}) => {
@@ -94,7 +114,9 @@ export const useErrorLog = (props: Record<string, any>, options: QueryOptions = 
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingErrorLog: res.isLoading,
+    isError: res.isError,
     isErrorErrorLog: res.isError,
     errorLogData: res.data as Record<string, any> | undefined,
   };
@@ -112,7 +134,9 @@ export const useCreateErrorLogs = (options: QueryOptions, secondaryOptions?: Que
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateErrorLogs: res.isPending,
+    isError: res.isError,
     isErrorCreateErrorLogs: res.isError,
     createErrorLogs: res.mutate,
     createdErrorLogs: res.data,
@@ -131,7 +155,9 @@ export const useCreateListErrorLogs = (options: QueryOptions, secondaryOptions?:
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateListErrorLogs: res.isPending,
+    isError: res.isError,
     isErrorCreateListErrorLogs: res.isError,
     createListErrorLogs: res.mutate,
     createdListErrorLogs: res.data,
@@ -149,7 +175,9 @@ export const useCreateErrorLog = (options: QueryOptions, secondaryOptions?: Quer
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateErrorLog: res.isPending,
+    isError: res.isError,
     isErrorCreateErrorLog: res.isError,
     createErrorLog: res.mutate,
     createdErrorLog: res.data,
@@ -167,7 +195,9 @@ export const useUpdateErrorLogs = (options: QueryOptions, secondaryOptions?: Que
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateErrorLogs: res.isPending,
+    isError: res.isError,
     isErrorUpdateErrorLogs: res.isError,
     updateErrorLogs: res.mutate,
     updatedErrorLogs: res.data,
@@ -185,7 +215,9 @@ export const useUpdateListErrorLogs = (options: QueryOptions, secondaryOptions?:
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateListErrorLogs: res.isPending,
+    isError: res.isError,
     isErrorUpdateListErrorLogs: res.isError,
     updateListErrorLogs: res.mutate,
     updatedListErrorLogs: res.data,
@@ -203,7 +235,9 @@ export const useUpdateErrorLogsList = (options: QueryOptions, secondaryOptions?:
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateErrorLogsList: res.isPending,
+    isError: res.isError,
     isErrorUpdateErrorLogsList: res.isError,
     updateErrorLogsList: res.mutate,
     updatedErrorLogsList: res.data,
@@ -221,7 +255,9 @@ export const useUpdateErrorLog = (options: QueryOptions, secondaryOptions?: Quer
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateErrorLog: res.isPending,
+    isError: res.isError,
     isErrorUpdateErrorLog: res.isError,
     updateErrorLog: res.mutate,
     updatedErrorLog: res.data,
@@ -239,7 +275,9 @@ export const useDeleteErrorLogs = (options: QueryOptions, secondaryOptions?: Que
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteErrorLogs: res.isPending,
+    isError: res.isError,
     isErrorDeleteErrorLogs: res.isError,
     deleteErrorLogs: res.mutate,
   };
@@ -256,7 +294,9 @@ export const useDeleteAllErrorLogs = (options: QueryOptions, secondaryOptions?: 
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteAllErrorLogs: res.isPending,
+    isError: res.isError,
     isErrorDeleteAllErrorLogs: res.isError,
     deleteAllErrorLogs: res.mutate,
   };
@@ -281,7 +321,9 @@ export const useDeleteErrorLog = (options: QueryOptions, secondaryOptions?: Quer
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteErrorLog: res.isPending,
+    isError: res.isError,
     isErrorDeleteErrorLog: res.isError,
     deleteErrorLog: res.mutate,
     deleteErrorLogFromTable,

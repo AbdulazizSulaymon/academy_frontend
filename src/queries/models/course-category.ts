@@ -20,7 +20,9 @@ export const useAggregateCourseCategories = (props: Record<string, any>, options
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingAggregateCourseCategory: res.isLoading,
+    isError: res.isError,
     isErrorAggregateCourseCategory: res.isError,
     aggregateCourseCategories: res.data,
   };
@@ -35,7 +37,9 @@ export const useCountCourseCategories = (props: Record<string, any>, options: Qu
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingCountCourseCategory: res.isLoading,
+    isError: res.isError,
     isErrorCountCourseCategory: res.isError,
     countCourseCategories: res.data,
   };
@@ -50,7 +54,9 @@ export const useExistCourseCategory = (props: Record<string, any>, options: Quer
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingExistCourseCategory: res.isLoading,
+    isError: res.isError,
     isErrorExistCourseCategory: res.isError,
     existCourseCategory: res.data,
   };
@@ -73,7 +79,9 @@ export const useCourseCategoriesWithPagination = (props: Record<string, any>, op
 
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingCourseCategories: res.isLoading,
+    isError: res.isError,
     isErrorCourseCategories: res.isError,
     courseCategoriesData: res.data,
   };
@@ -89,7 +97,9 @@ export const useCourseCategories = (props: Record<string, any>, options: QueryOp
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingCourseCategories: res.isLoading,
+    isError: res.isError,
     isErrorCourseCategories: res.isError,
     courseCategoriesData: res.data,
   };
@@ -104,7 +114,9 @@ export const useCourseCategory = (props: Record<string, any>, options: QueryOpti
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingCourseCategory: res.isLoading,
+    isError: res.isError,
     isErrorCourseCategory: res.isError,
     courseCategoryData: res.data as Record<string, any> | undefined,
   };
@@ -122,7 +134,9 @@ export const useCreateCourseCategories = (options: QueryOptions, secondaryOption
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateCourseCategories: res.isPending,
+    isError: res.isError,
     isErrorCreateCourseCategories: res.isError,
     createCourseCategories: res.mutate,
     createdCourseCategories: res.data,
@@ -141,7 +155,9 @@ export const useCreateListCourseCategories = (options: QueryOptions, secondaryOp
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateListCourseCategories: res.isPending,
+    isError: res.isError,
     isErrorCreateListCourseCategories: res.isError,
     createListCourseCategories: res.mutate,
     createdListCourseCategories: res.data,
@@ -159,7 +175,9 @@ export const useCreateCourseCategory = (options: QueryOptions, secondaryOptions?
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateCourseCategory: res.isPending,
+    isError: res.isError,
     isErrorCreateCourseCategory: res.isError,
     createCourseCategory: res.mutate,
     createdCourseCategory: res.data,
@@ -177,7 +195,9 @@ export const useUpdateCourseCategories = (options: QueryOptions, secondaryOption
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateCourseCategories: res.isPending,
+    isError: res.isError,
     isErrorUpdateCourseCategories: res.isError,
     updateCourseCategories: res.mutate,
     updatedCourseCategories: res.data,
@@ -195,7 +215,9 @@ export const useUpdateListCourseCategories = (options: QueryOptions, secondaryOp
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateListCourseCategories: res.isPending,
+    isError: res.isError,
     isErrorUpdateListCourseCategories: res.isError,
     updateListCourseCategories: res.mutate,
     updatedListCourseCategories: res.data,
@@ -213,7 +235,9 @@ export const useUpdateCourseCategoriesList = (options: QueryOptions, secondaryOp
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateCourseCategoriesList: res.isPending,
+    isError: res.isError,
     isErrorUpdateCourseCategoriesList: res.isError,
     updateCourseCategoriesList: res.mutate,
     updatedCourseCategoriesList: res.data,
@@ -231,7 +255,9 @@ export const useUpdateCourseCategory = (options: QueryOptions, secondaryOptions?
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateCourseCategory: res.isPending,
+    isError: res.isError,
     isErrorUpdateCourseCategory: res.isError,
     updateCourseCategory: res.mutate,
     updatedCourseCategory: res.data,
@@ -249,7 +275,9 @@ export const useDeleteCourseCategories = (options: QueryOptions, secondaryOption
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteCourseCategories: res.isPending,
+    isError: res.isError,
     isErrorDeleteCourseCategories: res.isError,
     deleteCourseCategories: res.mutate,
   };
@@ -266,7 +294,9 @@ export const useDeleteAllCourseCategories = (options: QueryOptions, secondaryOpt
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteAllCourseCategories: res.isPending,
+    isError: res.isError,
     isErrorDeleteAllCourseCategories: res.isError,
     deleteAllCourseCategories: res.mutate,
   };
@@ -291,7 +321,9 @@ export const useDeleteCourseCategory = (options: QueryOptions, secondaryOptions?
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteCourseCategory: res.isPending,
+    isError: res.isError,
     isErrorDeleteCourseCategory: res.isError,
     deleteCourseCategory: res.mutate,
     deleteCourseCategoryFromTable,

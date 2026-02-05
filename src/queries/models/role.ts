@@ -20,7 +20,9 @@ export const useAggregateRoles = (props: Record<string, any>, options: QueryOpti
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingAggregateRole: res.isLoading,
+    isError: res.isError,
     isErrorAggregateRole: res.isError,
     aggregateRoles: res.data,
   };
@@ -35,7 +37,9 @@ export const useCountRoles = (props: Record<string, any>, options: QueryOptions 
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingCountRole: res.isLoading,
+    isError: res.isError,
     isErrorCountRole: res.isError,
     countRoles: res.data,
   };
@@ -50,7 +54,9 @@ export const useExistRole = (props: Record<string, any>, options: QueryOptions =
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingExistRole: res.isLoading,
+    isError: res.isError,
     isErrorExistRole: res.isError,
     existRole: res.data,
   };
@@ -71,7 +77,14 @@ export const useRolesWithPagination = (props: Record<string, any>, options: Quer
     ...options,
   });
 
-  return { ...res, isLoadingRoles: res.isLoading, isErrorRoles: res.isError, rolesData: res.data };
+  return {
+    ...res,
+    isLoading: res.isLoading,
+    isLoadingRoles: res.isLoading,
+    isError: res.isError,
+    isErrorRoles: res.isError,
+    rolesData: res.data,
+  };
 };
 
 export const useRoles = (props: Record<string, any>, options: QueryOptions = {}) => {
@@ -82,7 +95,14 @@ export const useRoles = (props: Record<string, any>, options: QueryOptions = {})
     enabled: options.enabled != undefined ? !!options.enabled : undefined,
     ...options,
   });
-  return { ...res, isLoadingRoles: res.isLoading, isErrorRoles: res.isError, rolesData: res.data };
+  return {
+    ...res,
+    isLoading: res.isLoading,
+    isLoadingRoles: res.isLoading,
+    isError: res.isError,
+    isErrorRoles: res.isError,
+    rolesData: res.data,
+  };
 };
 
 export const useRole = (props: Record<string, any>, options: QueryOptions = {}) => {
@@ -94,7 +114,9 @@ export const useRole = (props: Record<string, any>, options: QueryOptions = {}) 
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingRole: res.isLoading,
+    isError: res.isError,
     isErrorRole: res.isError,
     roleData: res.data as Record<string, any> | undefined,
   };
@@ -112,7 +134,9 @@ export const useCreateRoles = (options: QueryOptions, secondaryOptions?: QuerySe
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateRoles: res.isPending,
+    isError: res.isError,
     isErrorCreateRoles: res.isError,
     createRoles: res.mutate,
     createdRoles: res.data,
@@ -131,7 +155,9 @@ export const useCreateListRoles = (options: QueryOptions, secondaryOptions?: Que
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateListRoles: res.isPending,
+    isError: res.isError,
     isErrorCreateListRoles: res.isError,
     createListRoles: res.mutate,
     createdListRoles: res.data,
@@ -149,7 +175,9 @@ export const useCreateRole = (options: QueryOptions, secondaryOptions?: QuerySec
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateRole: res.isPending,
+    isError: res.isError,
     isErrorCreateRole: res.isError,
     createRole: res.mutate,
     createdRole: res.data,
@@ -167,7 +195,9 @@ export const useUpdateRoles = (options: QueryOptions, secondaryOptions?: QuerySe
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateRoles: res.isPending,
+    isError: res.isError,
     isErrorUpdateRoles: res.isError,
     updateRoles: res.mutate,
     updatedRoles: res.data,
@@ -185,7 +215,9 @@ export const useUpdateListRoles = (options: QueryOptions, secondaryOptions?: Que
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateListRoles: res.isPending,
+    isError: res.isError,
     isErrorUpdateListRoles: res.isError,
     updateListRoles: res.mutate,
     updatedListRoles: res.data,
@@ -203,7 +235,9 @@ export const useUpdateRolesList = (options: QueryOptions, secondaryOptions?: Que
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateRolesList: res.isPending,
+    isError: res.isError,
     isErrorUpdateRolesList: res.isError,
     updateRolesList: res.mutate,
     updatedRolesList: res.data,
@@ -221,7 +255,9 @@ export const useUpdateRole = (options: QueryOptions, secondaryOptions?: QuerySec
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateRole: res.isPending,
+    isError: res.isError,
     isErrorUpdateRole: res.isError,
     updateRole: res.mutate,
     updatedRole: res.data,
@@ -239,7 +275,9 @@ export const useDeleteRoles = (options: QueryOptions, secondaryOptions?: QuerySe
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteRoles: res.isPending,
+    isError: res.isError,
     isErrorDeleteRoles: res.isError,
     deleteRoles: res.mutate,
   };
@@ -256,7 +294,9 @@ export const useDeleteAllRoles = (options: QueryOptions, secondaryOptions?: Quer
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteAllRoles: res.isPending,
+    isError: res.isError,
     isErrorDeleteAllRoles: res.isError,
     deleteAllRoles: res.mutate,
   };
@@ -281,7 +321,9 @@ export const useDeleteRole = (options: QueryOptions, secondaryOptions?: QuerySec
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteRole: res.isPending,
+    isError: res.isError,
     isErrorDeleteRole: res.isError,
     deleteRole: res.mutate,
     deleteRoleFromTable,

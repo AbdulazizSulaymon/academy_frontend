@@ -20,7 +20,9 @@ export const useAggregateShopCategories = (props: Record<string, any>, options: 
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingAggregateShopCategory: res.isLoading,
+    isError: res.isError,
     isErrorAggregateShopCategory: res.isError,
     aggregateShopCategories: res.data,
   };
@@ -35,7 +37,9 @@ export const useCountShopCategories = (props: Record<string, any>, options: Quer
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingCountShopCategory: res.isLoading,
+    isError: res.isError,
     isErrorCountShopCategory: res.isError,
     countShopCategories: res.data,
   };
@@ -50,7 +54,9 @@ export const useExistShopCategory = (props: Record<string, any>, options: QueryO
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingExistShopCategory: res.isLoading,
+    isError: res.isError,
     isErrorExistShopCategory: res.isError,
     existShopCategory: res.data,
   };
@@ -73,7 +79,9 @@ export const useShopCategoriesWithPagination = (props: Record<string, any>, opti
 
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingShopCategories: res.isLoading,
+    isError: res.isError,
     isErrorShopCategories: res.isError,
     shopCategoriesData: res.data,
   };
@@ -89,7 +97,9 @@ export const useShopCategories = (props: Record<string, any>, options: QueryOpti
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingShopCategories: res.isLoading,
+    isError: res.isError,
     isErrorShopCategories: res.isError,
     shopCategoriesData: res.data,
   };
@@ -104,7 +114,9 @@ export const useShopCategory = (props: Record<string, any>, options: QueryOption
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingShopCategory: res.isLoading,
+    isError: res.isError,
     isErrorShopCategory: res.isError,
     shopCategoryData: res.data as Record<string, any> | undefined,
   };
@@ -122,7 +134,9 @@ export const useCreateShopCategories = (options: QueryOptions, secondaryOptions?
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateShopCategories: res.isPending,
+    isError: res.isError,
     isErrorCreateShopCategories: res.isError,
     createShopCategories: res.mutate,
     createdShopCategories: res.data,
@@ -141,7 +155,9 @@ export const useCreateListShopCategories = (options: QueryOptions, secondaryOpti
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateListShopCategories: res.isPending,
+    isError: res.isError,
     isErrorCreateListShopCategories: res.isError,
     createListShopCategories: res.mutate,
     createdListShopCategories: res.data,
@@ -159,7 +175,9 @@ export const useCreateShopCategory = (options: QueryOptions, secondaryOptions?: 
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateShopCategory: res.isPending,
+    isError: res.isError,
     isErrorCreateShopCategory: res.isError,
     createShopCategory: res.mutate,
     createdShopCategory: res.data,
@@ -177,7 +195,9 @@ export const useUpdateShopCategories = (options: QueryOptions, secondaryOptions?
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateShopCategories: res.isPending,
+    isError: res.isError,
     isErrorUpdateShopCategories: res.isError,
     updateShopCategories: res.mutate,
     updatedShopCategories: res.data,
@@ -195,7 +215,9 @@ export const useUpdateListShopCategories = (options: QueryOptions, secondaryOpti
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateListShopCategories: res.isPending,
+    isError: res.isError,
     isErrorUpdateListShopCategories: res.isError,
     updateListShopCategories: res.mutate,
     updatedListShopCategories: res.data,
@@ -213,7 +235,9 @@ export const useUpdateShopCategoriesList = (options: QueryOptions, secondaryOpti
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateShopCategoriesList: res.isPending,
+    isError: res.isError,
     isErrorUpdateShopCategoriesList: res.isError,
     updateShopCategoriesList: res.mutate,
     updatedShopCategoriesList: res.data,
@@ -231,7 +255,9 @@ export const useUpdateShopCategory = (options: QueryOptions, secondaryOptions?: 
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateShopCategory: res.isPending,
+    isError: res.isError,
     isErrorUpdateShopCategory: res.isError,
     updateShopCategory: res.mutate,
     updatedShopCategory: res.data,
@@ -249,7 +275,9 @@ export const useDeleteShopCategories = (options: QueryOptions, secondaryOptions?
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteShopCategories: res.isPending,
+    isError: res.isError,
     isErrorDeleteShopCategories: res.isError,
     deleteShopCategories: res.mutate,
   };
@@ -266,7 +294,9 @@ export const useDeleteAllShopCategories = (options: QueryOptions, secondaryOptio
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteAllShopCategories: res.isPending,
+    isError: res.isError,
     isErrorDeleteAllShopCategories: res.isError,
     deleteAllShopCategories: res.mutate,
   };
@@ -291,7 +321,9 @@ export const useDeleteShopCategory = (options: QueryOptions, secondaryOptions?: 
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteShopCategory: res.isPending,
+    isError: res.isError,
     isErrorDeleteShopCategory: res.isError,
     deleteShopCategory: res.mutate,
     deleteShopCategoryFromTable,

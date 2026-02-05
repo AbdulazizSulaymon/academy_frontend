@@ -20,7 +20,9 @@ export const useAggregateNotes = (props: Record<string, any>, options: QueryOpti
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingAggregateNotes: res.isLoading,
+    isError: res.isError,
     isErrorAggregateNotes: res.isError,
     aggregateNotes: res.data,
   };
@@ -35,7 +37,9 @@ export const useCountNotes = (props: Record<string, any>, options: QueryOptions 
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingCountNotes: res.isLoading,
+    isError: res.isError,
     isErrorCountNotes: res.isError,
     countNotes: res.data,
   };
@@ -50,7 +54,9 @@ export const useExistNote = (props: Record<string, any>, options: QueryOptions =
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingExistNotes: res.isLoading,
+    isError: res.isError,
     isErrorExistNotes: res.isError,
     existNote: res.data,
   };
@@ -71,7 +77,14 @@ export const useNotesWithPagination = (props: Record<string, any>, options: Quer
     ...options,
   });
 
-  return { ...res, isLoadingNotes: res.isLoading, isErrorNotes: res.isError, notesData: res.data };
+  return {
+    ...res,
+    isLoading: res.isLoading,
+    isLoadingNotes: res.isLoading,
+    isError: res.isError,
+    isErrorNotes: res.isError,
+    notesData: res.data,
+  };
 };
 
 export const useNotes = (props: Record<string, any>, options: QueryOptions = {}) => {
@@ -82,7 +95,14 @@ export const useNotes = (props: Record<string, any>, options: QueryOptions = {})
     enabled: options.enabled != undefined ? !!options.enabled : undefined,
     ...options,
   });
-  return { ...res, isLoadingNotes: res.isLoading, isErrorNotes: res.isError, notesData: res.data };
+  return {
+    ...res,
+    isLoading: res.isLoading,
+    isLoadingNotes: res.isLoading,
+    isError: res.isError,
+    isErrorNotes: res.isError,
+    notesData: res.data,
+  };
 };
 
 export const useNote = (props: Record<string, any>, options: QueryOptions = {}) => {
@@ -94,7 +114,9 @@ export const useNote = (props: Record<string, any>, options: QueryOptions = {}) 
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingNote: res.isLoading,
+    isError: res.isError,
     isErrorNote: res.isError,
     noteData: res.data as Record<string, any> | undefined,
   };
@@ -112,7 +134,9 @@ export const useCreateNotes = (options: QueryOptions, secondaryOptions?: QuerySe
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateNotes: res.isPending,
+    isError: res.isError,
     isErrorCreateNotes: res.isError,
     createNotes: res.mutate,
     createdNotes: res.data,
@@ -131,7 +155,9 @@ export const useCreateListNotes = (options: QueryOptions, secondaryOptions?: Que
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateListNotes: res.isPending,
+    isError: res.isError,
     isErrorCreateListNotes: res.isError,
     createListNotes: res.mutate,
     createdListNotes: res.data,
@@ -149,7 +175,9 @@ export const useCreateNote = (options: QueryOptions, secondaryOptions?: QuerySec
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateNote: res.isPending,
+    isError: res.isError,
     isErrorCreateNote: res.isError,
     createNote: res.mutate,
     createdNote: res.data,
@@ -167,7 +195,9 @@ export const useUpdateNotes = (options: QueryOptions, secondaryOptions?: QuerySe
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateNotes: res.isPending,
+    isError: res.isError,
     isErrorUpdateNotes: res.isError,
     updateNotes: res.mutate,
     updatedNotes: res.data,
@@ -185,7 +215,9 @@ export const useUpdateListNotes = (options: QueryOptions, secondaryOptions?: Que
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateListNotes: res.isPending,
+    isError: res.isError,
     isErrorUpdateListNotes: res.isError,
     updateListNotes: res.mutate,
     updatedListNotes: res.data,
@@ -203,7 +235,9 @@ export const useUpdateNotesList = (options: QueryOptions, secondaryOptions?: Que
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateNotesList: res.isPending,
+    isError: res.isError,
     isErrorUpdateNotesList: res.isError,
     updateNotesList: res.mutate,
     updatedNotesList: res.data,
@@ -221,7 +255,9 @@ export const useUpdateNote = (options: QueryOptions, secondaryOptions?: QuerySec
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateNote: res.isPending,
+    isError: res.isError,
     isErrorUpdateNote: res.isError,
     updateNote: res.mutate,
     updatedNote: res.data,
@@ -239,7 +275,9 @@ export const useDeleteNotes = (options: QueryOptions, secondaryOptions?: QuerySe
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteNotes: res.isPending,
+    isError: res.isError,
     isErrorDeleteNotes: res.isError,
     deleteNotes: res.mutate,
   };
@@ -256,7 +294,9 @@ export const useDeleteAllNotes = (options: QueryOptions, secondaryOptions?: Quer
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteAllNotes: res.isPending,
+    isError: res.isError,
     isErrorDeleteAllNotes: res.isError,
     deleteAllNotes: res.mutate,
   };
@@ -281,7 +321,9 @@ export const useDeleteNote = (options: QueryOptions, secondaryOptions?: QuerySec
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteNote: res.isPending,
+    isError: res.isError,
     isErrorDeleteNote: res.isError,
     deleteNote: res.mutate,
     deleteNoteFromTable,

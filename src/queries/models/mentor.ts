@@ -20,7 +20,9 @@ export const useAggregateMentors = (props: Record<string, any>, options: QueryOp
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingAggregateMentor: res.isLoading,
+    isError: res.isError,
     isErrorAggregateMentor: res.isError,
     aggregateMentors: res.data,
   };
@@ -35,7 +37,9 @@ export const useCountMentors = (props: Record<string, any>, options: QueryOption
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingCountMentor: res.isLoading,
+    isError: res.isError,
     isErrorCountMentor: res.isError,
     countMentors: res.data,
   };
@@ -50,7 +54,9 @@ export const useExistMentor = (props: Record<string, any>, options: QueryOptions
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingExistMentor: res.isLoading,
+    isError: res.isError,
     isErrorExistMentor: res.isError,
     existMentor: res.data,
   };
@@ -71,7 +77,14 @@ export const useMentorsWithPagination = (props: Record<string, any>, options: Qu
     ...options,
   });
 
-  return { ...res, isLoadingMentors: res.isLoading, isErrorMentors: res.isError, mentorsData: res.data };
+  return {
+    ...res,
+    isLoading: res.isLoading,
+    isLoadingMentors: res.isLoading,
+    isError: res.isError,
+    isErrorMentors: res.isError,
+    mentorsData: res.data,
+  };
 };
 
 export const useMentors = (props: Record<string, any>, options: QueryOptions = {}) => {
@@ -82,7 +95,14 @@ export const useMentors = (props: Record<string, any>, options: QueryOptions = {
     enabled: options.enabled != undefined ? !!options.enabled : undefined,
     ...options,
   });
-  return { ...res, isLoadingMentors: res.isLoading, isErrorMentors: res.isError, mentorsData: res.data };
+  return {
+    ...res,
+    isLoading: res.isLoading,
+    isLoadingMentors: res.isLoading,
+    isError: res.isError,
+    isErrorMentors: res.isError,
+    mentorsData: res.data,
+  };
 };
 
 export const useMentor = (props: Record<string, any>, options: QueryOptions = {}) => {
@@ -94,7 +114,9 @@ export const useMentor = (props: Record<string, any>, options: QueryOptions = {}
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingMentor: res.isLoading,
+    isError: res.isError,
     isErrorMentor: res.isError,
     mentorData: res.data as Record<string, any> | undefined,
   };
@@ -112,7 +134,9 @@ export const useCreateMentors = (options: QueryOptions, secondaryOptions?: Query
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateMentors: res.isPending,
+    isError: res.isError,
     isErrorCreateMentors: res.isError,
     createMentors: res.mutate,
     createdMentors: res.data,
@@ -131,7 +155,9 @@ export const useCreateListMentors = (options: QueryOptions, secondaryOptions?: Q
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateListMentors: res.isPending,
+    isError: res.isError,
     isErrorCreateListMentors: res.isError,
     createListMentors: res.mutate,
     createdListMentors: res.data,
@@ -149,7 +175,9 @@ export const useCreateMentor = (options: QueryOptions, secondaryOptions?: QueryS
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateMentor: res.isPending,
+    isError: res.isError,
     isErrorCreateMentor: res.isError,
     createMentor: res.mutate,
     createdMentor: res.data,
@@ -167,7 +195,9 @@ export const useUpdateMentors = (options: QueryOptions, secondaryOptions?: Query
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateMentors: res.isPending,
+    isError: res.isError,
     isErrorUpdateMentors: res.isError,
     updateMentors: res.mutate,
     updatedMentors: res.data,
@@ -185,7 +215,9 @@ export const useUpdateListMentors = (options: QueryOptions, secondaryOptions?: Q
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateListMentors: res.isPending,
+    isError: res.isError,
     isErrorUpdateListMentors: res.isError,
     updateListMentors: res.mutate,
     updatedListMentors: res.data,
@@ -203,7 +235,9 @@ export const useUpdateMentorsList = (options: QueryOptions, secondaryOptions?: Q
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateMentorsList: res.isPending,
+    isError: res.isError,
     isErrorUpdateMentorsList: res.isError,
     updateMentorsList: res.mutate,
     updatedMentorsList: res.data,
@@ -221,7 +255,9 @@ export const useUpdateMentor = (options: QueryOptions, secondaryOptions?: QueryS
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateMentor: res.isPending,
+    isError: res.isError,
     isErrorUpdateMentor: res.isError,
     updateMentor: res.mutate,
     updatedMentor: res.data,
@@ -239,7 +275,9 @@ export const useDeleteMentors = (options: QueryOptions, secondaryOptions?: Query
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteMentors: res.isPending,
+    isError: res.isError,
     isErrorDeleteMentors: res.isError,
     deleteMentors: res.mutate,
   };
@@ -256,7 +294,9 @@ export const useDeleteAllMentors = (options: QueryOptions, secondaryOptions?: Qu
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteAllMentors: res.isPending,
+    isError: res.isError,
     isErrorDeleteAllMentors: res.isError,
     deleteAllMentors: res.mutate,
   };
@@ -281,7 +321,9 @@ export const useDeleteMentor = (options: QueryOptions, secondaryOptions?: QueryS
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteMentor: res.isPending,
+    isError: res.isError,
     isErrorDeleteMentor: res.isError,
     deleteMentor: res.mutate,
     deleteMentorFromTable,

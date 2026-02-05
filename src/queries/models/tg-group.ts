@@ -20,7 +20,9 @@ export const useAggregateTgGroups = (props: Record<string, any>, options: QueryO
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingAggregateTgGroup: res.isLoading,
+    isError: res.isError,
     isErrorAggregateTgGroup: res.isError,
     aggregateTgGroups: res.data,
   };
@@ -35,7 +37,9 @@ export const useCountTgGroups = (props: Record<string, any>, options: QueryOptio
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingCountTgGroup: res.isLoading,
+    isError: res.isError,
     isErrorCountTgGroup: res.isError,
     countTgGroups: res.data,
   };
@@ -50,7 +54,9 @@ export const useExistTgGroup = (props: Record<string, any>, options: QueryOption
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingExistTgGroup: res.isLoading,
+    isError: res.isError,
     isErrorExistTgGroup: res.isError,
     existTgGroup: res.data,
   };
@@ -71,7 +77,14 @@ export const useTgGroupsWithPagination = (props: Record<string, any>, options: Q
     ...options,
   });
 
-  return { ...res, isLoadingTgGroups: res.isLoading, isErrorTgGroups: res.isError, tgGroupsData: res.data };
+  return {
+    ...res,
+    isLoading: res.isLoading,
+    isLoadingTgGroups: res.isLoading,
+    isError: res.isError,
+    isErrorTgGroups: res.isError,
+    tgGroupsData: res.data,
+  };
 };
 
 export const useTgGroups = (props: Record<string, any>, options: QueryOptions = {}) => {
@@ -82,7 +95,14 @@ export const useTgGroups = (props: Record<string, any>, options: QueryOptions = 
     enabled: options.enabled != undefined ? !!options.enabled : undefined,
     ...options,
   });
-  return { ...res, isLoadingTgGroups: res.isLoading, isErrorTgGroups: res.isError, tgGroupsData: res.data };
+  return {
+    ...res,
+    isLoading: res.isLoading,
+    isLoadingTgGroups: res.isLoading,
+    isError: res.isError,
+    isErrorTgGroups: res.isError,
+    tgGroupsData: res.data,
+  };
 };
 
 export const useTgGroup = (props: Record<string, any>, options: QueryOptions = {}) => {
@@ -94,7 +114,9 @@ export const useTgGroup = (props: Record<string, any>, options: QueryOptions = {
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingTgGroup: res.isLoading,
+    isError: res.isError,
     isErrorTgGroup: res.isError,
     tgGroupData: res.data as Record<string, any> | undefined,
   };
@@ -112,7 +134,9 @@ export const useCreateTgGroups = (options: QueryOptions, secondaryOptions?: Quer
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateTgGroups: res.isPending,
+    isError: res.isError,
     isErrorCreateTgGroups: res.isError,
     createTgGroups: res.mutate,
     createdTgGroups: res.data,
@@ -131,7 +155,9 @@ export const useCreateListTgGroups = (options: QueryOptions, secondaryOptions?: 
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateListTgGroups: res.isPending,
+    isError: res.isError,
     isErrorCreateListTgGroups: res.isError,
     createListTgGroups: res.mutate,
     createdListTgGroups: res.data,
@@ -149,7 +175,9 @@ export const useCreateTgGroup = (options: QueryOptions, secondaryOptions?: Query
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateTgGroup: res.isPending,
+    isError: res.isError,
     isErrorCreateTgGroup: res.isError,
     createTgGroup: res.mutate,
     createdTgGroup: res.data,
@@ -167,7 +195,9 @@ export const useUpdateTgGroups = (options: QueryOptions, secondaryOptions?: Quer
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateTgGroups: res.isPending,
+    isError: res.isError,
     isErrorUpdateTgGroups: res.isError,
     updateTgGroups: res.mutate,
     updatedTgGroups: res.data,
@@ -185,7 +215,9 @@ export const useUpdateListTgGroups = (options: QueryOptions, secondaryOptions?: 
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateListTgGroups: res.isPending,
+    isError: res.isError,
     isErrorUpdateListTgGroups: res.isError,
     updateListTgGroups: res.mutate,
     updatedListTgGroups: res.data,
@@ -203,7 +235,9 @@ export const useUpdateTgGroupsList = (options: QueryOptions, secondaryOptions?: 
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateTgGroupsList: res.isPending,
+    isError: res.isError,
     isErrorUpdateTgGroupsList: res.isError,
     updateTgGroupsList: res.mutate,
     updatedTgGroupsList: res.data,
@@ -221,7 +255,9 @@ export const useUpdateTgGroup = (options: QueryOptions, secondaryOptions?: Query
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateTgGroup: res.isPending,
+    isError: res.isError,
     isErrorUpdateTgGroup: res.isError,
     updateTgGroup: res.mutate,
     updatedTgGroup: res.data,
@@ -239,7 +275,9 @@ export const useDeleteTgGroups = (options: QueryOptions, secondaryOptions?: Quer
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteTgGroups: res.isPending,
+    isError: res.isError,
     isErrorDeleteTgGroups: res.isError,
     deleteTgGroups: res.mutate,
   };
@@ -256,7 +294,9 @@ export const useDeleteAllTgGroups = (options: QueryOptions, secondaryOptions?: Q
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteAllTgGroups: res.isPending,
+    isError: res.isError,
     isErrorDeleteAllTgGroups: res.isError,
     deleteAllTgGroups: res.mutate,
   };
@@ -281,7 +321,9 @@ export const useDeleteTgGroup = (options: QueryOptions, secondaryOptions?: Query
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteTgGroup: res.isPending,
+    isError: res.isError,
     isErrorDeleteTgGroup: res.isError,
     deleteTgGroup: res.mutate,
     deleteTgGroupFromTable,

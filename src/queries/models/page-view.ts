@@ -20,7 +20,9 @@ export const useAggregatePageViews = (props: Record<string, any>, options: Query
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingAggregatePageView: res.isLoading,
+    isError: res.isError,
     isErrorAggregatePageView: res.isError,
     aggregatePageViews: res.data,
   };
@@ -35,7 +37,9 @@ export const useCountPageViews = (props: Record<string, any>, options: QueryOpti
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingCountPageView: res.isLoading,
+    isError: res.isError,
     isErrorCountPageView: res.isError,
     countPageViews: res.data,
   };
@@ -50,7 +54,9 @@ export const useExistPageView = (props: Record<string, any>, options: QueryOptio
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingExistPageView: res.isLoading,
+    isError: res.isError,
     isErrorExistPageView: res.isError,
     existPageView: res.data,
   };
@@ -71,7 +77,14 @@ export const usePageViewsWithPagination = (props: Record<string, any>, options: 
     ...options,
   });
 
-  return { ...res, isLoadingPageViews: res.isLoading, isErrorPageViews: res.isError, pageViewsData: res.data };
+  return {
+    ...res,
+    isLoading: res.isLoading,
+    isLoadingPageViews: res.isLoading,
+    isError: res.isError,
+    isErrorPageViews: res.isError,
+    pageViewsData: res.data,
+  };
 };
 
 export const usePageViews = (props: Record<string, any>, options: QueryOptions = {}) => {
@@ -82,7 +95,14 @@ export const usePageViews = (props: Record<string, any>, options: QueryOptions =
     enabled: options.enabled != undefined ? !!options.enabled : undefined,
     ...options,
   });
-  return { ...res, isLoadingPageViews: res.isLoading, isErrorPageViews: res.isError, pageViewsData: res.data };
+  return {
+    ...res,
+    isLoading: res.isLoading,
+    isLoadingPageViews: res.isLoading,
+    isError: res.isError,
+    isErrorPageViews: res.isError,
+    pageViewsData: res.data,
+  };
 };
 
 export const usePageView = (props: Record<string, any>, options: QueryOptions = {}) => {
@@ -94,7 +114,9 @@ export const usePageView = (props: Record<string, any>, options: QueryOptions = 
   });
   return {
     ...res,
+    isLoading: res.isLoading,
     isLoadingPageView: res.isLoading,
+    isError: res.isError,
     isErrorPageView: res.isError,
     pageViewData: res.data as Record<string, any> | undefined,
   };
@@ -112,7 +134,9 @@ export const useCreatePageViews = (options: QueryOptions, secondaryOptions?: Que
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreatePageViews: res.isPending,
+    isError: res.isError,
     isErrorCreatePageViews: res.isError,
     createPageViews: res.mutate,
     createdPageViews: res.data,
@@ -131,7 +155,9 @@ export const useCreateListPageViews = (options: QueryOptions, secondaryOptions?:
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreateListPageViews: res.isPending,
+    isError: res.isError,
     isErrorCreateListPageViews: res.isError,
     createListPageViews: res.mutate,
     createdListPageViews: res.data,
@@ -149,7 +175,9 @@ export const useCreatePageView = (options: QueryOptions, secondaryOptions?: Quer
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingCreatePageView: res.isPending,
+    isError: res.isError,
     isErrorCreatePageView: res.isError,
     createPageView: res.mutate,
     createdPageView: res.data,
@@ -167,7 +195,9 @@ export const useUpdatePageViews = (options: QueryOptions, secondaryOptions?: Que
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdatePageViews: res.isPending,
+    isError: res.isError,
     isErrorUpdatePageViews: res.isError,
     updatePageViews: res.mutate,
     updatedPageViews: res.data,
@@ -185,7 +215,9 @@ export const useUpdateListPageViews = (options: QueryOptions, secondaryOptions?:
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdateListPageViews: res.isPending,
+    isError: res.isError,
     isErrorUpdateListPageViews: res.isError,
     updateListPageViews: res.mutate,
     updatedListPageViews: res.data,
@@ -203,7 +235,9 @@ export const useUpdatePageViewsList = (options: QueryOptions, secondaryOptions?:
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdatePageViewsList: res.isPending,
+    isError: res.isError,
     isErrorUpdatePageViewsList: res.isError,
     updatePageViewsList: res.mutate,
     updatedPageViewsList: res.data,
@@ -221,7 +255,9 @@ export const useUpdatePageView = (options: QueryOptions, secondaryOptions?: Quer
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingUpdatePageView: res.isPending,
+    isError: res.isError,
     isErrorUpdatePageView: res.isError,
     updatePageView: res.mutate,
     updatedPageView: res.data,
@@ -239,7 +275,9 @@ export const useDeletePageViews = (options: QueryOptions, secondaryOptions?: Que
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeletePageViews: res.isPending,
+    isError: res.isError,
     isErrorDeletePageViews: res.isError,
     deletePageViews: res.mutate,
   };
@@ -256,7 +294,9 @@ export const useDeleteAllPageViews = (options: QueryOptions, secondaryOptions?: 
   });
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeleteAllPageViews: res.isPending,
+    isError: res.isError,
     isErrorDeleteAllPageViews: res.isError,
     deleteAllPageViews: res.mutate,
   };
@@ -281,7 +321,9 @@ export const useDeletePageView = (options: QueryOptions, secondaryOptions?: Quer
 
   return {
     ...res,
+    isLoading: res.isPending,
     isLoadingDeletePageView: res.isPending,
+    isError: res.isError,
     isErrorDeletePageView: res.isError,
     deletePageView: res.mutate,
     deletePageViewFromTable,
