@@ -357,7 +357,8 @@ const Home: NextPage = () => {
                   Professional Trading Ta&apos;limi
                 </h2>
                 <p className="text-xl text-slate-600 dark:text-slate-400">
-                  Biz sizni noldan professional treydergacha aylantirish uchun zarur bo&apos;lgan hamma narsani taqdim etamiz
+                  Biz sizni noldan professional treydergacha aylantirish uchun zarur bo&apos;lgan hamma narsani taqdim
+                  etamiz
                 </p>
               </div>
 
@@ -434,9 +435,9 @@ const Home: NextPage = () => {
               <div className="flex flex-wrap justify-center gap-3 mb-12">
                 <button
                   onClick={() => setActiveCategory('all')}
-                  className={`px-6 py-3 rounded-xl font-semibold transition-all ${
+                  className={`border-solid px-6 py-3 rounded-xl font-semibold transition-all ${
                     activeCategory === 'all'
-                      ? 'bg-primary text-white shadow-lg shadow-primary/30'
+                      ? 'border-0 bg-primary text-white shadow-lg shadow-primary/30'
                       : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700'
                   }`}
                 >
@@ -446,9 +447,9 @@ const Home: NextPage = () => {
                   <button
                     key={category.id}
                     onClick={() => setActiveCategory(category.id)}
-                    className={`px-6 py-3 rounded-xl font-semibold transition-all ${
+                    className={`border-solid px-6 py-3 rounded-xl font-semibold transition-all ${
                       activeCategory === category.id
-                        ? 'bg-primary text-white shadow-lg shadow-primary/30'
+                        ? 'border-0 bg-primary text-white shadow-lg shadow-primary/30'
                         : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700'
                     }`}
                   >

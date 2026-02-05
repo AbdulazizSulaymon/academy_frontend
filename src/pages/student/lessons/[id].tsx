@@ -140,6 +140,8 @@ const LessonDetailPage: NextPageWithLayout = observer(() => {
     enabled: !!lesson?.testId && testStarted,
   });
 
+  const test = get(testData, 'data', null);
+
   // Start test mutation
   const { startTest, isLoading: isStartingTest } = useStartTest(
     {
@@ -200,7 +202,7 @@ const LessonDetailPage: NextPageWithLayout = observer(() => {
 
   // Handle next question
   const handleNextQuestion = () => {
-    if (testData?.questions && currentQuestionIndex < testData.questions.length - 1) {
+    if (test?.questions && currentQuestionIndex < test.questions.length - 1) {
       setCurrentQuestionIndex((prev) => prev + 1);
     }
   };
@@ -237,7 +239,7 @@ const LessonDetailPage: NextPageWithLayout = observer(() => {
 
   // Calculate progress
   const answeredCount = Object.keys(selectedAnswers).length;
-  const totalQuestions = testData?.questions?.length || 0;
+  const totalQuestions = test?.questions?.length || 0;
 
   // Format time
   const formatTime = (seconds: number) => {
@@ -373,13 +375,13 @@ const LessonDetailPage: NextPageWithLayout = observer(() => {
                   {isStartingTest ? t('Yuklanmoqda...') || 'Yuklanmoqda...' : t('Testni boshlash') || 'Testni boshlash'}
                 </PrimaryButton>
               </div>
-            ) : testData?.questions && testData.questions.length > 0 ? (
+            ) : test?.questions && test.questions.length > 0 ? (
               // Test Questions Screen
               <div className="space-y-6">
                 {/* Progress Bar */}
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-                    {t('Savol')} {currentQuestionIndex + 1} {t('dan')} {testData.questions.length}
+                    {t('Savol')} {currentQuestionIndex + 1} {t('dan')} {test.questions.length}
                   </h2>
                   <span className="px-3 py-1 bg-primary/10 text-primary rounded-lg text-sm font-medium">
                     {answeredCount}/{totalQuestions} {t('javob')}
@@ -393,26 +395,26 @@ const LessonDetailPage: NextPageWithLayout = observer(() => {
                 </div>
 
                 {/* Current Question */}
-                {testData.questions[currentQuestionIndex] && (
+                {test.questions[currentQuestionIndex] && (
                   <div className="p-6 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
                     <div className="flex items-start gap-4 mb-6">
                       <span className="flex-shrink-0 w-8 h-8 rounded-lg bg-primary text-white flex items-center justify-center font-bold">
                         {currentQuestionIndex + 1}
                       </span>
                       <p className="text-gray-900 dark:text-white font-medium text-lg">
-                        {testData.questions[currentQuestionIndex].contentUz ||
-                          testData.questions[currentQuestionIndex].contentEn}
+                        {test.questions[currentQuestionIndex].contentUz ||
+                          test.questions[currentQuestionIndex].contentEn}
                       </p>
                     </div>
 
                     {/* Options */}
                     <div className="space-y-3 ml-12">
-                      {testData.questions[currentQuestionIndex].options?.map((option: any) => {
-                        const isSelected = selectedAnswers[testData.questions[currentQuestionIndex].id] === option.id;
+                      {test.questions[currentQuestionIndex].options?.map((option: any) => {
+                        const isSelected = selectedAnswers[test.questions[currentQuestionIndex].id] === option.id;
                         return (
                           <button
                             key={option.id}
-                            onClick={() => handleSelectAnswer(testData.questions[currentQuestionIndex].id, option.id)}
+                            onClick={() => handleSelectAnswer(test.questions[currentQuestionIndex].id, option.id)}
                             className={`w-full text-left px-4 py-3 rounded-lg border-2 transition-all ${
                               isSelected
                                 ? 'border-primary bg-primary/10'
@@ -453,7 +455,7 @@ const LessonDetailPage: NextPageWithLayout = observer(() => {
                         {t('Oldingi')}
                       </SecondaryButton>
                     )}
-                    {currentQuestionIndex < testData.questions.length - 1 ? (
+                    {currentQuestionIndex < test.questions.length - 1 ? (
                       <PrimaryButton onClick={handleNextQuestion}>
                         {t('Keyingi')}
                         <ChevronRight className="w-4 h-4 ml-1" />
