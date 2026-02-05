@@ -21,6 +21,7 @@ import { StudentDynamicProviders } from '@hocs/dynamic-providers';
 import { PrimaryButton, SecondaryButton, GhostButton } from '@/components/ui/button';
 import { GlassCard } from '@/components/ui/card';
 import { Course } from '@api/academy-types';
+import { Paragraph } from '@/components/ui/typography';
 
 const CoursesPage: NextPageWithLayout = observer(() => {
   const { isDarkMode } = useMyTheme();
@@ -98,7 +99,7 @@ const CoursesPage: NextPageWithLayout = observer(() => {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">Kurslar katalogi</h1>
-          <p className="text-gray-600 dark:text-gray-400">O'zishingizga mos kursni tanlang va o'rganingni boshlang</p>
+          <Paragraph className="text-gray-600 dark:text-gray-400">O'zishingizga mos kursni tanlang va o'rganingni boshlang</Paragraph>
         </div>
 
         {/* Search Bar */}
@@ -178,8 +179,8 @@ const CoursesPage: NextPageWithLayout = observer(() => {
               <BookOpen className="w-6 h-6 text-primary" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white mb-1">{courses.length}</p>
-              <p className="text-xs text-gray-600 dark:text-gray-400 my-0">Jami kurslar</p>
+              <Paragraph className="text-2xl font-bold text-gray-900 dark:text-white mb-1">{courses.length}</Paragraph>
+              <Paragraph className="text-xs text-gray-600 dark:text-gray-400 my-0">Jami kurslar</Paragraph>
             </div>
           </div>
         </GlassCard>
@@ -192,10 +193,10 @@ const CoursesPage: NextPageWithLayout = observer(() => {
               <PlayCircle className="w-6 h-6 text-green-600" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
+              <Paragraph className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
                 {courses.reduce((sum: number, course: Course) => sum + getTotalDuration(course), 0)}
-              </p>
-              <p className="text-xs text-gray-600 dark:text-gray-400 py-0">Daqiqa</p>
+              </Paragraph>
+              <Paragraph className="text-xs text-gray-600 dark:text-gray-400 py-0">Daqiqa</Paragraph>
             </div>
           </div>
         </GlassCard>
@@ -208,10 +209,10 @@ const CoursesPage: NextPageWithLayout = observer(() => {
               <Users className="w-6 h-6 text-orange-600" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
+              <Paragraph className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
                 {courses.reduce((sum: number, course: Course) => sum + (course.mentor?.totalStudents || 0), 0)}
-              </p>
-              <p className="text-xs text-gray-600 dark:text-gray-400 my-0">O'quvchilar</p>
+              </Paragraph>
+              <Paragraph className="text-xs text-gray-600 dark:text-gray-400 my-0">O'quvchilar</Paragraph>
             </div>
           </div>
         </GlassCard>
@@ -224,8 +225,8 @@ const CoursesPage: NextPageWithLayout = observer(() => {
               <Star className="w-6 h-6 text-yellow-600" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white mb-1">4.8</p>
-              <p className="text-xs text-gray-600 dark:text-gray-400 my-0">Reyting</p>
+              <Paragraph className="text-2xl font-bold text-gray-900 dark:text-white mb-1">4.8</Paragraph>
+              <Paragraph className="text-xs text-gray-600 dark:text-gray-400 my-0">Reyting</Paragraph>
             </div>
           </div>
         </GlassCard>
@@ -236,14 +237,14 @@ const CoursesPage: NextPageWithLayout = observer(() => {
         <div className="flex items-center justify-center py-12">
           <div className="text-center">
             <div className="w-16 h-16 border-4 border-primary-200 border-t-primary rounded-full animate-spin mb-4"></div>
-            <p className="text-gray-600 dark:text-gray-400">Kurslar yuklanmoqda...</p>
+            <Paragraph className="text-gray-600 dark:text-gray-400">Kurslar yuklanmoqda...</Paragraph>
           </div>
         </div>
       ) : courses.length === 0 ? (
         <GlassCard className="!p-12 text-center">
           <BookOpen className="w-16 h-16 mx-auto text-gray-400 mb-4" />
-          <p className="text-gray-600 dark:text-gray-400 text-lg mb-2">Kurslar topilmadi</p>
-          <p className="text-gray-500 dark:text-gray-500">Hozircha mavjud kurslar yo'q</p>
+          <Paragraph className="text-gray-600 dark:text-gray-400 text-lg mb-2">Kurslar topilmadi</Paragraph>
+          <Paragraph className="text-gray-500 dark:text-gray-500">Hozircha mavjud kurslar yo'q</Paragraph>
         </GlassCard>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -302,7 +303,7 @@ const CoursesPage: NextPageWithLayout = observer(() => {
                   </h3>
 
                   {/* Description */}
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">{description}</p>
+                  <Paragraph className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">{description}</Paragraph>
 
                   {/* Meta Info */}
                   <div className="flex flex-wrap items-center gap-4 text-xs text-gray-600 dark:text-gray-400 mb-4">
@@ -345,8 +346,8 @@ const CoursesPage: NextPageWithLayout = observer(() => {
                         </span>
                       </div>
                       <div>
-                        <p className="text-xs font-medium text-gray-900 dark:text-white">{mentorName}</p>
-                        <p className="text-xs text-gray-500">Mentor</p>
+                        <Paragraph className="text-xs font-medium text-gray-900 dark:text-white">{mentorName}</Paragraph>
+                        <Paragraph className="text-xs text-gray-500">Mentor</Paragraph>
                       </div>
                     </div>
 

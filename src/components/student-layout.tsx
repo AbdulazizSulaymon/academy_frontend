@@ -272,10 +272,10 @@ const StudentLayout: React.FC<StudentLayoutProps> = observer(({ children, title 
                 {mobileMenuOpen ? <IoCloseOutline className="w-5 h-5" /> : <IoMenuOutline className="w-5 h-5" />}
               </button>
               <div>
-                <h1 className={`text-xl font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                <h1 className={`text-xl font-semibold mb-0 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
                   {title || 'Dashboard'}
                 </h1>
-                <p className={`text-sm ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}>
+                <p className={`text-sm mb-0 ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}>
                   Xush kelibsiz, {user?.firstName}!
                 </p>
               </div>
@@ -286,7 +286,7 @@ const StudentLayout: React.FC<StudentLayoutProps> = observer(({ children, title 
               {/* Theme Toggle */}
               <button
                 onClick={toggleTheme}
-                className={`inline-flex items-center justify-center p-2.5 rounded-lg transition-colors flex-shrink-0 border-0 ${
+                className={`inline-flex items-center justify-center w-10 h-10 rounded-lg transition-colors flex-shrink-0 border-0 ${
                   isDarkMode ? 'hover:bg-gray-800 text-gray-400 hover:text-gray-200' : 'hover:bg-gray-100 text-gray-600'
                 }`}
               >
@@ -295,7 +295,7 @@ const StudentLayout: React.FC<StudentLayoutProps> = observer(({ children, title 
 
               {/* Notifications */}
               <button
-                className={`relative inline-flex items-center justify-center p-2.5 rounded-lg transition-colors flex-shrink-0 border-0 ${
+                className={`relative inline-flex items-center justify-center w-10 h-10 rounded-lg transition-colors flex-shrink-0 border-0 ${
                   isDarkMode ? 'hover:bg-gray-800 text-gray-400 hover:text-gray-200' : 'hover:bg-gray-100 text-gray-600'
                 }`}
               >
@@ -307,18 +307,13 @@ const StudentLayout: React.FC<StudentLayoutProps> = observer(({ children, title 
               <div className="relative">
                 <button
                   onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
-                  className={`inline-flex items-center gap-2 px-3 py-2 rounded-lg transition-colors border-0 ${
+                  className={`inline-flex items-center justify-center w-10 h-10 rounded-lg transition-colors flex-shrink-0 border-0 ${
                     isDarkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'
                   }`}
                 >
-                  <div className="w-8 h-8 rounded-lg bg-gray-200 dark:bg-gray-700 flex items-center justify-center flex-shrink-0">
-                    <span className={`text-sm font-medium ${isDarkMode ? 'text-white' : 'text-gray-700'}`}>
-                      {user?.firstName?.[0] || 'S'}
-                    </span>
-                  </div>
-                  <IoChevronDownOutline
-                    className={`w-4 h-4 transition-transform flex-shrink-0 ${profileDropdownOpen ? 'rotate-180' : ''}`}
-                  />
+                  <span className={`font-medium ${isDarkMode ? 'text-white' : 'text-gray-700'}`}>
+                    {user?.firstName?.[0] || 'S'}
+                  </span>
                 </button>
 
                 {profileDropdownOpen && (
@@ -343,7 +338,7 @@ const StudentLayout: React.FC<StudentLayoutProps> = observer(({ children, title 
                         className={`inline-flex items-center gap-3 w-full px-4 py-3 transition-colors border-0 ${
                           isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-50'
                         }`}
-                      onClick={() => setProfileDropdownOpen(false)}
+                        onClick={() => setProfileDropdownOpen(false)}
                       >
                         <IoPeopleOutline className="text-base flex-shrink-0" />
                         <span className="text-sm font-medium">Rollar</span>

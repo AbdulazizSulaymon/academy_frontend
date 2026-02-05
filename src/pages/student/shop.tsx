@@ -1,16 +1,6 @@
 import React, { ReactElement, useState } from 'react';
 import StudentLayout from '@src/components/student-layout';
-import {
-  ShoppingCart,
-  Package,
-  Search,
-  Filter,
-  Heart,
-  Star,
-  Coins,
-  ShoppingBag,
-  Info,
-} from 'lucide-react';
+import { ShoppingCart, Package, Search, Filter, Heart, Star, Coins, ShoppingBag, Info } from 'lucide-react';
 import { useLayoutStore } from '@src/stores/layout-store';
 import { useMyTheme } from '@hooks/use-my-theme';
 import { observer } from 'mobx-react';
@@ -23,6 +13,7 @@ import { NextPageWithLayout } from '@/types';
 import { StudentDynamicProviders } from '@hocs/dynamic-providers';
 import { PrimaryButton, SecondaryButton, GhostButton } from '@/components/ui/button';
 import { GlassCard } from '@/components/ui/card';
+import { Paragraph } from '@/components/ui/typography';
 import { Input, Badge, Modal, message, Tag } from 'antd';
 import { ProductLevel, formatCoins } from '@api/academy-types';
 import { getImagePath } from '@utils/util';
@@ -122,11 +113,7 @@ const ShopPage: NextPageWithLayout = observer(() => {
       [ProductLevel.Level3]: { color: 'bg-yellow-100 text-yellow-800', label: 'Gold' },
     };
     const badge = badges[level];
-    return (
-      <span className={`px-2 py-1 rounded-full text-xs font-medium ${badge.color}`}>
-        {badge.label}
-      </span>
-    );
+    return <span className={`px-2 py-1 rounded-full text-xs font-medium ${badge.color}`}>{badge.label}</span>;
   };
 
   // Handle buy product
@@ -158,21 +145,21 @@ const ShopPage: NextPageWithLayout = observer(() => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-            {t("Do'kon") || "Do'kon"}
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{t("Do'kon") || "Do'kon"}</h1>
+          <Paragraph className="text-gray-600 dark:text-gray-400">
             {t('Coinlaringiz uchun mahsulotlar') || 'Coinlaringiz uchun mahsulotlar'}
-          </p>
+          </Paragraph>
         </div>
 
         <div className="flex items-center gap-4">
           <div className="text-right">
-            <p className="text-sm text-gray-600 dark:text-gray-400">{t('Balancingiz') || 'Balancingiz'}</p>
-            <p className="text-xl font-bold text-yellow-600 flex items-center gap-1">
+            <Paragraph className="text-sm text-gray-600 dark:text-gray-400">
+              {t('Balansingiz') || 'Balansingiz'}
+            </Paragraph>
+            <Paragraph className="text-xl font-bold text-yellow-600 flex items-center gap-1">
               <Coins className="w-5 h-5" />
               {user?.coins?.toLocaleString() || 0}
-            </p>
+            </Paragraph>
           </div>
         </div>
       </div>
@@ -181,10 +168,10 @@ const ShopPage: NextPageWithLayout = observer(() => {
       <div className="flex gap-2 overflow-x-auto pb-2">
         <button
           onClick={() => setSelectedCategory('')}
-          className={`px-4 py-2 rounded-lg font-medium transition-all whitespace-nowrap ${
+          className={`px-4 py-2 rounded-lg font-medium transition-all whitespace-nowrap border-0 ${
             !selectedCategory
               ? 'bg-primary text-white'
-              : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+              : ' bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
           }`}
         >
           {t('Barchasi') || 'Barchasi'}
@@ -193,10 +180,10 @@ const ShopPage: NextPageWithLayout = observer(() => {
           <button
             key={category.id}
             onClick={() => setSelectedCategory(category.id)}
-            className={`px-4 py-2 rounded-lg font-medium transition-all whitespace-nowrap ${
+            className={`px-4 py-2 rounded-lg font-medium transition-all whitespace-nowrap border-0 ${
               selectedCategory === category.id
                 ? 'bg-primary text-white'
-                : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                : ' bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
             }`}
           >
             {category.nameUz || category.nameRu || category.nameEn}
@@ -208,7 +195,7 @@ const ShopPage: NextPageWithLayout = observer(() => {
       <div className="relative">
         <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
         <Input
-          placeholder={t("Mahsulotlarni qidiring...") || "Mahsulotlarni qidiring..."}
+          placeholder={t('Mahsulotlarni qidiring...') || 'Mahsulotlarni qidiring...'}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="pl-12 h-12 rounded-xl border-gray-200 dark:border-gray-700"
@@ -227,10 +214,9 @@ const ShopPage: NextPageWithLayout = observer(() => {
           <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
             {t('Mahsulotlar topilmadi') || 'Mahsulotlar topilmadi'}
           </h3>
-          <p className="text-gray-600 dark:text-gray-400">
-            {t('Boshqa toifalarni tanlang yoki qidiring') ||
-              "Boshqa toifalarni tanlang yoki qidiring"}
-          </p>
+          <Paragraph className="text-gray-600 dark:text-gray-400">
+            {t('Boshqa toifalarni tanlang yoki qidiring') || 'Boshqa toifalarni tanlang yoki qidiring'}
+          </Paragraph>
         </GlassCard>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -282,9 +268,9 @@ const ShopPage: NextPageWithLayout = observer(() => {
                   {product.nameUz || product.nameRu || product.nameEn}
                 </h3>
 
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
+                <Paragraph className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
                   {product.descriptionUz || product.descriptionRu || product.descriptionEn}
-                </p>
+                </Paragraph>
 
                 {/* Coins & Stock */}
                 <div className="flex items-center justify-between mb-3">
@@ -307,8 +293,8 @@ const ShopPage: NextPageWithLayout = observer(() => {
                   {product.stock === 0
                     ? t('Tugadi')
                     : (user?.coins || 0) < product.price
-                      ? t("Yetarli emas")
-                      : t("Sotib olish")}
+                    ? t('Yetarli emas')
+                    : t('Sotib olish')}
                 </PrimaryButton>
               </div>
             </GlassCard>
@@ -347,16 +333,14 @@ const ShopPage: NextPageWithLayout = observer(() => {
                   {selectedProduct.nameUz || selectedProduct.nameRu || selectedProduct.nameEn}
                 </h2>
 
-                <p className="text-gray-600 dark:text-gray-400 mb-4">
+                <Paragraph className="text-gray-600 dark:text-gray-400 mb-4">
                   {selectedProduct.descriptionUz || selectedProduct.descriptionRu || selectedProduct.descriptionEn}
-                </p>
+                </Paragraph>
 
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
                     <Coins className="w-5 h-5 text-yellow-600" />
-                    <span className="text-xl font-bold text-yellow-600">
-                      {formatCoins(selectedProduct.price)}
-                    </span>
+                    <span className="text-xl font-bold text-yellow-600">{formatCoins(selectedProduct.price)}</span>
                   </div>
 
                   <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
@@ -367,7 +351,15 @@ const ShopPage: NextPageWithLayout = observer(() => {
                   </div>
 
                   <div className="flex items-center gap-2">
-                    <Tag color={selectedProduct.level === ProductLevel.Level3 ? 'gold' : selectedProduct.level === ProductLevel.Level2 ? 'blue' : 'default'}>
+                    <Tag
+                      color={
+                        selectedProduct.level === ProductLevel.Level3
+                          ? 'gold'
+                          : selectedProduct.level === ProductLevel.Level2
+                          ? 'blue'
+                          : 'default'
+                      }
+                    >
                       {selectedProduct.level}
                     </Tag>
                   </div>
@@ -380,12 +372,12 @@ const ShopPage: NextPageWithLayout = observer(() => {
               <div className="flex items-start gap-2">
                 <Info className="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-sm font-medium text-blue-900 dark:text-blue-200">
+                  <Paragraph className="text-sm font-medium text-blue-900 dark:text-blue-200">
                     {t('Daraja talablari') || 'Daraja talablari'}
-                  </p>
-                  <p className="text-xs text-blue-700 dark:text-blue-300 mt-1">
+                  </Paragraph>
+                  <Paragraph className="text-xs text-blue-700 dark:text-blue-300 mt-1">
                     {t('Bu mahsulot uchun')} {selectedProduct.minCoinsRequired}+ {t('coin talab etiladi')}
-                  </p>
+                  </Paragraph>
                 </div>
               </div>
             </div>
@@ -407,7 +399,7 @@ const ShopPage: NextPageWithLayout = observer(() => {
                 disabled={(user?.coins || 0) < selectedProduct.price}
               >
                 <ShoppingBag className="w-4 h-4 mr-2" />
-                {t("Sotib olish")}
+                {t('Sotib olish')}
               </PrimaryButton>
             </div>
           </div>

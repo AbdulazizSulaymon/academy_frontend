@@ -1,9 +1,9 @@
-import { Button } from 'antd';
 import Link from 'next/link';
 import { Fade } from 'react-awesome-reveal';
 import { ArrowRight, Rocket, Sparkles } from 'lucide-react';
 
 import { Container } from '@components/container';
+import { PrimaryButton, SecondaryButton, GhostButton } from '@/components/ui/button';
 
 function StartNow() {
   return (
@@ -45,21 +45,15 @@ function StartNow() {
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link href="/register">
-                  <Button
-                    size="large"
-                    className="h-14 px-8 rounded-2xl font-semibold text-base bg-white text-primary hover:bg-gray-100 border-none shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 flex items-center gap-2"
-                  >
+                  <PrimaryButton className="!h-14 !px-8 !text-base !rounded-2xl !bg-white !text-primary hover:!bg-gray-100 flex items-center gap-2">
                     Ro'yxatdan o'tish
                     <ArrowRight className="w-5 h-5" />
-                  </Button>
+                  </PrimaryButton>
                 </Link>
                 <Link href="#pricing">
-                  <Button
-                    size="large"
-                    className="h-14 px-8 rounded-2xl font-semibold text-base bg-white/10 text-white hover:bg-white/20 border-2 border-white/30 backdrop-blur-sm transition-all duration-300"
-                  >
+                  <GhostButton className="!h-14 !px-8 !text-base !rounded-2xl !bg-white/10 !text-white hover:!bg-white/20 !border-2 !border-white/30 !backdrop-blur-sm">
                     Kurslarni ko'rish
-                  </Button>
+                  </GhostButton>
                 </Link>
               </div>
             </div>

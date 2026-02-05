@@ -57,7 +57,7 @@ const Page = observer(function Page() {
     },
     onSuccess: () => {
       setTimeout(() => {
-        router.push('/shop/dashboard');
+        router.push('/student');
       }, 0);
     },
     onError: (err) => {
@@ -132,12 +132,8 @@ const Page = observer(function Page() {
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-primary-700 mb-4 shadow-lg shadow-primary/25">
             <UserPlus className="w-7 h-7 text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-            Hisob yarating
-          </h1>
-          <p className="text-gray-500 dark:text-gray-400">
-            Professional treyder bo'lish yo'lingizni boshlang
-          </p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Hisob yarating</h1>
+          <p className="text-gray-500 dark:text-gray-400">Professional treyder bo'lish yo'lingizni boshlang</p>
         </div>
 
         <Form
@@ -279,10 +275,7 @@ const Page = observer(function Page() {
         <div className="mt-6 text-center">
           <p className="text-gray-500 dark:text-gray-400">
             Hisobingiz bormi?{' '}
-            <Link
-              href="/login"
-              className="text-primary font-semibold hover:text-primary-600 transition-colors"
-            >
+            <Link href="/login" className="text-primary font-semibold hover:text-primary-600 transition-colors">
               Kirish
             </Link>
           </p>

@@ -17,7 +17,7 @@ import {
 import { useLayoutStore } from '@src/stores/layout-store';
 import { useMyTheme } from '@hooks/use-my-theme';
 import { observer } from 'mobx-react';
-import { useCourses } from '@src/queries/models/course';
+import { useCourse } from '@src/queries/models/course';
 import { useCourseEnrollments } from '@src/queries/models/course-enrollment';
 import { useCreateCourseEnrollment } from '@src/queries/models/course-enrollment';
 import { get } from 'lodash';
@@ -25,6 +25,7 @@ import { NextPageWithLayout } from '@/types';
 import { StudentDynamicProviders } from '@hocs/dynamic-providers';
 import { PrimaryButton, SecondaryButton } from '@/components/ui/button';
 import { GlassCard } from '@/components/ui/card';
+import { Paragraph } from '@/components/ui/typography';
 import { Progress, Tag, Modal, message, Tabs } from 'antd';
 import { getImagePath } from '@utils/util';
 import { useTranslation } from 'react-i18next';
@@ -43,7 +44,7 @@ const CourseDetailPage: NextPageWithLayout = observer(() => {
   const [selectedLesson, setSelectedLesson] = useState<any>(null);
 
   // Fetch course with all related data
-  const { data: courseResponse, isLoading: isLoadingCourse } = useCourses(
+  const { data: courseResponse, isLoading: isLoadingCourse } = useCourse(
     {
       include: {
         category: true,
@@ -72,7 +73,7 @@ const CourseDetailPage: NextPageWithLayout = observer(() => {
     { enabled: !!id },
   );
 
-  const course = get(courseResponse, 'data.data', []);
+  const course = get(courseResponse, 'data');
 
   // Check if user is enrolled
   const enrollment = course?.enrollments?.[0];
@@ -104,8 +105,8 @@ const CourseDetailPage: NextPageWithLayout = observer(() => {
       title: t("Kursga yozilishni tasdiqlaysizmi?"),
       content: (
         <div>
-          <p>{t('Kurs narxi')}: {course.price} 🪙</p>
-          <p>{t('Sizning balancingiz')}: {user?.coins || 0} 🪙</p>
+          <Paragraph>{t('Kurs narxi')}: {course.price} 🪙</Paragraph>
+          <Paragraph>{t('Sizning balancingiz')}: {user?.coins || 0} 🪙</Paragraph>
         </div>
       ),
       okText: t('Ha, yozilaman'),
@@ -193,9 +194,9 @@ const CourseDetailPage: NextPageWithLayout = observer(() => {
                 {course.titleUz || course.titleRu || course.titleEn}
               </h1>
 
-              <p className="text-lg opacity-90 mb-6 max-w-3xl">
+              <Paragraph className="text-lg opacity-90 mb-6 max-w-3xl">
                 {course.descriptionUz || course.descriptionRu || course.descriptionEn}
-              </p>
+              </Paragraph>
 
               <div className="flex flex-wrap items-center gap-6">
                 <div className="flex items-center gap-2">
@@ -306,9 +307,9 @@ const CourseDetailPage: NextPageWithLayout = observer(() => {
                               </span>
 
                               <div className="flex-1 min-w-0">
-                                <p className="font-medium text-gray-900 dark:text-white line-clamp-1 group-hover:text-primary transition-colors">
+                                <Paragraph className="font-medium text-gray-900 dark:text-white line-clamp-1 group-hover:text-primary transition-colors">
                                   {lesson.titleUz || lesson.titleRu || lesson.titleEn}
-                                </p>
+                                </Paragraph>
                                 <div className="flex items-center gap-3 text-xs text-gray-500 dark:text-gray-400 mt-1">
                                   <span className="flex items-center gap-1">
                                     <Clock className="w-3 h-3" />
@@ -339,9 +340,9 @@ const CourseDetailPage: NextPageWithLayout = observer(() => {
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
                       {t('Kurs haqida') || 'Kurs haqida'}
                     </h3>
-                    <p className="text-gray-600 dark:text-gray-400">
+                    <Paragraph className="text-gray-600 dark:text-gray-400">
                       {course.descriptionUz || course.descriptionRu || course.descriptionEn}
-                    </p>
+                    </Paragraph>
                   </div>
 
                   {course.mentor && (
@@ -358,12 +359,12 @@ const CourseDetailPage: NextPageWithLayout = observer(() => {
                           />
                         )}
                         <div>
-                          <p className="font-semibold text-gray-900 dark:text-white">
+                          <Paragraph className="font-semibold text-gray-900 dark:text-white">
                             {course.mentor.firstName} {course.mentor.lastName}
-                          </p>
-                          <p className="text-sm text-gray-600 dark:text-gray-400">
+                          </Paragraph>
+                          <Paragraph className="text-sm text-gray-600 dark:text-gray-400">
                             {course.mentor.specialization || course.mentor.bio}
-                          </p>
+                          </Paragraph>
                         </div>
                       </div>
                     </div>
@@ -435,14 +436,14 @@ const CourseDetailPage: NextPageWithLayout = observer(() => {
           {!isEnrolled && (
             <GlassCard className="p-6">
               <div className="text-center">
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">{t('Kurs narxi')}</p>
-                <p className="text-4xl font-bold text-primary mb-1">{course.price || 0}</p>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">🪙 Coin</p>
+                <Paragraph className="text-sm text-gray-600 dark:text-gray-400 mb-2">{t('Kurs narxi')}</Paragraph>
+                <Paragraph className="text-4xl font-bold text-primary mb-1">{course.price || 0}</Paragraph>
+                <Paragraph className="text-sm text-gray-600 dark:text-gray-400 mb-4">🪙 Coin</Paragraph>
 
                 {course.price > 0 && (
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mb-4">
+                  <Paragraph className="text-xs text-gray-500 dark:text-gray-400 mb-4">
                     {t('Sizning balancingiz')}: {user?.coins || 0} 🪙
-                  </p>
+                  </Paragraph>
                 )}
 
                 <PrimaryButton block onClick={handleEnroll} loading={isEnrolling}>

@@ -1,10 +1,10 @@
-import { Button } from 'antd';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Fade } from 'react-awesome-reveal';
 import { ExternalLink, Store, Users } from 'lucide-react';
 
 import { Container } from '@components/container';
+import { PrimaryButton } from '@/components/ui/button';
 
 const clients = [
   {
@@ -93,13 +93,10 @@ function OurClients() {
                   </p>
 
                   <Link href={client.link}>
-                    <Button
-                      type="primary"
-                      className="w-full h-10 rounded-xl font-medium shadow-lg shadow-primary/20 flex items-center justify-center gap-2"
-                    >
+                    <PrimaryButton className="!h-10 !rounded-xl !font-medium !w-full flex items-center justify-center gap-2">
                       Hikoyani o'qish
                       <ExternalLink className="w-4 h-4" />
-                    </Button>
+                    </PrimaryButton>
                   </Link>
                 </div>
               </article>

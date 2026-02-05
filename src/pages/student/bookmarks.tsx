@@ -20,6 +20,7 @@ import { NextPageWithLayout } from '@/types';
 import { StudentDynamicProviders } from '@hocs/dynamic-providers';
 import { PrimaryButton, SecondaryButton, GhostButton } from '@/components/ui/button';
 import { GlassCard } from '@/components/ui/card';
+import { Paragraph } from '@/components/ui/typography';
 import { Input, Modal, message } from 'antd';
 import { useQueryClient } from '@tanstack/react-query';
 import { getImagePath } from '@utils/util';
@@ -148,9 +149,9 @@ const BookmarksPage: NextPageWithLayout = observer(() => {
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
             {t('Saqlangan darslar') || 'Saqlangan darslar'}
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <Paragraph className="text-gray-600 dark:text-gray-400">
             {t('Siz saqlagan barcha darslar') || 'Siz saqlagan barcha darslar'} ({bookmarks.length})
-          </p>
+          </Paragraph>
         </div>
       </div>
 
@@ -177,10 +178,10 @@ const BookmarksPage: NextPageWithLayout = observer(() => {
           <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
             {t('Saqlangan darslar yo\'q') || "Saqlangan darslar yo'q"}
           </h3>
-          <p className="text-gray-600 dark:text-gray-400">
+          <Paragraph className="text-gray-600 dark:text-gray-400">
             {t('Darslarni saqlash uchun bookmark qo\'shing') ||
               "Darslarni saqlash uchun bookmark qo'shing"}
-          </p>
+          </Paragraph>
         </GlassCard>
       ) : filteredBookmarks.length === 0 ? (
         <GlassCard className="p-12 text-center">
@@ -188,10 +189,10 @@ const BookmarksPage: NextPageWithLayout = observer(() => {
           <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
             {t('Hech narsa topilmadi') || 'Hech narsa topilmadi'}
           </h3>
-          <p className="text-gray-600 dark:text-gray-400">
+          <Paragraph className="text-gray-600 dark:text-gray-400">
             {t('Boshqa kalit so\'z bilan urinib ko\'ring') ||
               "Boshqa kalit so'z bilan urinib ko'ring"}
-          </p>
+          </Paragraph>
         </GlassCard>
       ) : (
         <div className="space-y-6">
@@ -243,7 +244,7 @@ const BookmarksPage: NextPageWithLayout = observer(() => {
                               stroke="currentColor"
                               viewBox="0 0 24 24"
                             >
-                              <path
+                              <Paragraphath
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
                                 strokeWidth={2}
@@ -266,15 +267,15 @@ const BookmarksPage: NextPageWithLayout = observer(() => {
                           {lesson.titleUz || lesson.titleRu || lesson.titleEn}
                         </h3>
 
-                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-1">
+                        <Paragraph className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-1">
                           {lesson.module?.titleUz || lesson.module?.titleRu || lesson.module?.titleEn}
-                        </p>
+                        </Paragraph>
 
                         {bookmark.note && (
                           <div className="p-2 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg mb-3">
-                            <p className="text-xs text-yellow-800 dark:text-yellow-200 line-clamp-2">
+                            <Paragraph className="text-xs text-yellow-800 dark:text-yellow-200 line-clamp-2">
                               "{bookmark.note}"
-                            </p>
+                            </Paragraph>
                           </div>
                         )}
 

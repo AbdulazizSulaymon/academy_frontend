@@ -25,6 +25,7 @@ import { NextPageWithLayout } from '@/types';
 import { StudentDynamicProviders } from '@hocs/dynamic-providers';
 import { PrimaryButton, SecondaryButton, GhostButton } from '@/components/ui/button';
 import { GlassCard } from '@/components/ui/card';
+import { Paragraph } from '@/components/ui/typography';
 import { message, Modal } from 'antd';
 import { useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
@@ -255,9 +256,9 @@ const LessonDetailPage: NextPageWithLayout = observer(() => {
                     {lesson.titleUz || lesson.titleRu || lesson.titleEn}
                   </h1>
 
-                  <p className="text-gray-600 dark:text-gray-400">
+                  <Paragraph className="text-gray-600 dark:text-gray-400">
                     {lesson.descriptionUz || lesson.descriptionRu || lesson.descriptionEn}
-                  </p>
+                  </Paragraph>
                 </div>
 
                 <button
@@ -307,10 +308,10 @@ const LessonDetailPage: NextPageWithLayout = observer(() => {
                     </span>
 
                     <div className="flex-1 min-w-0">
-                      <p className="font-medium line-clamp-1">{moduleLesson.titleUz || moduleLesson.titleEn}</p>
-                      <p className={`text-xs ${moduleLesson.id === lesson.id ? 'text-white/80' : 'text-gray-500'}`}>
+                      <Paragraph className="font-medium line-clamp-1">{moduleLesson.titleUz || moduleLesson.titleEn}</Paragraph>
+                      <Paragraph className={`text-xs ${moduleLesson.id === lesson.id ? 'text-white/80' : 'text-gray-500'}`}>
                         {formatTime(moduleLesson.duration || 0)}
-                      </p>
+                      </Paragraph>
                     </div>
 
                     {moduleLesson.id === lesson.id && (

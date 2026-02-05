@@ -1,4 +1,4 @@
-import { Button, Drawer, Segmented } from 'antd';
+import { Drawer, Segmented } from 'antd';
 import Link from 'next/link';
 import { useState } from 'react';
 import { Fade } from 'react-awesome-reveal';
@@ -14,6 +14,7 @@ import { GoMoon, GoSun } from 'react-icons/go';
 import { HiOutlineSparkles, HiOutlineLightningBolt } from 'react-icons/hi';
 import { RiRocketLine } from 'react-icons/ri';
 import { BookOpen } from 'lucide-react';
+import { PrimaryButton, SecondaryButton, GhostButton } from '@/components/ui/button';
 
 const navLinks = [
   { href: '/#features', label: 'Kurslar' },
@@ -58,31 +59,24 @@ function Header() {
 
         <div className="hidden md:flex items-center gap-3">
           <Fade triggerOnce delay={300}>
-            <Button
-              onClick={toggleTheme}
-              type="text"
-              className="flex items-center justify-center  h-10 rounded-xl hover:bg-gray-100 dark:hover:bg-dark-200 transition-colors"
-            >
+            <GhostButton onClick={toggleTheme} className="!h-10 !w-10 !rounded-xl !p-0 flex items-center justify-center">
               {!isDarkMode ? <GoSun className="text-gray-600" /> : <GoMoon className="text-gray-300" />}
-            </Button>
+            </GhostButton>
           </Fade>
           <Fade triggerOnce delay={400}>
             <Link href="/login">
-              <Button
-                type="primary"
-                className="h-10 px-6 rounded-xl font-medium shadow-lg shadow-primary/20 hover:shadow-primary/30 hover:scale-105 transition-all duration-300 flex items-center gap-2"
-              >
+              <PrimaryButton className="!h-10 !px-6 !rounded-xl flex items-center gap-2">
                 <RiRocketLine className="text-lg" />
                 Kirish
-              </Button>
+              </PrimaryButton>
             </Link>
           </Fade>
         </div>
 
         <div className="md:hidden">
-          <Button type="text" onClick={showDrawer} className="flex items-center justify-center h-10 rounded-xl">
+          <GhostButton onClick={showDrawer} className="!h-10 !w-10 !rounded-xl !p-0 flex items-center justify-center">
             <HiOutlineMenuAlt3 className="text-2xl text-gray-700 dark:text-gray-300" />
-          </Button>
+          </GhostButton>
         </div>
       </Container>
 
@@ -133,23 +127,16 @@ function Header() {
               />
             </div>
             <Link href="/login" onClick={onClose}>
-              <Button
-                type="primary"
-                block
-                className="h-12 rounded-xl font-medium shadow-lg shadow-primary/20 flex items-center justify-center gap-2"
-              >
+              <PrimaryButton className="!h-12 !rounded-xl flex items-center justify-center gap-2">
                 <RiRocketLine className="text-lg" />
                 Kirish
-              </Button>
+              </PrimaryButton>
             </Link>
             <Link href="/register" onClick={onClose}>
-              <Button
-                block
-                className="h-12 rounded-xl font-medium border-2 border-primary text-primary hover:bg-primary/5 flex items-center justify-center gap-2"
-              >
+              <SecondaryButton className="!h-12 !rounded-xl flex items-center justify-center gap-2">
                 Ro'yxatdan o'tish
                 <CiLogin size={20} />
-              </Button>
+              </SecondaryButton>
             </Link>
           </div>
         </div>

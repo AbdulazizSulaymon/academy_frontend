@@ -17,6 +17,7 @@ import { NextPageWithLayout } from '@/types';
 import { StudentDynamicProviders } from '@hocs/dynamic-providers';
 import { PrimaryButton, SecondaryButton } from '@/components/ui/button';
 import { GlassCard } from '@/components/ui/card';
+import { Paragraph } from '@/components/ui/typography';
 import { AcademyEventStatus, getStatusColor } from '@api/academy-types';
 import { Badge, Tag } from 'antd';
 import dayjs from 'dayjs';
@@ -99,9 +100,9 @@ const EventsPage: NextPageWithLayout = observer(() => {
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
             {t('Tadbirlar') || 'Tadbirlar'}
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <Paragraph className="text-gray-600 dark:text-gray-400">
             {t('Barcha tadbirlar va voqealar') || 'Barcha tadbirlar va voqealar'}
-          </p>
+          </Paragraph>
         </div>
       </div>
 
@@ -113,8 +114,8 @@ const EventsPage: NextPageWithLayout = observer(() => {
               <CalendarIcon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
             </div>
             <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">{t('Jami tadbirlar') || 'Jami'}</p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">{events.length}</p>
+              <Paragraph className="text-sm text-gray-600 dark:text-gray-400">{t('Jami tadbirlar') || 'Jami'}</Paragraph>
+              <Paragraph className="text-2xl font-bold text-gray-900 dark:text-white">{events.length}</Paragraph>
             </div>
           </div>
         </GlassCard>
@@ -125,8 +126,8 @@ const EventsPage: NextPageWithLayout = observer(() => {
               <Clock className="w-6 h-6 text-green-600 dark:text-green-400" />
             </div>
             <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">{t('Kelgusi') || 'Kelgusi'}</p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">{upcomingEvents.length}</p>
+              <Paragraph className="text-sm text-gray-600 dark:text-gray-400">{t('Kelgusi') || 'Kelgusi'}</Paragraph>
+              <Paragraph className="text-2xl font-bold text-gray-900 dark:text-white">{upcomingEvents.length}</Paragraph>
             </div>
           </div>
         </GlassCard>
@@ -137,8 +138,8 @@ const EventsPage: NextPageWithLayout = observer(() => {
               <Calendar className="w-6 h-6 text-purple-600 dark:text-purple-400" />
             </div>
             <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">{t('O\'tgan') || 'O\'tgan'}</p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">{pastEvents.length}</p>
+              <Paragraph className="text-sm text-gray-600 dark:text-gray-400">{t('O\'tgan') || 'O\'tgan'}</Paragraph>
+              <Paragraph className="text-2xl font-bold text-gray-900 dark:text-white">{pastEvents.length}</Paragraph>
             </div>
           </div>
         </GlassCard>
@@ -178,9 +179,9 @@ const EventsPage: NextPageWithLayout = observer(() => {
                         {event.titleUz || event.titleRu || event.titleEn}
                       </h3>
 
-                      <p className="text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
+                      <Paragraph className="text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
                         {event.descriptionUz || event.descriptionRu || event.descriptionEn}
-                      </p>
+                      </Paragraph>
 
                       <div className="space-y-2 mb-4">
                         <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
@@ -295,9 +296,9 @@ const EventsPage: NextPageWithLayout = observer(() => {
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                 {t('Tadbirlar yo\'q') || "Tadbirlar yo'q"}
               </h3>
-              <p className="text-gray-600 dark:text-gray-400">
+              <Paragraph className="text-gray-600 dark:text-gray-400">
                 {t('Hozircha tadbirlar mavjud emas') || "Hozircha tadbirlar mavjud emas"}
-              </p>
+              </Paragraph>
             </GlassCard>
           )}
         </>

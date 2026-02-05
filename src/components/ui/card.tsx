@@ -26,7 +26,7 @@ export const GlassCard: React.FC<BaseCardProps> = ({ children, className }) => {
   return (
     <div
       className={clsx(
-        'p-8 rounded-3xl bg-white dark:bg-dark-100 border border-gray-100 dark:border-dark-200 hover:border-primary/20 dark:hover:border-primary/20 transition-all duration-500 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1',
+        'p-2 md:p-3 xl:px-5 py-0 rounded-2xl bg-gray-50/80 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200/60 dark:border-gray-700/50',
         className,
       )}
     >

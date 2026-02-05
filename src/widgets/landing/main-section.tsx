@@ -1,9 +1,9 @@
-import { Button } from 'antd';
 import { ArrowRight, Play, Sparkles, Users, ShoppingBag, TrendingUp } from 'lucide-react';
 import Link from 'next/link';
 import { Fade, Zoom } from 'react-awesome-reveal';
 
 import { Container } from '@components/container';
+import { PrimaryButton, SecondaryButton, GhostButton } from '@/components/ui/button';
 
 const stats = [
   { icon: Users, value: '500+', label: 'Talabalar' },
@@ -58,23 +58,16 @@ function MainSection() {
             <Fade triggerOnce duration={800} delay={400}>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link href="/login" itemProp="url">
-                  <Button
-                    type="primary"
-                    size="large"
-                    className="h-14 px-8 rounded-2xl font-semibold text-base shadow-xl shadow-primary/25 hover:shadow-primary/40 hover:scale-105 transition-all duration-300 flex items-center gap-2"
-                  >
+                  <PrimaryButton className="!h-14 !px-8 !text-base !rounded-2xl flex items-center gap-2">
                     Kursga yozilish
                     <ArrowRight className="w-5 h-5" />
-                  </Button>
+                  </PrimaryButton>
                 </Link>
                 <Link href="#how-it-works">
-                  <Button
-                    size="large"
-                    className="h-14 px-8 rounded-2xl font-semibold text-base border-2 border-gray-200 dark:border-dark-200 hover:border-primary hover:text-primary transition-all duration-300 flex items-center gap-2"
-                  >
+                  <SecondaryButton className="!h-14 !px-8 !text-base !rounded-2xl flex items-center gap-2">
                     <Play className="w-5 h-5" />
                     Kurs haqida
-                  </Button>
+                  </SecondaryButton>
                 </Link>
               </div>
             </Fade>

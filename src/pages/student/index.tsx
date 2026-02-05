@@ -27,6 +27,7 @@ import { PrimaryButton, SecondaryButton, GhostButton } from '@/components/ui/but
 import { GlassCard, BenefitCard } from '@/components/ui/card';
 import { AcademyEventStatus } from '@api/academy-types';
 import Link from 'next/link';
+import { Paragraph } from '@/components/ui/typography';
 
 const StudentDashboard: NextPageWithLayout = observer(() => {
   const { user } = useLayoutStore();
@@ -174,9 +175,9 @@ const StudentDashboard: NextPageWithLayout = observer(() => {
           <h1 className="text-3xl md:text-5xl font-bold mb-4 text-white leading-tight">
             Salom, {user?.firstName || 'Student'}! 👋
           </h1>
-          <p className="text-base md:text-lg mb-8 max-w-2xl text-white/80 leading-relaxed">
+          <Paragraph className="text-base md:text-lg mb-8 max-w-2xl text-white/80 leading-relaxed">
             Bugun qanday yangi bilim egallashni xohlaysiz? Keling, o&apos;rganishni davom ettiramiz!
-          </p>
+          </Paragraph>
           <div className="flex flex-wrap gap-3">
             <PrimaryButton className="!bg-white/10 !text-white !border-white/20 hover:!bg-white/20 !shadow-xl !shadow-white/10">
               <Rocket className="w-5 h-5 flex-shrink-0" />
@@ -212,7 +213,7 @@ const StudentDashboard: NextPageWithLayout = observer(() => {
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h2 className="text-xl font-bold mb-1 text-gray-900 dark:text-white">Aktiv kurslar</h2>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Davom ettirish uchun bosing</p>
+                <Paragraph className="text-sm text-gray-600 dark:text-gray-400">Davom ettirish uchun bosing</Paragraph>
               </div>
               <GhostButton>
                 Barchasini ko'rish <ArrowRight className="w-4 h-4 ml-1" />
@@ -222,11 +223,11 @@ const StudentDashboard: NextPageWithLayout = observer(() => {
             <div className="space-y-4">
               {isLoadingCourses ? (
                 <div className="text-center py-8">
-                  <p className="text-gray-600 dark:text-gray-400">Kurslar yuklanmoqda...</p>
+                  <Paragraph className="text-gray-600 dark:text-gray-400">Kurslar yuklanmoqda...</Paragraph>
                 </div>
               ) : courses.length === 0 ? (
                 <div className="text-center py-8">
-                  <p className="text-gray-600 dark:text-gray-400">Hozircha kurslar yo&apos;q</p>
+                  <Paragraph className="text-gray-600 dark:text-gray-400">Hozircha kurslar yo&apos;q</Paragraph>
                 </div>
               ) : (
                 courses.map((course: any) => {
@@ -273,7 +274,7 @@ const StudentDashboard: NextPageWithLayout = observer(() => {
                               <Bookmark className="w-5 h-5" />
                             </button>
                           </div>
-                          <p className="text-sm mb-3 text-gray-600 dark:text-gray-400">by {mentorName}</p>
+                          <Paragraph className="text-sm mb-3 text-gray-600 dark:text-gray-400">by {mentorName}</Paragraph>
 
                           <div className="flex items-center gap-4 text-sm mb-3">
                             <div className="flex items-center gap-1.5">
@@ -295,9 +296,9 @@ const StudentDashboard: NextPageWithLayout = observer(() => {
                             />
                           </div>
 
-                          <p className="text-xs mt-2 text-gray-500 dark:text-gray-500">
+                          <Paragraph className="text-xs mt-2 text-gray-500 dark:text-gray-500">
                             {course.duration ? `${Math.floor(course.duration / 60)} soat` : ''}
-                          </p>
+                          </Paragraph>
                         </div>
                       </div>
                     </Link>
@@ -322,11 +323,11 @@ const StudentDashboard: NextPageWithLayout = observer(() => {
             <div className="space-y-3">
               {isLoadingEvents ? (
                 <div className="text-center py-8">
-                  <p className="text-gray-600 dark:text-gray-400">Tadbirlar yuklanmoqda...</p>
+                  <Paragraph className="text-gray-600 dark:text-gray-400">Tadbirlar yuklanmoqda...</Paragraph>
                 </div>
               ) : events.length === 0 ? (
                 <div className="text-center py-8">
-                  <p className="text-gray-600 dark:text-gray-400">Hozircha tadbirlar yo&apos;q</p>
+                  <Paragraph className="text-gray-600 dark:text-gray-400">Hozircha tadbirlar yo&apos;q</Paragraph>
                 </div>
               ) : (
                 events.map((event: any) => {
@@ -348,9 +349,9 @@ const StudentDashboard: NextPageWithLayout = observer(() => {
                       className="p-4 rounded-xl transition-all duration-300 cursor-pointer hover:shadow-md hover:shadow-primary/5 hover:-translate-y-0.5 bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 hover:border-primary/20 dark:hover:border-primary/20"
                     >
                       <div className="flex items-start justify-between mb-2">
-                        <p className="font-semibold text-sm text-gray-900 dark:text-white">
+                        <Paragraph className="font-semibold text-sm text-gray-900 dark:text-white">
                           {event.titleUz || event.titleRu || event.titleEn || 'Tadbir'}
-                        </p>
+                        </Paragraph>
                         <span className="px-2.5 py-1 text-xs font-semibold rounded-md flex-shrink-0 bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400">
                           {event.isOnline ? 'Online' : 'Offline'}
                         </span>
@@ -406,8 +407,8 @@ const StudentDashboard: NextPageWithLayout = observer(() => {
                   </div>
 
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold mb-1 text-gray-900 dark:text-white">{achievement.title}</p>
-                    <p className="text-xs text-gray-500">{achievement.date}</p>
+                    <Paragraph className="text-sm font-semibold mb-1 text-gray-900 dark:text-white">{achievement.title}</Paragraph>
+                    <Paragraph className="text-xs text-gray-500">{achievement.date}</Paragraph>
                   </div>
                 </div>
               ))}

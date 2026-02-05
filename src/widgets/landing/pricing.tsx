@@ -1,9 +1,9 @@
-import { Button } from 'antd';
 import { Check, Sparkles, Crown, Zap, Star } from 'lucide-react';
 import Link from 'next/link';
 import { Fade } from 'react-awesome-reveal';
 
 import { Container } from '@components/container';
+import { PrimaryButton, GhostButton } from '@/components/ui/button';
 
 interface PricingPlan {
   title: string;
@@ -160,19 +160,16 @@ function Pricing() {
                     ))}
                   </ul>
 
-                  <Link href="/register" className="mt-auto">
-                    <Button
-                      type={plan.popular ? 'default' : 'primary'}
-                      block
-                      size="large"
-                      className={`h-12 rounded-xl font-semibold ${
-                        plan.popular
-                          ? 'bg-white text-primary hover:bg-gray-100 border-none'
-                          : 'shadow-lg shadow-primary/20'
-                      }`}
-                    >
-                      Boshlash
-                    </Button>
+                  <Link href="/register" className="mt-auto w-full">
+                    {plan.popular ? (
+                      <GhostButton className="!h-12 !rounded-xl !font-semibold !w-full !bg-white !text-primary hover:!bg-gray-100">
+                        Boshlash
+                      </GhostButton>
+                    ) : (
+                      <PrimaryButton className="!h-12 !rounded-xl !font-semibold !w-full">
+                        Boshlash
+                      </PrimaryButton>
+                    )}
                   </Link>
                 </div>
               </Fade>
