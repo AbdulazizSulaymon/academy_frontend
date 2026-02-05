@@ -18,7 +18,7 @@ import {
 import { useLayoutStore } from '@src/stores/layout-store';
 import { useMyTheme } from '@hooks/use-my-theme';
 import { observer } from 'mobx-react';
-import { useCourses } from '@src/queries/models/course';
+import { useCourseEnrollments } from '@src/queries/models/course-enrollment';
 import { useEvents } from '@src/queries/models/event';
 import { get } from 'lodash';
 import { NextPageWithLayout } from '@/types';
@@ -26,35 +26,42 @@ import { DynamicProviders, StudentDynamicProviders } from '@hocs/dynamic-provide
 import { PrimaryButton, SecondaryButton, GhostButton } from '@/components/ui/button';
 import { GlassCard, BenefitCard } from '@/components/ui/card';
 import { AcademyEventStatus } from '@api/academy-types';
+import Link from 'next/link';
 
 const StudentDashboard: NextPageWithLayout = observer(() => {
   const { user } = useLayoutStore();
   const { isDarkMode } = useMyTheme();
 
-  // Fetch courses from backend with related data
-  const { data: coursesResponse, isLoading: isLoadingCourses } = useCourses(
+  // Fetch enrolled courses with course data
+  const { data: enrollmentsResponse, isLoading: isLoadingCourses } = useCourseEnrollments(
     {
       include: {
-        category: true,
-        mentor: true,
-        modules: {
+        course: {
           include: {
-            lessons: true,
+            category: true,
+            mentor: true,
+            modules: {
+              include: {
+                lessons: true,
+              },
+            },
           },
         },
       },
       where: {
-        isPublished: true,
+        userId: user?.id,
       },
       orderBy: {
-        createdAt: 'desc',
+        enrolledAt: 'desc',
       },
     },
-    { enabled: true },
+    { enabled: !!user?.id },
   );
-  console.log(coursesResponse);
 
-  const courses = get(coursesResponse, 'data.data', []);
+  const enrollments = get(enrollmentsResponse, 'data.data', []);
+
+  // Extract courses from enrollments
+  const courses = enrollments.map((enrollment: any) => enrollment.course);
 
   // Fetch upcoming events from API
   const { data: eventsResponse, isLoading: isLoadingEvents } = useEvents(
@@ -233,9 +240,10 @@ const StudentDashboard: NextPageWithLayout = observer(() => {
                   const publishedLessons = getPublishedLessons(course);
 
                   return (
-                    <div
+                    <Link
                       key={course.id}
-                      className="group rounded-2xl overflow-hidden transition-all duration-300 cursor-pointer hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 hover:border-primary/20 dark:hover:border-primary/20"
+                      href={`/student/courses/${course.id}`}
+                      className="block rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 hover:border-primary/20 dark:hover:border-primary/20"
                     >
                       <div className="flex gap-4 p-4">
                         {/* Course Image */}
@@ -292,7 +300,7 @@ const StudentDashboard: NextPageWithLayout = observer(() => {
                           </p>
                         </div>
                       </div>
-                    </div>
+                    </Link>
                   );
                 })
               )}
