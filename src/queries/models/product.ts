@@ -13,11 +13,11 @@ export const productsAggregateQueryKey = 'aggregate-products';
 
 export const useAggregateProducts = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery(
-    [productsAggregateQueryKey, props],
-    () => api.instance.post('/api/product/aggregate', props),
-    options,
-  );
+  const res = useQuery({
+    queryKey: [productsAggregateQueryKey, props],
+    queryFn: () => api.instance.post('/api/product/aggregate', props),
+    ...options,
+  });
   return {
     ...res,
     isLoadingAggregateProduct: res.isLoading,
@@ -28,7 +28,11 @@ export const useAggregateProducts = (props: Record<string, any>, options: QueryO
 
 export const useCountProducts = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([productsCountQueryKey, props], () => api.apis.Product.count({ ...props }), options);
+  const res = useQuery({
+    queryKey: [productsCountQueryKey, props],
+    queryFn: () => api.apis.Product.count({ ...props }),
+    ...options,
+  });
   return {
     ...res,
     isLoadingCountProduct: res.isLoading,
@@ -39,7 +43,11 @@ export const useCountProducts = (props: Record<string, any>, options: QueryOptio
 
 export const useExistProduct = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([productExistQueryKey, props], () => api.apis.Product.exist({ ...props }), options);
+  const res = useQuery({
+    queryKey: [productExistQueryKey, props],
+    queryFn: () => api.apis.Product.exist({ ...props }),
+    ...options,
+  });
   return {
     ...res,
     isLoadingExistProduct: res.isLoading,
@@ -51,35 +59,39 @@ export const useExistProduct = (props: Record<string, any>, options: QueryOption
 export const useProductsWithPagination = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
   const tableFetchProps = useTableFetchProps();
-  const res = useQuery(
-    [productsQueryKey, tableFetchProps, props],
-    () =>
+  const res = useQuery({
+    queryKey: [productsQueryKey, tableFetchProps, props],
+    queryFn: () =>
       api.apis.Product.findMany({
         ...tableFetchProps,
         ...props,
       }),
-    {
-      ...options,
-      enabled:
-        typeof options.enabled === 'undefined' ? !!tableFetchProps.take : !!options.enabled && !!tableFetchProps.take,
-    },
-  );
+    enabled:
+      typeof options.enabled === 'undefined' ? !!tableFetchProps.take : !!options.enabled && !!tableFetchProps.take,
+    ...options,
+  });
 
   return { ...res, isLoadingProducts: res.isLoading, isErrorProducts: res.isError, productsData: res.data };
 };
 
 export const useProducts = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([productsQueryKey, props], () => api.apis.Product.findMany({ ...props }), {
-    ...options,
+  const res = useQuery({
+    queryKey: [productsQueryKey, props],
+    queryFn: () => api.apis.Product.findMany({ ...props }),
     enabled: options.enabled != undefined ? !!options.enabled : undefined,
+    ...options,
   });
   return { ...res, isLoadingProducts: res.isLoading, isErrorProducts: res.isError, productsData: res.data };
 };
 
 export const useProduct = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([productQueryKey, props], () => api.apis.Product.findOne({ ...props }), options as any);
+  const res = useQuery({
+    queryKey: [productQueryKey, props],
+    queryFn: () => api.apis.Product.findOne({ ...props }),
+    ...(options as any),
+  });
   return {
     ...res,
     isLoadingProduct: res.isLoading,
@@ -91,13 +103,16 @@ export const useProduct = (props: Record<string, any>, options: QueryOptions = {
 export const useCreateProducts = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.Product.createMany({ data });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.Product.createMany({ data });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   return {
     ...res,
-    isLoadingCreateProducts: res.isLoading,
+    isLoadingCreateProducts: res.isPending,
     isErrorCreateProducts: res.isError,
     createProducts: res.mutate,
     createdProducts: res.data,
@@ -107,13 +122,16 @@ export const useCreateProducts = (options: QueryOptions, secondaryOptions?: Quer
 export const useCreateListProducts = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.Product.createList(data);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.Product.createList(data);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   return {
     ...res,
-    isLoadingCreateListProducts: res.isLoading,
+    isLoadingCreateListProducts: res.isPending,
     isErrorCreateListProducts: res.isError,
     createListProducts: res.mutate,
     createdListProducts: res.data,
@@ -123,12 +141,15 @@ export const useCreateListProducts = (options: QueryOptions, secondaryOptions?: 
 export const useCreateProduct = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.Product.createOne({ data });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.Product.createOne({ data });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingCreateProduct: res.isLoading,
+    isLoadingCreateProduct: res.isPending,
     isErrorCreateProduct: res.isError,
     createProduct: res.mutate,
     createdProduct: res.data,
@@ -138,12 +159,15 @@ export const useCreateProduct = (options: QueryOptions, secondaryOptions?: Query
 export const useUpdateProducts = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.Product.updateMany(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.Product.updateMany(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateProducts: res.isLoading,
+    isLoadingUpdateProducts: res.isPending,
     isErrorUpdateProducts: res.isError,
     updateProducts: res.mutate,
     updatedProducts: res.data,
@@ -153,12 +177,15 @@ export const useUpdateProducts = (options: QueryOptions, secondaryOptions?: Quer
 export const useUpdateListProducts = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.Product.updateList(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.Product.updateList(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateListProducts: res.isLoading,
+    isLoadingUpdateListProducts: res.isPending,
     isErrorUpdateListProducts: res.isError,
     updateListProducts: res.mutate,
     updatedListProducts: res.data,
@@ -168,12 +195,15 @@ export const useUpdateListProducts = (options: QueryOptions, secondaryOptions?: 
 export const useUpdateProductsList = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.Product.updateList(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.Product.updateList(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateProductsList: res.isLoading,
+    isLoadingUpdateProductsList: res.isPending,
     isErrorUpdateProductsList: res.isError,
     updateProductsList: res.mutate,
     updatedProductsList: res.data,
@@ -183,12 +213,15 @@ export const useUpdateProductsList = (options: QueryOptions, secondaryOptions?: 
 export const useUpdateProduct = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.Product.updateOne(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.Product.updateOne(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateProduct: res.isLoading,
+    isLoadingUpdateProduct: res.isPending,
     isErrorUpdateProduct: res.isError,
     updateProduct: res.mutate,
     updatedProduct: res.data,
@@ -198,12 +231,15 @@ export const useUpdateProduct = (options: QueryOptions, secondaryOptions?: Query
 export const useDeleteProducts = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((where: Record<string, any>) => {
-    return api.apis.Product.deleteMany({ where });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (where: Record<string, any>) => {
+      return api.apis.Product.deleteMany({ where });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingDeleteProducts: res.isLoading,
+    isLoadingDeleteProducts: res.isPending,
     isErrorDeleteProducts: res.isError,
     deleteProducts: res.mutate,
   };
@@ -212,12 +248,15 @@ export const useDeleteProducts = (options: QueryOptions, secondaryOptions?: Quer
 export const useDeleteAllProducts = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation(() => {
-    return api.apis.Product.deleteAll();
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: () => {
+      return api.apis.Product.deleteAll();
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingDeleteAllProducts: res.isLoading,
+    isLoadingDeleteAllProducts: res.isPending,
     isErrorDeleteAllProducts: res.isError,
     deleteAllProducts: res.mutate,
   };
@@ -226,9 +265,12 @@ export const useDeleteAllProducts = (options: QueryOptions, secondaryOptions?: Q
 export const useDeleteProduct = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((where: Record<string, any> | number | string) => {
-    return api.apis.Product.deleteOne(typeof where === 'object' ? { where } : { where: { id: where } });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (where: Record<string, any> | number | string) => {
+      return api.apis.Product.deleteOne(typeof where === 'object' ? { where } : { where: { id: where } });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   const deleteProductFromTable = useCallback(
     (data: Record<string, any>) => {
@@ -239,7 +281,7 @@ export const useDeleteProduct = (options: QueryOptions, secondaryOptions?: Query
 
   return {
     ...res,
-    isLoadingDeleteProduct: res.isLoading,
+    isLoadingDeleteProduct: res.isPending,
     isErrorDeleteProduct: res.isError,
     deleteProduct: res.mutate,
     deleteProductFromTable,

@@ -5,13 +5,13 @@ import { Box } from '@components/box';
 import { DynamicProviders } from '@hocs/dynamic-providers';
 import { useLeads } from '@src/queries/models/lead';
 import { useLeadStatuses } from '@src/queries/models/lead-status';
-import { KanbanBoard } from '@src/widgets/project/kanban-board';
+import { KanbanBoard } from '@/widgets/lead/kanban-board';
 import { Button, Form } from 'antd';
 import { useLocationParams } from '@src/hooks/use-location-params';
-import { LeadDrawer } from '@src/widgets/project/lead-drawer';
-import { CreateUpdateLeadDrawer } from '@src/widgets/project/about-lead';
+import { LeadDrawer } from '@/widgets/lead/lead-drawer';
+import { CreateUpdateLeadDrawer } from '@/widgets/lead/about-lead';
 import { SegmentedTab } from '@components/tab';
-import { TableLeads } from '@src/widgets/project/table-leads';
+import { TableLeads } from '@/widgets/lead/table-leads';
 import { useTranslation } from 'react-i18next';
 import { NextPageWithLayout } from '@/types';
 

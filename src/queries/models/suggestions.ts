@@ -13,11 +13,11 @@ export const suggestionsAggregateQueryKey = 'aggregate-suggestions';
 
 export const useAggregateSuggestions = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery(
-    [suggestionsAggregateQueryKey, props],
-    () => api.instance.post('/api/suggestion/aggregate', props),
-    options,
-  );
+  const res = useQuery({
+    queryKey: [suggestionsAggregateQueryKey, props],
+    queryFn: () => api.instance.post('/api/suggestion/aggregate', props),
+    ...options,
+  });
   return {
     ...res,
     isLoadingAggregateSuggestions: res.isLoading,
@@ -28,7 +28,11 @@ export const useAggregateSuggestions = (props: Record<string, any>, options: Que
 
 export const useCountSuggestions = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([suggestionsCountQueryKey, props], () => api.apis.Suggestions.count({ ...props }), options);
+  const res = useQuery({
+    queryKey: [suggestionsCountQueryKey, props],
+    queryFn: () => api.apis.Suggestions.count({ ...props }),
+    ...options,
+  });
   return {
     ...res,
     isLoadingCountSuggestions: res.isLoading,
@@ -39,7 +43,11 @@ export const useCountSuggestions = (props: Record<string, any>, options: QueryOp
 
 export const useExistSuggestion = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([suggestionExistQueryKey, props], () => api.apis.Suggestions.exist({ ...props }), options);
+  const res = useQuery({
+    queryKey: [suggestionExistQueryKey, props],
+    queryFn: () => api.apis.Suggestions.exist({ ...props }),
+    ...options,
+  });
   return {
     ...res,
     isLoadingExistSuggestions: res.isLoading,
@@ -51,35 +59,39 @@ export const useExistSuggestion = (props: Record<string, any>, options: QueryOpt
 export const useSuggestionsWithPagination = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
   const tableFetchProps = useTableFetchProps();
-  const res = useQuery(
-    [suggestionsQueryKey, tableFetchProps, props],
-    () =>
+  const res = useQuery({
+    queryKey: [suggestionsQueryKey, tableFetchProps, props],
+    queryFn: () =>
       api.apis.Suggestions.findMany({
         ...tableFetchProps,
         ...props,
       }),
-    {
-      ...options,
-      enabled:
-        typeof options.enabled === 'undefined' ? !!tableFetchProps.take : !!options.enabled && !!tableFetchProps.take,
-    },
-  );
+    enabled:
+      typeof options.enabled === 'undefined' ? !!tableFetchProps.take : !!options.enabled && !!tableFetchProps.take,
+    ...options,
+  });
 
   return { ...res, isLoadingSuggestions: res.isLoading, isErrorSuggestions: res.isError, suggestionsData: res.data };
 };
 
 export const useSuggestions = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([suggestionsQueryKey, props], () => api.apis.Suggestions.findMany({ ...props }), {
-    ...options,
+  const res = useQuery({
+    queryKey: [suggestionsQueryKey, props],
+    queryFn: () => api.apis.Suggestions.findMany({ ...props }),
     enabled: options.enabled != undefined ? !!options.enabled : undefined,
+    ...options,
   });
   return { ...res, isLoadingSuggestions: res.isLoading, isErrorSuggestions: res.isError, suggestionsData: res.data };
 };
 
 export const useSuggestion = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([suggestionQueryKey, props], () => api.apis.Suggestions.findOne({ ...props }), options as any);
+  const res = useQuery({
+    queryKey: [suggestionQueryKey, props],
+    queryFn: () => api.apis.Suggestions.findOne({ ...props }),
+    ...(options as any),
+  });
   return {
     ...res,
     isLoadingSuggestion: res.isLoading,
@@ -91,13 +103,16 @@ export const useSuggestion = (props: Record<string, any>, options: QueryOptions 
 export const useCreateSuggestions = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.Suggestions.createMany({ data });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.Suggestions.createMany({ data });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   return {
     ...res,
-    isLoadingCreateSuggestions: res.isLoading,
+    isLoadingCreateSuggestions: res.isPending,
     isErrorCreateSuggestions: res.isError,
     createSuggestions: res.mutate,
     createdSuggestions: res.data,
@@ -107,13 +122,16 @@ export const useCreateSuggestions = (options: QueryOptions, secondaryOptions?: Q
 export const useCreateListSuggestions = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.Suggestions.createList(data);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.Suggestions.createList(data);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   return {
     ...res,
-    isLoadingCreateListSuggestions: res.isLoading,
+    isLoadingCreateListSuggestions: res.isPending,
     isErrorCreateListSuggestions: res.isError,
     createListSuggestions: res.mutate,
     createdListSuggestions: res.data,
@@ -123,12 +141,15 @@ export const useCreateListSuggestions = (options: QueryOptions, secondaryOptions
 export const useCreateSuggestion = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.Suggestions.createOne({ data });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.Suggestions.createOne({ data });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingCreateSuggestion: res.isLoading,
+    isLoadingCreateSuggestion: res.isPending,
     isErrorCreateSuggestion: res.isError,
     createSuggestion: res.mutate,
     createdSuggestion: res.data,
@@ -138,12 +159,15 @@ export const useCreateSuggestion = (options: QueryOptions, secondaryOptions?: Qu
 export const useUpdateSuggestions = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.Suggestions.updateMany(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.Suggestions.updateMany(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateSuggestions: res.isLoading,
+    isLoadingUpdateSuggestions: res.isPending,
     isErrorUpdateSuggestions: res.isError,
     updateSuggestions: res.mutate,
     updatedSuggestions: res.data,
@@ -153,12 +177,15 @@ export const useUpdateSuggestions = (options: QueryOptions, secondaryOptions?: Q
 export const useUpdateListSuggestions = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.Suggestions.updateList(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.Suggestions.updateList(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateListSuggestions: res.isLoading,
+    isLoadingUpdateListSuggestions: res.isPending,
     isErrorUpdateListSuggestions: res.isError,
     updateListSuggestions: res.mutate,
     updatedListSuggestions: res.data,
@@ -168,12 +195,15 @@ export const useUpdateListSuggestions = (options: QueryOptions, secondaryOptions
 export const useUpdateSuggestionsList = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.Suggestions.updateList(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.Suggestions.updateList(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateSuggestionsList: res.isLoading,
+    isLoadingUpdateSuggestionsList: res.isPending,
     isErrorUpdateSuggestionsList: res.isError,
     updateSuggestionsList: res.mutate,
     updatedSuggestionsList: res.data,
@@ -183,12 +213,15 @@ export const useUpdateSuggestionsList = (options: QueryOptions, secondaryOptions
 export const useUpdateSuggestion = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.Suggestions.updateOne(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.Suggestions.updateOne(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateSuggestion: res.isLoading,
+    isLoadingUpdateSuggestion: res.isPending,
     isErrorUpdateSuggestion: res.isError,
     updateSuggestion: res.mutate,
     updatedSuggestion: res.data,
@@ -198,12 +231,15 @@ export const useUpdateSuggestion = (options: QueryOptions, secondaryOptions?: Qu
 export const useDeleteSuggestions = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((where: Record<string, any>) => {
-    return api.apis.Suggestions.deleteMany({ where });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (where: Record<string, any>) => {
+      return api.apis.Suggestions.deleteMany({ where });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingDeleteSuggestions: res.isLoading,
+    isLoadingDeleteSuggestions: res.isPending,
     isErrorDeleteSuggestions: res.isError,
     deleteSuggestions: res.mutate,
   };
@@ -212,12 +248,15 @@ export const useDeleteSuggestions = (options: QueryOptions, secondaryOptions?: Q
 export const useDeleteAllSuggestions = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation(() => {
-    return api.apis.Suggestions.deleteAll();
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: () => {
+      return api.apis.Suggestions.deleteAll();
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingDeleteAllSuggestions: res.isLoading,
+    isLoadingDeleteAllSuggestions: res.isPending,
     isErrorDeleteAllSuggestions: res.isError,
     deleteAllSuggestions: res.mutate,
   };
@@ -226,9 +265,12 @@ export const useDeleteAllSuggestions = (options: QueryOptions, secondaryOptions?
 export const useDeleteSuggestion = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((where: Record<string, any> | number | string) => {
-    return api.apis.Suggestions.deleteOne(typeof where === 'object' ? { where } : { where: { id: where } });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (where: Record<string, any> | number | string) => {
+      return api.apis.Suggestions.deleteOne(typeof where === 'object' ? { where } : { where: { id: where } });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   const deleteSuggestionFromTable = useCallback(
     (data: Record<string, any>) => {
@@ -239,7 +281,7 @@ export const useDeleteSuggestion = (options: QueryOptions, secondaryOptions?: Qu
 
   return {
     ...res,
-    isLoadingDeleteSuggestion: res.isLoading,
+    isLoadingDeleteSuggestion: res.isPending,
     isErrorDeleteSuggestion: res.isError,
     deleteSuggestion: res.mutate,
     deleteSuggestionFromTable,

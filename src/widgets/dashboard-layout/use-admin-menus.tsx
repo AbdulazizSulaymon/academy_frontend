@@ -23,10 +23,7 @@ export const useAdminMenus = () => {
         key: '/',
         icon: <BiHome />,
         label: t('Dashboard') || '',
-        children: [
-          { key: '/dashboard', label: t('Dashboard') || '' },
-          { key: '/dashboard/github', label: t('Github') || '' },
-        ],
+        children: [{ key: '/dashboard', label: t('Dashboard') || '' }],
       },
       {
         key: 'user-management',
@@ -36,31 +33,13 @@ export const useAdminMenus = () => {
           { key: 'users', label: t('Foydalanuvchilar') || '' },
           { key: 'roles', label: t('Roles') || '' },
           { key: 'roles-tree', label: t('Roles Tree') || 'Roles Tree' },
-          { key: 'departments', label: t('Departments') || '' },
-          { key: 'positions', label: t('Positions') || '' },
-        ],
-      },
-      {
-        key: 'sellers',
-        icon: <AiOutlineShop />,
-        label: t('Sellers') || '',
-        children: [
-          { key: 'shops', label: t('Shops') || '' },
-          { key: 'sellers', label: t('Sellers') || '' },
-          { key: 'top-sellers', label: t('Top Sellers') || '' },
-          { key: 'subscriptions', label: t('Subscriptions') || '' },
-          { key: 'transactions', label: t('Subscription Transactions') || '' },
-          { key: 'plans', label: t('Subscription Plans') || '' },
         ],
       },
       {
         key: 'partners',
         icon: <TbUserPentagon />,
         label: t('Partners') || '',
-        children: [
-          { key: 'partners', label: t('Partnerlar') },
-          { key: 'promo-codes', label: t('Promo Kodlar') || '' },
-        ],
+        children: [{ key: 'partners', label: t('Partnerlar') }],
       },
       {
         key: 'leads',
@@ -73,12 +52,12 @@ export const useAdminMenus = () => {
         label: t('Integratsiya') || '',
         children: [{ key: 'smartup', label: t('Smartup') || '' }],
       },
-      {
-        key: 'chat',
-        icon: <MdOutlineChat />,
-        label: t('Chat') || '',
-        children: [{ key: 'group', label: t('Guruhlar') || '' }],
-      },
+      // {
+      //   key: 'chat',
+      //   icon: <MdOutlineChat />,
+      //   label: t('Chat') || '',
+      //   children: [{ key: 'group', label: t('Guruhlar') || '' }],
+      // },
       {
         key: 'notes',
         icon: <PiNotebookBold />,

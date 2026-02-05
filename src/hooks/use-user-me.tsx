@@ -19,9 +19,9 @@ export const useUserMe = () => {
     data: userData,
     isFetching,
     isError,
-  } = useQuery(
-    ['user-me'],
-    () =>
+  } = useQuery({
+    queryKey: ['user-me'],
+    queryFn: () =>
       api.instance.post('api/userMe/me', {
         select: {
           config: true,
@@ -31,8 +31,8 @@ export const useUserMe = () => {
           step: true,
         },
       }),
-    { enabled: shouldFetch },
-  );
+    enabled: shouldFetch,
+  });
 
   useEffect(() => {
     if (isError) {
@@ -59,7 +59,7 @@ export const useUserMe = () => {
   }, []);
 
   const refetchMe = () => {
-    queryClient.invalidateQueries(['user-me']);
+    queryClient.invalidateQueries({ queryKey: ['user-me'] });
   };
 
   return {

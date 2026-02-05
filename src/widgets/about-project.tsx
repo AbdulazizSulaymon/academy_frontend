@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import { Typography } from 'antd';
 import { useTranslation } from 'react-i18next';
 
-import { Container } from '@src/components/container';
+import { Container } from '@components/container';
 import Benefits from '@/widgets/landing/benefits';
 import Faq from '@/widgets/landing/faq';
 import Features from '@/widgets/landing/features';

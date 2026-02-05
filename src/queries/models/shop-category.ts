@@ -13,11 +13,11 @@ export const shopCategoriesAggregateQueryKey = 'aggregate-shop-categories';
 
 export const useAggregateShopCategories = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery(
-    [shopCategoriesAggregateQueryKey, props],
-    () => api.instance.post('/api/shopCategory/aggregate', props),
-    options,
-  );
+  const res = useQuery({
+    queryKey: [shopCategoriesAggregateQueryKey, props],
+    queryFn: () => api.instance.post('/api/shopCategory/aggregate', props),
+    ...options,
+  });
   return {
     ...res,
     isLoadingAggregateShopCategory: res.isLoading,
@@ -28,7 +28,11 @@ export const useAggregateShopCategories = (props: Record<string, any>, options: 
 
 export const useCountShopCategories = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([shopCategoriesCountQueryKey, props], () => api.apis.ShopCategory.count({ ...props }), options);
+  const res = useQuery({
+    queryKey: [shopCategoriesCountQueryKey, props],
+    queryFn: () => api.apis.ShopCategory.count({ ...props }),
+    ...options,
+  });
   return {
     ...res,
     isLoadingCountShopCategory: res.isLoading,
@@ -39,7 +43,11 @@ export const useCountShopCategories = (props: Record<string, any>, options: Quer
 
 export const useExistShopCategory = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([shopCategoryExistQueryKey, props], () => api.apis.ShopCategory.exist({ ...props }), options);
+  const res = useQuery({
+    queryKey: [shopCategoryExistQueryKey, props],
+    queryFn: () => api.apis.ShopCategory.exist({ ...props }),
+    ...options,
+  });
   return {
     ...res,
     isLoadingExistShopCategory: res.isLoading,
@@ -51,19 +59,17 @@ export const useExistShopCategory = (props: Record<string, any>, options: QueryO
 export const useShopCategoriesWithPagination = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
   const tableFetchProps = useTableFetchProps();
-  const res = useQuery(
-    [shopCategoriesQueryKey, tableFetchProps, props],
-    () =>
+  const res = useQuery({
+    queryKey: [shopCategoriesQueryKey, tableFetchProps, props],
+    queryFn: () =>
       api.apis.ShopCategory.findMany({
         ...tableFetchProps,
         ...props,
       }),
-    {
-      ...options,
-      enabled:
-        typeof options.enabled === 'undefined' ? !!tableFetchProps.take : !!options.enabled && !!tableFetchProps.take,
-    },
-  );
+    enabled:
+      typeof options.enabled === 'undefined' ? !!tableFetchProps.take : !!options.enabled && !!tableFetchProps.take,
+    ...options,
+  });
 
   return {
     ...res,
@@ -75,9 +81,11 @@ export const useShopCategoriesWithPagination = (props: Record<string, any>, opti
 
 export const useShopCategories = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([shopCategoriesQueryKey, props], () => api.apis.ShopCategory.findMany({ ...props }), {
-    ...options,
+  const res = useQuery({
+    queryKey: [shopCategoriesQueryKey, props],
+    queryFn: () => api.apis.ShopCategory.findMany({ ...props }),
     enabled: options.enabled != undefined ? !!options.enabled : undefined,
+    ...options,
   });
   return {
     ...res,
@@ -89,11 +97,11 @@ export const useShopCategories = (props: Record<string, any>, options: QueryOpti
 
 export const useShopCategory = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery(
-    [shopCategoryQueryKey, props],
-    () => api.apis.ShopCategory.findOne({ ...props }),
-    options as any,
-  );
+  const res = useQuery({
+    queryKey: [shopCategoryQueryKey, props],
+    queryFn: () => api.apis.ShopCategory.findOne({ ...props }),
+    ...(options as any),
+  });
   return {
     ...res,
     isLoadingShopCategory: res.isLoading,
@@ -105,13 +113,16 @@ export const useShopCategory = (props: Record<string, any>, options: QueryOption
 export const useCreateShopCategories = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.ShopCategory.createMany({ data });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.ShopCategory.createMany({ data });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   return {
     ...res,
-    isLoadingCreateShopCategories: res.isLoading,
+    isLoadingCreateShopCategories: res.isPending,
     isErrorCreateShopCategories: res.isError,
     createShopCategories: res.mutate,
     createdShopCategories: res.data,
@@ -121,13 +132,16 @@ export const useCreateShopCategories = (options: QueryOptions, secondaryOptions?
 export const useCreateListShopCategories = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.ShopCategory.createList(data);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.ShopCategory.createList(data);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   return {
     ...res,
-    isLoadingCreateListShopCategories: res.isLoading,
+    isLoadingCreateListShopCategories: res.isPending,
     isErrorCreateListShopCategories: res.isError,
     createListShopCategories: res.mutate,
     createdListShopCategories: res.data,
@@ -137,12 +151,15 @@ export const useCreateListShopCategories = (options: QueryOptions, secondaryOpti
 export const useCreateShopCategory = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.ShopCategory.createOne({ data });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.ShopCategory.createOne({ data });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingCreateShopCategory: res.isLoading,
+    isLoadingCreateShopCategory: res.isPending,
     isErrorCreateShopCategory: res.isError,
     createShopCategory: res.mutate,
     createdShopCategory: res.data,
@@ -152,12 +169,15 @@ export const useCreateShopCategory = (options: QueryOptions, secondaryOptions?: 
 export const useUpdateShopCategories = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.ShopCategory.updateMany(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.ShopCategory.updateMany(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateShopCategories: res.isLoading,
+    isLoadingUpdateShopCategories: res.isPending,
     isErrorUpdateShopCategories: res.isError,
     updateShopCategories: res.mutate,
     updatedShopCategories: res.data,
@@ -167,12 +187,15 @@ export const useUpdateShopCategories = (options: QueryOptions, secondaryOptions?
 export const useUpdateListShopCategories = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.ShopCategory.updateList(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.ShopCategory.updateList(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateListShopCategories: res.isLoading,
+    isLoadingUpdateListShopCategories: res.isPending,
     isErrorUpdateListShopCategories: res.isError,
     updateListShopCategories: res.mutate,
     updatedListShopCategories: res.data,
@@ -182,12 +205,15 @@ export const useUpdateListShopCategories = (options: QueryOptions, secondaryOpti
 export const useUpdateShopCategoriesList = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.ShopCategory.updateList(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.ShopCategory.updateList(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateShopCategoriesList: res.isLoading,
+    isLoadingUpdateShopCategoriesList: res.isPending,
     isErrorUpdateShopCategoriesList: res.isError,
     updateShopCategoriesList: res.mutate,
     updatedShopCategoriesList: res.data,
@@ -197,12 +223,15 @@ export const useUpdateShopCategoriesList = (options: QueryOptions, secondaryOpti
 export const useUpdateShopCategory = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.ShopCategory.updateOne(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.ShopCategory.updateOne(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateShopCategory: res.isLoading,
+    isLoadingUpdateShopCategory: res.isPending,
     isErrorUpdateShopCategory: res.isError,
     updateShopCategory: res.mutate,
     updatedShopCategory: res.data,
@@ -212,12 +241,15 @@ export const useUpdateShopCategory = (options: QueryOptions, secondaryOptions?: 
 export const useDeleteShopCategories = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((where: Record<string, any>) => {
-    return api.apis.ShopCategory.deleteMany({ where });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (where: Record<string, any>) => {
+      return api.apis.ShopCategory.deleteMany({ where });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingDeleteShopCategories: res.isLoading,
+    isLoadingDeleteShopCategories: res.isPending,
     isErrorDeleteShopCategories: res.isError,
     deleteShopCategories: res.mutate,
   };
@@ -226,12 +258,15 @@ export const useDeleteShopCategories = (options: QueryOptions, secondaryOptions?
 export const useDeleteAllShopCategories = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation(() => {
-    return api.apis.ShopCategory.deleteAll();
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: () => {
+      return api.apis.ShopCategory.deleteAll();
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingDeleteAllShopCategories: res.isLoading,
+    isLoadingDeleteAllShopCategories: res.isPending,
     isErrorDeleteAllShopCategories: res.isError,
     deleteAllShopCategories: res.mutate,
   };
@@ -240,9 +275,12 @@ export const useDeleteAllShopCategories = (options: QueryOptions, secondaryOptio
 export const useDeleteShopCategory = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((where: Record<string, any> | number | string) => {
-    return api.apis.ShopCategory.deleteOne(typeof where === 'object' ? { where } : { where: { id: where } });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (where: Record<string, any> | number | string) => {
+      return api.apis.ShopCategory.deleteOne(typeof where === 'object' ? { where } : { where: { id: where } });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   const deleteShopCategoryFromTable = useCallback(
     (data: Record<string, any>) => {
@@ -253,7 +291,7 @@ export const useDeleteShopCategory = (options: QueryOptions, secondaryOptions?: 
 
   return {
     ...res,
-    isLoadingDeleteShopCategory: res.isLoading,
+    isLoadingDeleteShopCategory: res.isPending,
     isErrorDeleteShopCategory: res.isError,
     deleteShopCategory: res.mutate,
     deleteShopCategoryFromTable,

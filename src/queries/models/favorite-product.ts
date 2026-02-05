@@ -13,11 +13,11 @@ export const favoriteProductsAggregateQueryKey = 'aggregate-favorite-products';
 
 export const useAggregateFavoriteProducts = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery(
-    [favoriteProductsAggregateQueryKey, props],
-    () => api.instance.post('/api/favoriteProduct/aggregate', props),
-    options,
-  );
+  const res = useQuery({
+    queryKey: [favoriteProductsAggregateQueryKey, props],
+    queryFn: () => api.instance.post('/api/favoriteProduct/aggregate', props),
+    ...options,
+  });
   return {
     ...res,
     isLoadingAggregateFavoriteProduct: res.isLoading,
@@ -28,11 +28,11 @@ export const useAggregateFavoriteProducts = (props: Record<string, any>, options
 
 export const useCountFavoriteProducts = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery(
-    [favoriteProductsCountQueryKey, props],
-    () => api.apis.FavoriteProduct.count({ ...props }),
-    options,
-  );
+  const res = useQuery({
+    queryKey: [favoriteProductsCountQueryKey, props],
+    queryFn: () => api.apis.FavoriteProduct.count({ ...props }),
+    ...options,
+  });
   return {
     ...res,
     isLoadingCountFavoriteProduct: res.isLoading,
@@ -43,11 +43,11 @@ export const useCountFavoriteProducts = (props: Record<string, any>, options: Qu
 
 export const useExistFavoriteProduct = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery(
-    [favoriteProductExistQueryKey, props],
-    () => api.apis.FavoriteProduct.exist({ ...props }),
-    options,
-  );
+  const res = useQuery({
+    queryKey: [favoriteProductExistQueryKey, props],
+    queryFn: () => api.apis.FavoriteProduct.exist({ ...props }),
+    ...options,
+  });
   return {
     ...res,
     isLoadingExistFavoriteProduct: res.isLoading,
@@ -59,19 +59,17 @@ export const useExistFavoriteProduct = (props: Record<string, any>, options: Que
 export const useFavoriteProductsWithPagination = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
   const tableFetchProps = useTableFetchProps();
-  const res = useQuery(
-    [favoriteProductsQueryKey, tableFetchProps, props],
-    () =>
+  const res = useQuery({
+    queryKey: [favoriteProductsQueryKey, tableFetchProps, props],
+    queryFn: () =>
       api.apis.FavoriteProduct.findMany({
         ...tableFetchProps,
         ...props,
       }),
-    {
-      ...options,
-      enabled:
-        typeof options.enabled === 'undefined' ? !!tableFetchProps.take : !!options.enabled && !!tableFetchProps.take,
-    },
-  );
+    enabled:
+      typeof options.enabled === 'undefined' ? !!tableFetchProps.take : !!options.enabled && !!tableFetchProps.take,
+    ...options,
+  });
 
   return {
     ...res,
@@ -83,9 +81,11 @@ export const useFavoriteProductsWithPagination = (props: Record<string, any>, op
 
 export const useFavoriteProducts = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([favoriteProductsQueryKey, props], () => api.apis.FavoriteProduct.findMany({ ...props }), {
-    ...options,
+  const res = useQuery({
+    queryKey: [favoriteProductsQueryKey, props],
+    queryFn: () => api.apis.FavoriteProduct.findMany({ ...props }),
     enabled: options.enabled != undefined ? !!options.enabled : undefined,
+    ...options,
   });
   return {
     ...res,
@@ -97,11 +97,11 @@ export const useFavoriteProducts = (props: Record<string, any>, options: QueryOp
 
 export const useFavoriteProduct = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery(
-    [favoriteProductQueryKey, props],
-    () => api.apis.FavoriteProduct.findOne({ ...props }),
-    options as any,
-  );
+  const res = useQuery({
+    queryKey: [favoriteProductQueryKey, props],
+    queryFn: () => api.apis.FavoriteProduct.findOne({ ...props }),
+    ...(options as any),
+  });
   return {
     ...res,
     isLoadingFavoriteProduct: res.isLoading,
@@ -113,13 +113,16 @@ export const useFavoriteProduct = (props: Record<string, any>, options: QueryOpt
 export const useCreateFavoriteProducts = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.FavoriteProduct.createMany({ data });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.FavoriteProduct.createMany({ data });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   return {
     ...res,
-    isLoadingCreateFavoriteProducts: res.isLoading,
+    isLoadingCreateFavoriteProducts: res.isPending,
     isErrorCreateFavoriteProducts: res.isError,
     createFavoriteProducts: res.mutate,
     createdFavoriteProducts: res.data,
@@ -129,13 +132,16 @@ export const useCreateFavoriteProducts = (options: QueryOptions, secondaryOption
 export const useCreateListFavoriteProducts = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.FavoriteProduct.createList(data);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.FavoriteProduct.createList(data);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   return {
     ...res,
-    isLoadingCreateListFavoriteProducts: res.isLoading,
+    isLoadingCreateListFavoriteProducts: res.isPending,
     isErrorCreateListFavoriteProducts: res.isError,
     createListFavoriteProducts: res.mutate,
     createdListFavoriteProducts: res.data,
@@ -145,12 +151,15 @@ export const useCreateListFavoriteProducts = (options: QueryOptions, secondaryOp
 export const useCreateFavoriteProduct = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.FavoriteProduct.createOne({ data });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.FavoriteProduct.createOne({ data });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingCreateFavoriteProduct: res.isLoading,
+    isLoadingCreateFavoriteProduct: res.isPending,
     isErrorCreateFavoriteProduct: res.isError,
     createFavoriteProduct: res.mutate,
     createdFavoriteProduct: res.data,
@@ -160,12 +169,15 @@ export const useCreateFavoriteProduct = (options: QueryOptions, secondaryOptions
 export const useUpdateFavoriteProducts = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.FavoriteProduct.updateMany(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.FavoriteProduct.updateMany(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateFavoriteProducts: res.isLoading,
+    isLoadingUpdateFavoriteProducts: res.isPending,
     isErrorUpdateFavoriteProducts: res.isError,
     updateFavoriteProducts: res.mutate,
     updatedFavoriteProducts: res.data,
@@ -175,12 +187,15 @@ export const useUpdateFavoriteProducts = (options: QueryOptions, secondaryOption
 export const useUpdateListFavoriteProducts = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.FavoriteProduct.updateList(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.FavoriteProduct.updateList(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateListFavoriteProducts: res.isLoading,
+    isLoadingUpdateListFavoriteProducts: res.isPending,
     isErrorUpdateListFavoriteProducts: res.isError,
     updateListFavoriteProducts: res.mutate,
     updatedListFavoriteProducts: res.data,
@@ -190,12 +205,15 @@ export const useUpdateListFavoriteProducts = (options: QueryOptions, secondaryOp
 export const useUpdateFavoriteProductsList = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.FavoriteProduct.updateList(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.FavoriteProduct.updateList(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateFavoriteProductsList: res.isLoading,
+    isLoadingUpdateFavoriteProductsList: res.isPending,
     isErrorUpdateFavoriteProductsList: res.isError,
     updateFavoriteProductsList: res.mutate,
     updatedFavoriteProductsList: res.data,
@@ -205,12 +223,15 @@ export const useUpdateFavoriteProductsList = (options: QueryOptions, secondaryOp
 export const useUpdateFavoriteProduct = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.FavoriteProduct.updateOne(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.FavoriteProduct.updateOne(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateFavoriteProduct: res.isLoading,
+    isLoadingUpdateFavoriteProduct: res.isPending,
     isErrorUpdateFavoriteProduct: res.isError,
     updateFavoriteProduct: res.mutate,
     updatedFavoriteProduct: res.data,
@@ -220,12 +241,15 @@ export const useUpdateFavoriteProduct = (options: QueryOptions, secondaryOptions
 export const useDeleteFavoriteProducts = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((where: Record<string, any>) => {
-    return api.apis.FavoriteProduct.deleteMany({ where });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (where: Record<string, any>) => {
+      return api.apis.FavoriteProduct.deleteMany({ where });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingDeleteFavoriteProducts: res.isLoading,
+    isLoadingDeleteFavoriteProducts: res.isPending,
     isErrorDeleteFavoriteProducts: res.isError,
     deleteFavoriteProducts: res.mutate,
   };
@@ -234,12 +258,15 @@ export const useDeleteFavoriteProducts = (options: QueryOptions, secondaryOption
 export const useDeleteAllFavoriteProducts = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation(() => {
-    return api.apis.FavoriteProduct.deleteAll();
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: () => {
+      return api.apis.FavoriteProduct.deleteAll();
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingDeleteAllFavoriteProducts: res.isLoading,
+    isLoadingDeleteAllFavoriteProducts: res.isPending,
     isErrorDeleteAllFavoriteProducts: res.isError,
     deleteAllFavoriteProducts: res.mutate,
   };
@@ -248,9 +275,12 @@ export const useDeleteAllFavoriteProducts = (options: QueryOptions, secondaryOpt
 export const useDeleteFavoriteProduct = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((where: Record<string, any> | number | string) => {
-    return api.apis.FavoriteProduct.deleteOne(typeof where === 'object' ? { where } : { where: { id: where } });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (where: Record<string, any> | number | string) => {
+      return api.apis.FavoriteProduct.deleteOne(typeof where === 'object' ? { where } : { where: { id: where } });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   const deleteFavoriteProductFromTable = useCallback(
     (data: Record<string, any>) => {
@@ -261,7 +291,7 @@ export const useDeleteFavoriteProduct = (options: QueryOptions, secondaryOptions
 
   return {
     ...res,
-    isLoadingDeleteFavoriteProduct: res.isLoading,
+    isLoadingDeleteFavoriteProduct: res.isPending,
     isErrorDeleteFavoriteProduct: res.isError,
     deleteFavoriteProduct: res.mutate,
     deleteFavoriteProductFromTable,

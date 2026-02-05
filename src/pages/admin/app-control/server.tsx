@@ -27,7 +27,8 @@ const Page: NextPageWithLayout = observer(function Page() {
   const { t } = useTranslation();
   const { isDarkMode } = useMyTheme();
   const { notifySuccess, notifyError } = useNotification();
-  const { mutate, isLoading, isError } = useMutation(() => api.instance.post('api/app/restart-prisma', {}), {
+  const { mutate, isPending, isError } = useMutation({
+    mutationFn: () => api.instance.post('api/app/restart-prisma', {}),
     onSuccess: () => {
       notifySuccess('Restarted');
     },
@@ -36,23 +37,23 @@ const Page: NextPageWithLayout = observer(function Page() {
     },
   });
 
-  const { mutate: stopPrisma, isLoading: isLoadingStop } = useMutation(
-    () => api.instance.post('api/app/stop-prisma', {}),
-    {
-      onSuccess: () => {
-        notifySuccess('Restarted');
-      },
-      onError: () => {
-        notifyError('An error occurred!');
-      },
+  const { mutate: stopPrisma, isPending: isLoadingStop } = useMutation({
+    mutationFn: () => api.instance.post('api/app/stop-prisma', {}),
+    onSuccess: () => {
+      notifySuccess('Restarted');
     },
-  );
+    onError: () => {
+      notifyError('An error occurred!');
+    },
+  });
 
   const {
     data,
     isLoading: isLoadingSystemInfo,
     isError: isErrorSystemInfo,
-  } = useQuery(['system-info'], () => api.instance.get('api/system-info/all'), {
+  } = useQuery({
+    queryKey: ['system-info'],
+    queryFn: () => api.instance.get('api/system-info/all'),
     refetchInterval: 5000,
   });
 
@@ -63,7 +64,7 @@ const Page: NextPageWithLayout = observer(function Page() {
           <Typography className={'block font-bold'}>{t('Start Prisma Studio') || ''}</Typography>
         </Col>
         <Col flex={'auto'}>
-          <Button type="primary" onClick={() => mutate()} loading={isLoading} disabled>
+          <Button type="primary" onClick={() => mutate()} loading={isPending} disabled>
             {t('Start') || ''}
           </Button>
         </Col>

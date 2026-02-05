@@ -21,7 +21,8 @@ export const useCrudTable = ({
   const queryClient = useQueryClient();
   const { notifySuccess, notifyError } = useNotification();
 
-  const { mutate: post, isLoading: isLoadingPost } = useMutation((data: Record<string, any>) => model.createOne(data), {
+  const { mutate: post, isPending: isLoadingPost } = useMutation({
+    mutationFn: (data: Record<string, any>) => model.createOne(data),
     onSuccess: (data) => {
       notifySuccess('Added successfully!');
       queryClient.invalidateQueries({ queryKey: [name] });
@@ -34,39 +35,35 @@ export const useCrudTable = ({
     },
   });
 
-  const { mutate: update, isLoading: isLoadingUpdate } = useMutation(
-    (values?: Record<string, unknown>) => {
+  const { mutate: update, isPending: isLoadingUpdate } = useMutation({
+    mutationFn: (values?: Record<string, unknown>) => {
       return model.updateOne(values);
     },
-    {
-      onSuccess: (data) => {
-        notifySuccess('Changed successfully!');
-        queryClient.invalidateQueries({ queryKey: [name] });
-        if (onSuccess) onSuccess(data);
-      },
-      onError: (error) => {
-        notifyError('An error occurred!');
-        if (onError) onError(error);
-      },
+    onSuccess: (data) => {
+      notifySuccess('Changed successfully!');
+      queryClient.invalidateQueries({ queryKey: [name] });
+      if (onSuccess) onSuccess(data);
     },
-  );
+    onError: (error) => {
+      notifyError('An error occurred!');
+      if (onError) onError(error);
+    },
+  });
 
-  const { mutate: remove, isLoading: isLoadingRemove } = useMutation(
-    (values?: Record<string, unknown>) => {
+  const { mutate: remove, isPending: isLoadingRemove } = useMutation({
+    mutationFn: (values?: Record<string, unknown>) => {
       return model.deleteOne(values);
     },
-    {
-      onSuccess: (data) => {
-        notifySuccess('Deleted successfully!');
-        queryClient.invalidateQueries({ queryKey: [name] });
-        if (onSuccess) onSuccess(data);
-      },
-      onError: (error) => {
-        notifyError('An error occurred!');
-        if (onError) onError(error);
-      },
+    onSuccess: (data) => {
+      notifySuccess('Deleted successfully!');
+      queryClient.invalidateQueries({ queryKey: [name] });
+      if (onSuccess) onSuccess(data);
     },
-  );
+    onError: (error) => {
+      notifyError('An error occurred!');
+      if (onError) onError(error);
+    },
+  });
 
   const onFinish = async (values: any, id: any) => {
     if (!id) {

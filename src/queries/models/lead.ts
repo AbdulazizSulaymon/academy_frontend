@@ -13,7 +13,11 @@ export const leadsAggregateQueryKey = 'aggregate-leads';
 
 export const useAggregateLeads = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([leadsAggregateQueryKey, props], () => api.instance.post('/api/lead/aggregate', props), options);
+  const res = useQuery({
+    queryKey: [leadsAggregateQueryKey, props],
+    queryFn: () => api.instance.post('/api/lead/aggregate', props),
+    ...options,
+  });
   return {
     ...res,
     isLoadingAggregateLead: res.isLoading,
@@ -24,7 +28,11 @@ export const useAggregateLeads = (props: Record<string, any>, options: QueryOpti
 
 export const useCountLeads = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([leadsCountQueryKey, props], () => api.apis.Lead.count({ ...props }), options);
+  const res = useQuery({
+    queryKey: [leadsCountQueryKey, props],
+    queryFn: () => api.apis.Lead.count({ ...props }),
+    ...options,
+  });
   return {
     ...res,
     isLoadingCountLead: res.isLoading,
@@ -35,7 +43,11 @@ export const useCountLeads = (props: Record<string, any>, options: QueryOptions 
 
 export const useExistLead = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([leadExistQueryKey, props], () => api.apis.Lead.exist({ ...props }), options);
+  const res = useQuery({
+    queryKey: [leadExistQueryKey, props],
+    queryFn: () => api.apis.Lead.exist({ ...props }),
+    ...options,
+  });
   return {
     ...res,
     isLoadingExistLead: res.isLoading,
@@ -47,35 +59,39 @@ export const useExistLead = (props: Record<string, any>, options: QueryOptions =
 export const useLeadsWithPagination = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
   const tableFetchProps = useTableFetchProps();
-  const res = useQuery(
-    [leadsQueryKey, tableFetchProps, props],
-    () =>
+  const res = useQuery({
+    queryKey: [leadsQueryKey, tableFetchProps, props],
+    queryFn: () =>
       api.apis.Lead.findMany({
         ...tableFetchProps,
         ...props,
       }),
-    {
-      ...options,
-      enabled:
-        typeof options.enabled === 'undefined' ? !!tableFetchProps.take : !!options.enabled && !!tableFetchProps.take,
-    },
-  );
+    enabled:
+      typeof options.enabled === 'undefined' ? !!tableFetchProps.take : !!options.enabled && !!tableFetchProps.take,
+    ...options,
+  });
 
   return { ...res, isLoadingLeads: res.isLoading, isErrorLeads: res.isError, leadsData: res.data };
 };
 
 export const useLeads = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([leadsQueryKey, props], () => api.apis.Lead.findMany({ ...props }), {
-    ...options,
+  const res = useQuery({
+    queryKey: [leadsQueryKey, props],
+    queryFn: () => api.apis.Lead.findMany({ ...props }),
     enabled: options.enabled != undefined ? !!options.enabled : undefined,
+    ...options,
   });
   return { ...res, isLoadingLeads: res.isLoading, isErrorLeads: res.isError, leadsData: res.data };
 };
 
 export const useLead = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([leadQueryKey, props], () => api.apis.Lead.findOne({ ...props }), options as any);
+  const res = useQuery({
+    queryKey: [leadQueryKey, props],
+    queryFn: () => api.apis.Lead.findOne({ ...props }),
+    ...(options as any),
+  });
   return {
     ...res,
     isLoadingLead: res.isLoading,
@@ -87,13 +103,16 @@ export const useLead = (props: Record<string, any>, options: QueryOptions = {}) 
 export const useCreateLeads = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.Lead.createMany({ data });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.Lead.createMany({ data });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   return {
     ...res,
-    isLoadingCreateLeads: res.isLoading,
+    isLoadingCreateLeads: res.isPending,
     isErrorCreateLeads: res.isError,
     createLeads: res.mutate,
     createdLeads: res.data,
@@ -103,13 +122,16 @@ export const useCreateLeads = (options: QueryOptions, secondaryOptions?: QuerySe
 export const useCreateListLeads = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.Lead.createList(data);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.Lead.createList(data);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   return {
     ...res,
-    isLoadingCreateListLeads: res.isLoading,
+    isLoadingCreateListLeads: res.isPending,
     isErrorCreateListLeads: res.isError,
     createListLeads: res.mutate,
     createdListLeads: res.data,
@@ -119,12 +141,15 @@ export const useCreateListLeads = (options: QueryOptions, secondaryOptions?: Que
 export const useCreateLead = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.Lead.createOne({ data });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.Lead.createOne({ data });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingCreateLead: res.isLoading,
+    isLoadingCreateLead: res.isPending,
     isErrorCreateLead: res.isError,
     createLead: res.mutate,
     createdLead: res.data,
@@ -134,12 +159,15 @@ export const useCreateLead = (options: QueryOptions, secondaryOptions?: QuerySec
 export const useUpdateLeads = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.Lead.updateMany(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.Lead.updateMany(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateLeads: res.isLoading,
+    isLoadingUpdateLeads: res.isPending,
     isErrorUpdateLeads: res.isError,
     updateLeads: res.mutate,
     updatedLeads: res.data,
@@ -149,12 +177,15 @@ export const useUpdateLeads = (options: QueryOptions, secondaryOptions?: QuerySe
 export const useUpdateListLeads = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.Lead.updateList(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.Lead.updateList(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateListLeads: res.isLoading,
+    isLoadingUpdateListLeads: res.isPending,
     isErrorUpdateListLeads: res.isError,
     updateListLeads: res.mutate,
     updatedListLeads: res.data,
@@ -164,12 +195,15 @@ export const useUpdateListLeads = (options: QueryOptions, secondaryOptions?: Que
 export const useUpdateLeadsList = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.Lead.updateList(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.Lead.updateList(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateLeadsList: res.isLoading,
+    isLoadingUpdateLeadsList: res.isPending,
     isErrorUpdateLeadsList: res.isError,
     updateLeadsList: res.mutate,
     updatedLeadsList: res.data,
@@ -179,12 +213,15 @@ export const useUpdateLeadsList = (options: QueryOptions, secondaryOptions?: Que
 export const useUpdateLead = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.Lead.updateOne(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.Lead.updateOne(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateLead: res.isLoading,
+    isLoadingUpdateLead: res.isPending,
     isErrorUpdateLead: res.isError,
     updateLead: res.mutate,
     updatedLead: res.data,
@@ -194,12 +231,15 @@ export const useUpdateLead = (options: QueryOptions, secondaryOptions?: QuerySec
 export const useDeleteLeads = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((where: Record<string, any>) => {
-    return api.apis.Lead.deleteMany({ where });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (where: Record<string, any>) => {
+      return api.apis.Lead.deleteMany({ where });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingDeleteLeads: res.isLoading,
+    isLoadingDeleteLeads: res.isPending,
     isErrorDeleteLeads: res.isError,
     deleteLeads: res.mutate,
   };
@@ -208,12 +248,15 @@ export const useDeleteLeads = (options: QueryOptions, secondaryOptions?: QuerySe
 export const useDeleteAllLeads = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation(() => {
-    return api.apis.Lead.deleteAll();
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: () => {
+      return api.apis.Lead.deleteAll();
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingDeleteAllLeads: res.isLoading,
+    isLoadingDeleteAllLeads: res.isPending,
     isErrorDeleteAllLeads: res.isError,
     deleteAllLeads: res.mutate,
   };
@@ -222,9 +265,12 @@ export const useDeleteAllLeads = (options: QueryOptions, secondaryOptions?: Quer
 export const useDeleteLead = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((where: Record<string, any> | number | string) => {
-    return api.apis.Lead.deleteOne(typeof where === 'object' ? { where } : { where: { id: where } });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (where: Record<string, any> | number | string) => {
+      return api.apis.Lead.deleteOne(typeof where === 'object' ? { where } : { where: { id: where } });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   const deleteLeadFromTable = useCallback(
     (data: Record<string, any>) => {
@@ -235,7 +281,7 @@ export const useDeleteLead = (options: QueryOptions, secondaryOptions?: QuerySec
 
   return {
     ...res,
-    isLoadingDeleteLead: res.isLoading,
+    isLoadingDeleteLead: res.isPending,
     isErrorDeleteLead: res.isError,
     deleteLead: res.mutate,
     deleteLeadFromTable,

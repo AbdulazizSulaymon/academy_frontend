@@ -4,16 +4,15 @@ import React, { ReactElement, useMemo } from 'react';
 import { Fade } from 'react-awesome-reveal';
 import { useTranslation } from 'react-i18next';
 import { BsCartCheckFill } from 'react-icons/bs';
-import { FaBoxOpen, FaGithub, FaShop, FaUsers } from 'react-icons/fa6';
+import { FaBoxOpen, FaGithub, FaUsers } from 'react-icons/fa6';
 import { FcBarChart } from 'react-icons/fc';
 import { HiMiniUserPlus } from 'react-icons/hi2';
 import { PiShoppingCartFill } from 'react-icons/pi';
 import { TbCategory, TbUserPentagon } from 'react-icons/tb';
 import { NextPageWithLayout } from '@/types';
-import { useCountCategories } from '@src/queries/models/category';
-import { useCountOrderGroups } from '@src/queries/models/order-group';
+import { useCountShopCategories } from '@src/queries/models/shop-category';
+import { useCountOrders } from '@src/queries/models/order';
 import { useCountProducts } from '@src/queries/models/product';
-import { useCountShops } from '@src/queries/models/shop';
 import { useCountUsers } from '@src/queries/models/user';
 import { AdminBanner } from '@src/widgets/banners';
 import { AdminLayout } from '@src/widgets/dashboard-layout/layouts';
@@ -32,12 +31,12 @@ const Page: NextPageWithLayout = observer(() => {
   const startDate = useMemo(() => dayjs().add(1, 'day').startOf('day').toDate(), []);
   const endDate = useMemo(() => dayjs().add(2, 'day').startOf('day').toDate(), []);
 
-  const { countShops } = useCountShops({});
-  const { countCategories } = useCountCategories({});
+  // const { countShops } = useCountShops({});
+  const { countShopCategories } = useCountShopCategories({});
   const { countProducts } = useCountProducts({});
   const { countUsers } = useCountUsers({});
   const { countPartners } = useCountPartners({ where: { isActive: true } });
-  const { countOrderGroups } = useCountOrderGroups({ where: { status: 'Yetkazildi' } });
+  const { countOrders } = useCountOrders({ where: { status: 'Yetkazildi' } });
   const { data: dailyCountUsers } = useCountUsers({
     where: {
       createdAt: {
@@ -46,7 +45,7 @@ const Page: NextPageWithLayout = observer(() => {
       },
     },
   });
-  const { data: dailyCountOrderGroups } = useCountOrderGroups({
+  const { data: dailyCountOrders } = useCountOrders({
     where: {
       createdAt: {
         gte: startDate,
@@ -57,14 +56,14 @@ const Page: NextPageWithLayout = observer(() => {
 
   const dashboardItems = useMemo<DashboardCardProps[]>(
     () => [
+      // {
+      //   title: countShops?.data,
+      //   description: t("Do'konlar") || '',
+      //   icon: <FaShop className={'dashboard-card-icon'} />,
+      //   gradient: 'from-cyan-500 to-blue-500',
+      // },
       {
-        title: countShops?.data,
-        description: t("Do'konlar") || '',
-        icon: <FaShop className={'dashboard-card-icon'} />,
-        gradient: 'from-cyan-500 to-blue-500',
-      },
-      {
-        title: countCategories?.data,
+        title: countShopCategories?.data,
         description: t('Kategoriyalar') || '',
         icon: <TbCategory className={'dashboard-card-icon'} />,
         gradient: 'from-sky-500 to-indigo-500',
@@ -85,7 +84,7 @@ const Page: NextPageWithLayout = observer(() => {
         delay: 600,
       },
       {
-        title: countOrderGroups?.data,
+        title: countOrders?.data,
         description: t('Yetkazilgan Buyurtmalar') || '',
         icon: <BsCartCheckFill className={'dashboard-card-icon'} />,
         gradient: 'from-primary to-primary-700',
@@ -99,7 +98,7 @@ const Page: NextPageWithLayout = observer(() => {
         delay: 1000,
       },
       {
-        title: dailyCountOrderGroups?.data,
+        title: dailyCountOrders?.data,
         description: t('Kunlik Buyurtmalar') || '',
         icon: <PiShoppingCartFill className={'dashboard-card-icon'} />,
         gradient: 'from-violet-500 to-fuchsia-500',
@@ -128,13 +127,13 @@ const Page: NextPageWithLayout = observer(() => {
       // },
     ],
     [
-      countShops,
-      countCategories,
+      // countShops,
+      countShopCategories,
       countProducts,
       countUsers,
-      countOrderGroups,
+      countOrders,
       dailyCountUsers,
-      dailyCountOrderGroups,
+      dailyCountOrders,
       // githubStats,
       t,
     ],

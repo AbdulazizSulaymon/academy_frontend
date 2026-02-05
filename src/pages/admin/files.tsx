@@ -95,10 +95,10 @@ const Page: NextPageWithLayout = observer(function Home() {
     [t],
   );
 
-  const { data, isLoading, isError } = useQuery(
-    ['files'], 
-    () => api.instance.get('api/upload', { params: { includeSize: false } })
-  );
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['files'],
+    queryFn: () => api.instance.get('api/upload', { params: { includeSize: false } })
+  });
 
   const open = useCallback((data: Record<string, any>) => {}, []);
   const download = useCallback((data: Record<string, any>) => {}, []);
@@ -135,16 +135,14 @@ const Page: NextPageWithLayout = observer(function Home() {
     }
   }, [selectedFile, isFileInfoModalOpen, api.instance]);
 
-  const { mutate: remove, isLoading: isLoadingRemove } = useMutation(
-    (data: Record<string, any>) => api.instance.delete('api/upload', data),
-    {
-      onSuccess: () => {
-        notifySuccess('Deleted successfully!');
-        queryClient.invalidateQueries({ queryKey: ['files'] });
-      },
-      onError: () => notifyError('An error occurred!'),
+  const { mutate: remove, isPending: isLoadingRemove } = useMutation({
+    mutationFn: (data: Record<string, any>) => api.instance.delete('api/upload', data),
+    onSuccess: () => {
+      notifySuccess('Deleted successfully!');
+      queryClient.invalidateQueries({ queryKey: ['files'] });
     },
-  );
+    onError: () => notifyError('An error occurred!'),
+  });
   return (
     <Box>
       <VirtualTable

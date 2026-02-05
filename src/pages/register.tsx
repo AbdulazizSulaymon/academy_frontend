@@ -36,13 +36,13 @@ const Page = observer(function Page() {
   const [suggestionsVisible, setSuggestionsVisible] = useState(false);
   const { getErrorText, notifyError, notifySuccess } = useNotification();
 
-  const { mutate: createUser, isLoading: isLoadingCreating } = useMutation(
-    async (values: Record<string, any>) => {
-      await api.instance.post('/api/user/create', {
-        ref: localStorage.getItem('ref'),
+  const { mutate: createUser, isPending: isLoadingCreating } = useMutation({
+    mutationFn: async (values: Record<string, any>) => {
+      await api.apis.User.createOne({
         data: {
           ...values,
           phone: '+' + values.phone,
+          ref: localStorage.getItem('ref'),
         },
       });
       setSuccess(true);
@@ -55,20 +55,18 @@ const Page = observer(function Page() {
       });
       return resLogin;
     },
-    {
-      onSuccess: () => {
-        setTimeout(() => {
-          router.push('/shop/dashboard');
-        }, 0);
-      },
-      onError: (err) => {
-        const message = getErrorText(err);
-        if (message === 'Unique constraint failed on the fields: (`phone`)')
-          notifyError("Bu telefon raqami bilan ro'yxatdan o'tilgan!");
-        else notifyError("Xatolik sodir bo'ldi!");
-      },
+    onSuccess: () => {
+      setTimeout(() => {
+        router.push('/shop/dashboard');
+      }, 0);
     },
-  );
+    onError: (err) => {
+      const message = getErrorText(err);
+      if (message === 'Unique constraint failed on the fields: (`phone`)')
+        notifyError("Bu telefon raqami bilan ro'yxatdan o'tilgan!");
+      else notifyError("Xatolik sodir bo'ldi!");
+    },
+  });
 
   const suggestions = useMemo(
     () => [generateRandomPassword(12), generateRandomPassword(12), generateRandomPassword(12)],

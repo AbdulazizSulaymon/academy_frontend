@@ -19,9 +19,10 @@ import { useLayoutStore } from '@src/stores/layout-store';
 import { useMyTheme } from '@hooks/use-my-theme';
 import { observer } from 'mobx-react';
 import { useCourses } from '@src/queries/models/course';
+import { useEvents } from '@src/queries/models/event';
 import { get } from 'lodash';
 import { NextPageWithLayout } from '@/types';
-import { DynamicProviders } from '@hocs/dynamic-providers';
+import { DynamicProviders, StudentDynamicProviders } from '@hocs/dynamic-providers';
 import { PrimaryButton, SecondaryButton, GhostButton } from '@/components/ui/button';
 import { GlassCard, BenefitCard } from '@/components/ui/card';
 
@@ -48,10 +49,27 @@ const StudentDashboard: NextPageWithLayout = observer(() => {
         createdAt: 'desc',
       },
     },
-    { enabled: true }
+    { enabled: true },
   );
+  console.log(coursesResponse);
 
   const courses = get(coursesResponse, 'data.data', []);
+
+  // Fetch upcoming events from API
+  const { data: eventsResponse, isLoading: isLoadingEvents } = useEvents(
+    {
+      where: {
+        status: 'upcoming',
+      },
+      orderBy: {
+        eventDate: 'asc',
+      },
+      take: 5,
+    },
+    { enabled: true },
+  );
+
+  const events = get(eventsResponse, 'data.data', []);
 
   // Helper function to count total lessons from modules
   const getTotalLessons = (course: any) => {
@@ -100,25 +118,6 @@ const StudentDashboard: NextPageWithLayout = observer(() => {
     },
   ];
 
-  const upcomingEvents = [
-    {
-      id: 1,
-      title: 'Web Development Bootcamp',
-      date: '2026-02-10',
-      time: '18:00',
-      type: 'Online',
-      participants: 45,
-    },
-    {
-      id: 2,
-      title: 'JavaScript Q&A Session',
-      date: '2026-02-12',
-      time: '19:00',
-      type: 'Online',
-      participants: 32,
-    },
-  ];
-
   const recentAchievements = [
     {
       id: 1,
@@ -150,7 +149,7 @@ const StudentDashboard: NextPageWithLayout = observer(() => {
         {/* Background Image */}
         <div className="absolute inset-0">
           <img
-            src={"/images/academy-hero.webp"}
+            src={'/images/academy-hero.webp'}
             alt="Academy"
             className="w-full h-full object-cover opacity-20 object-top"
           />
@@ -162,9 +161,7 @@ const StudentDashboard: NextPageWithLayout = observer(() => {
         <div className="relative z-10">
           <div className="flex items-center gap-2 mb-4">
             <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50"></div>
-            <span className="text-sm font-medium text-white/90">
-              Online now
-            </span>
+            <span className="text-sm font-medium text-white/90">Online now</span>
           </div>
           <h1 className="text-3xl md:text-5xl font-bold mb-4 text-white leading-tight">
             Salom, {user?.firstName || 'Student'}! 👋
@@ -206,15 +203,11 @@ const StudentDashboard: NextPageWithLayout = observer(() => {
           <GlassCard className="!p-6">
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h2 className="text-xl font-bold mb-1 text-gray-900 dark:text-white">
-                  Aktiv kurslar
-                </h2>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Davom ettirish uchun bosing
-                </p>
+                <h2 className="text-xl font-bold mb-1 text-gray-900 dark:text-white">Aktiv kurslar</h2>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Davom ettirish uchun bosing</p>
               </div>
               <GhostButton>
-                Barchasini ko&apos;rish <ArrowRight className="w-4 h-4 ml-1" />
+                Barchasini ko'rish <ArrowRight className="w-4 h-4 ml-1" />
               </GhostButton>
             </div>
 
@@ -231,8 +224,10 @@ const StudentDashboard: NextPageWithLayout = observer(() => {
                 courses.map((course: any) => {
                   // Get course title based on language (default to Uzbek)
                   const title = course.titleUz || course.titleRu || course.titleEn || 'Kurs';
-                  const categoryName = course.category?.nameUz || course.category?.nameRu || course.category?.nameEn || 'Trading';
-                  const mentorName = `${course.mentor?.firstName || ''} ${course.mentor?.lastName || ''}`.trim() || 'Mentor';
+                  const categoryName =
+                    course.category?.nameUz || course.category?.nameRu || course.category?.nameEn || 'Trading';
+                  const mentorName =
+                    `${course.mentor?.firstName || ''} ${course.mentor?.lastName || ''}`.trim() || 'Mentor';
                   const totalLessons = getTotalLessons(course);
                   const publishedLessons = getPublishedLessons(course);
 
@@ -269,9 +264,7 @@ const StudentDashboard: NextPageWithLayout = observer(() => {
                               <Bookmark className="w-5 h-5" />
                             </button>
                           </div>
-                          <p className="text-sm mb-3 text-gray-600 dark:text-gray-400">
-                            by {mentorName}
-                          </p>
+                          <p className="text-sm mb-3 text-gray-600 dark:text-gray-400">by {mentorName}</p>
 
                           <div className="flex items-center gap-4 text-sm mb-3">
                             <div className="flex items-center gap-1.5">
@@ -314,46 +307,71 @@ const StudentDashboard: NextPageWithLayout = observer(() => {
               <div className="w-10 h-10 flex items-center justify-center rounded-xl flex-shrink-0 bg-gradient-to-br from-primary/10 to-primary-600/10">
                 <Calendar className="w-5 h-5 text-primary" />
               </div>
-              <h3 className="font-bold text-gray-900 dark:text-white">
-                Yaqin tadbirlar
-              </h3>
+              <h3 className="font-bold text-gray-900 dark:text-white">Yaqin tadbirlar</h3>
             </div>
 
             <div className="space-y-3">
-              {upcomingEvents.map((event) => (
-                <div
-                  key={event.id}
-                  className="p-4 rounded-xl transition-all duration-300 cursor-pointer hover:shadow-md hover:shadow-primary/5 hover:-translate-y-0.5 bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 hover:border-primary/20 dark:hover:border-primary/20"
-                >
-                  <div className="flex items-start justify-between mb-2">
-                    <p className="font-semibold text-sm text-gray-900 dark:text-white">
-                      {event.title}
-                    </p>
-                    <span className="px-2.5 py-1 text-xs font-semibold rounded-md flex-shrink-0 bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400">
-                      {event.type}
-                    </span>
-                  </div>
-
-                  <div className="flex items-center gap-2 text-xs mb-2">
-                    <Clock className="w-4 h-4 flex-shrink-0 text-primary" />
-                    <span className="text-gray-600 dark:text-gray-400">
-                      {event.date} • {event.time}
-                    </span>
-                  </div>
-
-                  <div className="flex items-center gap-1">
-                    <div className="flex -space-x-2">
-                      {[...Array(3)].map((_, i) => (
-                        <div key={i} className="w-6 h-6 rounded-full bg-gradient-to-br from-gray-300 to-gray-400 dark:from-gray-600 dark:to-gray-700 border-2 border-white dark:border-gray-800"></div>
-                      ))}
-                    </div>
-                    <div className="flex items-center gap-1 ml-2">
-                      <Users className="w-4 h-4 text-gray-500" />
-                      <span className="text-xs text-gray-500">{event.participants}</span>
-                    </div>
-                  </div>
+              {isLoadingEvents ? (
+                <div className="text-center py-8">
+                  <p className="text-gray-600 dark:text-gray-400">Tadbirlar yuklanmoqda...</p>
                 </div>
-              ))}
+              ) : events.length === 0 ? (
+                <div className="text-center py-8">
+                  <p className="text-gray-600 dark:text-gray-400">Hozircha tadbirlar yo&apos;q</p>
+                </div>
+              ) : (
+                events.map((event: any) => {
+                  // Format date and time from API response
+                  const eventDate = new Date(event.eventDate);
+                  const formattedDate = eventDate.toLocaleDateString('uz-UZ', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                  });
+                  const formattedTime = eventDate.toLocaleTimeString('uz-UZ', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  });
+
+                  return (
+                    <div
+                      key={event.id}
+                      className="p-4 rounded-xl transition-all duration-300 cursor-pointer hover:shadow-md hover:shadow-primary/5 hover:-translate-y-0.5 bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 hover:border-primary/20 dark:hover:border-primary/20"
+                    >
+                      <div className="flex items-start justify-between mb-2">
+                        <p className="font-semibold text-sm text-gray-900 dark:text-white">
+                          {event.titleUz || event.titleRu || event.titleEn || 'Tadbir'}
+                        </p>
+                        <span className="px-2.5 py-1 text-xs font-semibold rounded-md flex-shrink-0 bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400">
+                          {event.isOnline ? 'Online' : 'Offline'}
+                        </span>
+                      </div>
+
+                      <div className="flex items-center gap-2 text-xs mb-2">
+                        <Clock className="w-4 h-4 flex-shrink-0 text-primary" />
+                        <span className="text-gray-600 dark:text-gray-400">
+                          {formattedDate} • {formattedTime}
+                        </span>
+                      </div>
+
+                      <div className="flex items-center gap-1">
+                        <div className="flex -space-x-2">
+                          {[...Array(Math.min(3, event.participantCount || 0))].map((_, i) => (
+                            <div
+                              key={i}
+                              className="w-6 h-6 rounded-full bg-gradient-to-br from-gray-300 to-gray-400 dark:from-gray-600 dark:to-gray-700 border-2 border-white dark:border-gray-800"
+                            ></div>
+                          ))}
+                        </div>
+                        <div className="flex items-center gap-1 ml-2">
+                          <Users className="w-4 h-4 text-gray-500" />
+                          <span className="text-xs text-gray-500">{event.participantCount || 0}</span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })
+              )}
             </div>
           </GlassCard>
 
@@ -363,9 +381,7 @@ const StudentDashboard: NextPageWithLayout = observer(() => {
               <div className="w-10 h-10 flex items-center justify-center rounded-xl flex-shrink-0 bg-gradient-to-br from-primary/10 to-primary-600/10">
                 <Trophy className="w-5 h-5 text-primary" />
               </div>
-              <h3 className="font-bold text-gray-900 dark:text-white">
-                Yutuqlar
-              </h3>
+              <h3 className="font-bold text-gray-900 dark:text-white">Yutuqlar</h3>
             </div>
 
             <div className="space-y-3">
@@ -374,14 +390,14 @@ const StudentDashboard: NextPageWithLayout = observer(() => {
                   key={achievement.id}
                   className="flex items-start gap-3 p-4 rounded-xl transition-all duration-300 cursor-pointer hover:shadow-md hover:shadow-primary/5 hover:-translate-y-0.5 bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 hover:border-primary/20 dark:hover:border-primary/20"
                 >
-                  <div className={`w-10 h-10 flex items-center justify-center rounded-lg flex-shrink-0 bg-gradient-to-br ${achievement.gradient} shadow-lg`}>
+                  <div
+                    className={`w-10 h-10 flex items-center justify-center rounded-lg flex-shrink-0 bg-gradient-to-br ${achievement.gradient} shadow-lg`}
+                  >
                     <achievement.icon className="w-5 h-5 text-white" />
                   </div>
 
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold mb-1 text-gray-900 dark:text-white">
-                      {achievement.title}
-                    </p>
+                    <p className="text-sm font-semibold mb-1 text-gray-900 dark:text-white">{achievement.title}</p>
                     <p className="text-xs text-gray-500">{achievement.date}</p>
                   </div>
                 </div>
@@ -396,9 +412,9 @@ const StudentDashboard: NextPageWithLayout = observer(() => {
 
 StudentDashboard.getLayout = function getLayout(page: ReactElement) {
   return (
-    <DynamicProviders>
+    <StudentDynamicProviders>
       <StudentLayout title="Dashboard">{page}</StudentLayout>
-    </DynamicProviders>
+    </StudentDynamicProviders>
   );
 };
 

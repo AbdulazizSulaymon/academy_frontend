@@ -76,27 +76,25 @@ const Page: NextPageWithLayout = observer(function Home() {
   );
 
   const tableFetchProps = useTableFetchProps();
-  const { data, isLoading, isError } = useQuery(
-    ['notifications', tableFetchProps],
-    () => api.apis.Notifications.findMany({ ...tableFetchProps }),
-    { enabled: !!tableFetchProps.take },
-  );
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['notifications', tableFetchProps],
+    queryFn: () => api.apis.Notifications.findMany({ ...tableFetchProps }),
+    enabled: !!tableFetchProps.take,
+  });
   const addCallback = useCallback(() => push({ add: true }, { update: true }), [push]);
   const editCallback = useCallback(
     (data: Record<string, any>) => push({ edit: true, id: data.id }, { update: true }),
     [push],
   );
 
-  const { mutate: remove, isLoading: isLoadingRemove } = useMutation(
-    (data: Record<string, any>) => api.apis.Notifications.deleteOne({ where: { id: data.id } }),
-    {
-      onSuccess: () => {
-        notifySuccess('Deleted successfully!');
-        queryClient.invalidateQueries({ queryKey: ['notifications'] });
-      },
-      onError: () => notifyError('An error occurred!'),
+  const { mutate: remove, isPending: isLoadingRemove } = useMutation({
+    mutationFn: (data: Record<string, any>) => api.apis.Notifications.deleteOne({ where: { id: data.id } }),
+    onSuccess: () => {
+      notifySuccess('Deleted successfully!');
+      queryClient.invalidateQueries({ queryKey: ['notifications'] });
     },
-  );
+    onError: () => notifyError('An error occurred!'),
+  });
 
   return (
     <Box>

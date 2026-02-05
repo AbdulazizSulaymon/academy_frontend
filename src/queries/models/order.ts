@@ -13,11 +13,11 @@ export const ordersAggregateQueryKey = 'aggregate-orders';
 
 export const useAggregateOrders = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery(
-    [ordersAggregateQueryKey, props],
-    () => api.instance.post('/api/order/aggregate', props),
-    options,
-  );
+  const res = useQuery({
+    queryKey: [ordersAggregateQueryKey, props],
+    queryFn: () => api.instance.post('/api/order/aggregate', props),
+    ...options,
+  });
   return {
     ...res,
     isLoadingAggregateOrder: res.isLoading,
@@ -28,7 +28,11 @@ export const useAggregateOrders = (props: Record<string, any>, options: QueryOpt
 
 export const useCountOrders = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([ordersCountQueryKey, props], () => api.apis.Order.count({ ...props }), options);
+  const res = useQuery({
+    queryKey: [ordersCountQueryKey, props],
+    queryFn: () => api.apis.Order.count({ ...props }),
+    ...options,
+  });
   return {
     ...res,
     isLoadingCountOrder: res.isLoading,
@@ -39,7 +43,11 @@ export const useCountOrders = (props: Record<string, any>, options: QueryOptions
 
 export const useExistOrder = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([orderExistQueryKey, props], () => api.apis.Order.exist({ ...props }), options);
+  const res = useQuery({
+    queryKey: [orderExistQueryKey, props],
+    queryFn: () => api.apis.Order.exist({ ...props }),
+    ...options,
+  });
   return {
     ...res,
     isLoadingExistOrder: res.isLoading,
@@ -51,35 +59,39 @@ export const useExistOrder = (props: Record<string, any>, options: QueryOptions 
 export const useOrdersWithPagination = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
   const tableFetchProps = useTableFetchProps();
-  const res = useQuery(
-    [ordersQueryKey, tableFetchProps, props],
-    () =>
+  const res = useQuery({
+    queryKey: [ordersQueryKey, tableFetchProps, props],
+    queryFn: () =>
       api.apis.Order.findMany({
         ...tableFetchProps,
         ...props,
       }),
-    {
-      ...options,
-      enabled:
-        typeof options.enabled === 'undefined' ? !!tableFetchProps.take : !!options.enabled && !!tableFetchProps.take,
-    },
-  );
+    enabled:
+      typeof options.enabled === 'undefined' ? !!tableFetchProps.take : !!options.enabled && !!tableFetchProps.take,
+    ...options,
+  });
 
   return { ...res, isLoadingOrders: res.isLoading, isErrorOrders: res.isError, ordersData: res.data };
 };
 
 export const useOrders = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([ordersQueryKey, props], () => api.apis.Order.findMany({ ...props }), {
-    ...options,
+  const res = useQuery({
+    queryKey: [ordersQueryKey, props],
+    queryFn: () => api.apis.Order.findMany({ ...props }),
     enabled: options.enabled != undefined ? !!options.enabled : undefined,
+    ...options,
   });
   return { ...res, isLoadingOrders: res.isLoading, isErrorOrders: res.isError, ordersData: res.data };
 };
 
 export const useOrder = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([orderQueryKey, props], () => api.apis.Order.findOne({ ...props }), options as any);
+  const res = useQuery({
+    queryKey: [orderQueryKey, props],
+    queryFn: () => api.apis.Order.findOne({ ...props }),
+    ...(options as any),
+  });
   return {
     ...res,
     isLoadingOrder: res.isLoading,
@@ -91,13 +103,16 @@ export const useOrder = (props: Record<string, any>, options: QueryOptions = {})
 export const useCreateOrders = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.Order.createMany({ data });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.Order.createMany({ data });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   return {
     ...res,
-    isLoadingCreateOrders: res.isLoading,
+    isLoadingCreateOrders: res.isPending,
     isErrorCreateOrders: res.isError,
     createOrders: res.mutate,
     createdOrders: res.data,
@@ -107,13 +122,16 @@ export const useCreateOrders = (options: QueryOptions, secondaryOptions?: QueryS
 export const useCreateListOrders = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.Order.createList(data);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.Order.createList(data);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   return {
     ...res,
-    isLoadingCreateListOrders: res.isLoading,
+    isLoadingCreateListOrders: res.isPending,
     isErrorCreateListOrders: res.isError,
     createListOrders: res.mutate,
     createdListOrders: res.data,
@@ -123,12 +141,15 @@ export const useCreateListOrders = (options: QueryOptions, secondaryOptions?: Qu
 export const useCreateOrder = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.Order.createOne({ data });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.Order.createOne({ data });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingCreateOrder: res.isLoading,
+    isLoadingCreateOrder: res.isPending,
     isErrorCreateOrder: res.isError,
     createOrder: res.mutate,
     createdOrder: res.data,
@@ -138,12 +159,15 @@ export const useCreateOrder = (options: QueryOptions, secondaryOptions?: QuerySe
 export const useUpdateOrders = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.Order.updateMany(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.Order.updateMany(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateOrders: res.isLoading,
+    isLoadingUpdateOrders: res.isPending,
     isErrorUpdateOrders: res.isError,
     updateOrders: res.mutate,
     updatedOrders: res.data,
@@ -153,12 +177,15 @@ export const useUpdateOrders = (options: QueryOptions, secondaryOptions?: QueryS
 export const useUpdateListOrders = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.Order.updateList(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.Order.updateList(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateListOrders: res.isLoading,
+    isLoadingUpdateListOrders: res.isPending,
     isErrorUpdateListOrders: res.isError,
     updateListOrders: res.mutate,
     updatedListOrders: res.data,
@@ -168,12 +195,15 @@ export const useUpdateListOrders = (options: QueryOptions, secondaryOptions?: Qu
 export const useUpdateOrdersList = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.Order.updateList(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.Order.updateList(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateOrdersList: res.isLoading,
+    isLoadingUpdateOrdersList: res.isPending,
     isErrorUpdateOrdersList: res.isError,
     updateOrdersList: res.mutate,
     updatedOrdersList: res.data,
@@ -183,12 +213,15 @@ export const useUpdateOrdersList = (options: QueryOptions, secondaryOptions?: Qu
 export const useUpdateOrder = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.Order.updateOne(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.Order.updateOne(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateOrder: res.isLoading,
+    isLoadingUpdateOrder: res.isPending,
     isErrorUpdateOrder: res.isError,
     updateOrder: res.mutate,
     updatedOrder: res.data,
@@ -198,12 +231,15 @@ export const useUpdateOrder = (options: QueryOptions, secondaryOptions?: QuerySe
 export const useDeleteOrders = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((where: Record<string, any>) => {
-    return api.apis.Order.deleteMany({ where });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (where: Record<string, any>) => {
+      return api.apis.Order.deleteMany({ where });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingDeleteOrders: res.isLoading,
+    isLoadingDeleteOrders: res.isPending,
     isErrorDeleteOrders: res.isError,
     deleteOrders: res.mutate,
   };
@@ -212,12 +248,15 @@ export const useDeleteOrders = (options: QueryOptions, secondaryOptions?: QueryS
 export const useDeleteAllOrders = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation(() => {
-    return api.apis.Order.deleteAll();
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: () => {
+      return api.apis.Order.deleteAll();
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingDeleteAllOrders: res.isLoading,
+    isLoadingDeleteAllOrders: res.isPending,
     isErrorDeleteAllOrders: res.isError,
     deleteAllOrders: res.mutate,
   };
@@ -226,9 +265,12 @@ export const useDeleteAllOrders = (options: QueryOptions, secondaryOptions?: Que
 export const useDeleteOrder = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((where: Record<string, any> | number | string) => {
-    return api.apis.Order.deleteOne(typeof where === 'object' ? { where } : { where: { id: where } });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (where: Record<string, any> | number | string) => {
+      return api.apis.Order.deleteOne(typeof where === 'object' ? { where } : { where: { id: where } });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   const deleteOrderFromTable = useCallback(
     (data: Record<string, any>) => {
@@ -239,7 +281,7 @@ export const useDeleteOrder = (options: QueryOptions, secondaryOptions?: QuerySe
 
   return {
     ...res,
-    isLoadingDeleteOrder: res.isLoading,
+    isLoadingDeleteOrder: res.isPending,
     isErrorDeleteOrder: res.isError,
     deleteOrder: res.mutate,
     deleteOrderFromTable,

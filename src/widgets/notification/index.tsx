@@ -23,9 +23,9 @@ const Notification = () => {
   const [notificationsId, setNotificationsId] = useState([]);
   const uniqueNotificationsId = Array.from(notificationsId);
 
-  const { data } = useQuery(
-    ['notifications-modal', notificationsId],
-    () =>
+  const { data } = useQuery({
+    queryKey: ['notifications-modal', notificationsId],
+    queryFn: () =>
       api.apis.Notifications.findMany({
         where: {
           AND: [
@@ -38,19 +38,19 @@ const Notification = () => {
         take: 10,
         orderBy: { createdAt: 'desc' },
       }),
-    { enabled: false },
-  );
+    enabled: false,
+  });
 
-  const { data: viewNotificationData } = useQuery(
-    ['viewNotification'],
-    () =>
+  const { data: viewNotificationData } = useQuery({
+    queryKey: ['viewNotification'],
+    queryFn: () =>
       api.apis.ViewNotification.findMany({
         where: { AND: [{ userId: { equals: 10 } }] },
         take: 10,
         orderBy: { createdAt: 'desc' },
       }),
-    { enabled: false },
-  );
+    enabled: false,
+  });
 
   useEffect(() => {
     viewNotificationData?.data?.data.forEach((v: Record<string, any>) => {
@@ -63,7 +63,9 @@ const Notification = () => {
     data: dataFirst,
     isLoading,
     isError,
-  } = useQuery(['notification-modal'], () => api.apis.Notifications.findOne({ where: { id: idNotification } }), {
+  } = useQuery({
+    queryKey: ['notification-modal'],
+    queryFn: () => api.apis.Notifications.findOne({ where: { id: idNotification } }),
     enabled: !!idNotification,
   });
 

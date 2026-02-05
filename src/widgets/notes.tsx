@@ -71,7 +71,9 @@ export const Notes = observer(() => {
   });
   const ref = useDetectClickOutside({ onTriggered: handleCloseNote, triggerKeys: ['Escape'] });
 
-  const { data: notesData } = useQuery(['notes'], () => api.apis.Notes.findMany({ where: { userId: user?.id } }), {
+  const { data: notesData } = useQuery({
+    queryKey: ['notes'],
+    queryFn: () => api.apis.Notes.findMany({ where: { userId: user?.id } }),
     enabled: !!user?.id,
   });
 

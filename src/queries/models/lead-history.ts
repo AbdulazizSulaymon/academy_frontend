@@ -13,11 +13,11 @@ export const leadHistoriesAggregateQueryKey = 'aggregate-lead-histories';
 
 export const useAggregateLeadHistories = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery(
-    [leadHistoriesAggregateQueryKey, props],
-    () => api.instance.post('/api/leadHistory/aggregate', props),
-    options,
-  );
+  const res = useQuery({
+    queryKey: [leadHistoriesAggregateQueryKey, props],
+    queryFn: () => api.instance.post('/api/leadHistory/aggregate', props),
+    ...options,
+  });
   return {
     ...res,
     isLoadingAggregateLeadHistory: res.isLoading,
@@ -28,7 +28,11 @@ export const useAggregateLeadHistories = (props: Record<string, any>, options: Q
 
 export const useCountLeadHistories = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([leadHistoriesCountQueryKey, props], () => api.apis.LeadHistory.count({ ...props }), options);
+  const res = useQuery({
+    queryKey: [leadHistoriesCountQueryKey, props],
+    queryFn: () => api.apis.LeadHistory.count({ ...props }),
+    ...options,
+  });
   return {
     ...res,
     isLoadingCountLeadHistory: res.isLoading,
@@ -39,7 +43,11 @@ export const useCountLeadHistories = (props: Record<string, any>, options: Query
 
 export const useExistLeadHistory = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([leadHistoryExistQueryKey, props], () => api.apis.LeadHistory.exist({ ...props }), options);
+  const res = useQuery({
+    queryKey: [leadHistoryExistQueryKey, props],
+    queryFn: () => api.apis.LeadHistory.exist({ ...props }),
+    ...options,
+  });
   return {
     ...res,
     isLoadingExistLeadHistory: res.isLoading,
@@ -51,19 +59,17 @@ export const useExistLeadHistory = (props: Record<string, any>, options: QueryOp
 export const useLeadHistoriesWithPagination = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
   const tableFetchProps = useTableFetchProps();
-  const res = useQuery(
-    [leadHistoriesQueryKey, tableFetchProps, props],
-    () =>
+  const res = useQuery({
+    queryKey: [leadHistoriesQueryKey, tableFetchProps, props],
+    queryFn: () =>
       api.apis.LeadHistory.findMany({
         ...tableFetchProps,
         ...props,
       }),
-    {
-      ...options,
-      enabled:
-        typeof options.enabled === 'undefined' ? !!tableFetchProps.take : !!options.enabled && !!tableFetchProps.take,
-    },
-  );
+    enabled:
+      typeof options.enabled === 'undefined' ? !!tableFetchProps.take : !!options.enabled && !!tableFetchProps.take,
+    ...options,
+  });
 
   return {
     ...res,
@@ -75,9 +81,11 @@ export const useLeadHistoriesWithPagination = (props: Record<string, any>, optio
 
 export const useLeadHistories = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([leadHistoriesQueryKey, props], () => api.apis.LeadHistory.findMany({ ...props }), {
-    ...options,
+  const res = useQuery({
+    queryKey: [leadHistoriesQueryKey, props],
+    queryFn: () => api.apis.LeadHistory.findMany({ ...props }),
     enabled: options.enabled != undefined ? !!options.enabled : undefined,
+    ...options,
   });
   return {
     ...res,
@@ -89,7 +97,11 @@ export const useLeadHistories = (props: Record<string, any>, options: QueryOptio
 
 export const useLeadHistory = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([leadHistoryQueryKey, props], () => api.apis.LeadHistory.findOne({ ...props }), options as any);
+  const res = useQuery({
+    queryKey: [leadHistoryQueryKey, props],
+    queryFn: () => api.apis.LeadHistory.findOne({ ...props }),
+    ...(options as any),
+  });
   return {
     ...res,
     isLoadingLeadHistory: res.isLoading,
@@ -101,13 +113,16 @@ export const useLeadHistory = (props: Record<string, any>, options: QueryOptions
 export const useCreateLeadHistories = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.LeadHistory.createMany({ data });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.LeadHistory.createMany({ data });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   return {
     ...res,
-    isLoadingCreateLeadHistories: res.isLoading,
+    isLoadingCreateLeadHistories: res.isPending,
     isErrorCreateLeadHistories: res.isError,
     createLeadHistories: res.mutate,
     createdLeadHistories: res.data,
@@ -117,13 +132,16 @@ export const useCreateLeadHistories = (options: QueryOptions, secondaryOptions?:
 export const useCreateListLeadHistories = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.LeadHistory.createList(data);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.LeadHistory.createList(data);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   return {
     ...res,
-    isLoadingCreateListLeadHistories: res.isLoading,
+    isLoadingCreateListLeadHistories: res.isPending,
     isErrorCreateListLeadHistories: res.isError,
     createListLeadHistories: res.mutate,
     createdListLeadHistories: res.data,
@@ -133,12 +151,15 @@ export const useCreateListLeadHistories = (options: QueryOptions, secondaryOptio
 export const useCreateLeadHistory = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.LeadHistory.createOne({ data });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.LeadHistory.createOne({ data });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingCreateLeadHistory: res.isLoading,
+    isLoadingCreateLeadHistory: res.isPending,
     isErrorCreateLeadHistory: res.isError,
     createLeadHistory: res.mutate,
     createdLeadHistory: res.data,
@@ -148,12 +169,15 @@ export const useCreateLeadHistory = (options: QueryOptions, secondaryOptions?: Q
 export const useUpdateLeadHistories = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.LeadHistory.updateMany(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.LeadHistory.updateMany(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateLeadHistories: res.isLoading,
+    isLoadingUpdateLeadHistories: res.isPending,
     isErrorUpdateLeadHistories: res.isError,
     updateLeadHistories: res.mutate,
     updatedLeadHistories: res.data,
@@ -163,12 +187,15 @@ export const useUpdateLeadHistories = (options: QueryOptions, secondaryOptions?:
 export const useUpdateListLeadHistories = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.LeadHistory.updateList(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.LeadHistory.updateList(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateListLeadHistories: res.isLoading,
+    isLoadingUpdateListLeadHistories: res.isPending,
     isErrorUpdateListLeadHistories: res.isError,
     updateListLeadHistories: res.mutate,
     updatedListLeadHistories: res.data,
@@ -178,12 +205,15 @@ export const useUpdateListLeadHistories = (options: QueryOptions, secondaryOptio
 export const useUpdateLeadHistoriesList = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.LeadHistory.updateList(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.LeadHistory.updateList(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateLeadHistoriesList: res.isLoading,
+    isLoadingUpdateLeadHistoriesList: res.isPending,
     isErrorUpdateLeadHistoriesList: res.isError,
     updateLeadHistoriesList: res.mutate,
     updatedLeadHistoriesList: res.data,
@@ -193,12 +223,15 @@ export const useUpdateLeadHistoriesList = (options: QueryOptions, secondaryOptio
 export const useUpdateLeadHistory = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.LeadHistory.updateOne(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.LeadHistory.updateOne(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateLeadHistory: res.isLoading,
+    isLoadingUpdateLeadHistory: res.isPending,
     isErrorUpdateLeadHistory: res.isError,
     updateLeadHistory: res.mutate,
     updatedLeadHistory: res.data,
@@ -208,12 +241,15 @@ export const useUpdateLeadHistory = (options: QueryOptions, secondaryOptions?: Q
 export const useDeleteLeadHistories = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((where: Record<string, any>) => {
-    return api.apis.LeadHistory.deleteMany({ where });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (where: Record<string, any>) => {
+      return api.apis.LeadHistory.deleteMany({ where });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingDeleteLeadHistories: res.isLoading,
+    isLoadingDeleteLeadHistories: res.isPending,
     isErrorDeleteLeadHistories: res.isError,
     deleteLeadHistories: res.mutate,
   };
@@ -222,12 +258,15 @@ export const useDeleteLeadHistories = (options: QueryOptions, secondaryOptions?:
 export const useDeleteAllLeadHistories = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation(() => {
-    return api.apis.LeadHistory.deleteAll();
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: () => {
+      return api.apis.LeadHistory.deleteAll();
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingDeleteAllLeadHistories: res.isLoading,
+    isLoadingDeleteAllLeadHistories: res.isPending,
     isErrorDeleteAllLeadHistories: res.isError,
     deleteAllLeadHistories: res.mutate,
   };
@@ -236,9 +275,12 @@ export const useDeleteAllLeadHistories = (options: QueryOptions, secondaryOption
 export const useDeleteLeadHistory = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((where: Record<string, any> | number | string) => {
-    return api.apis.LeadHistory.deleteOne(typeof where === 'object' ? { where } : { where: { id: where } });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (where: Record<string, any> | number | string) => {
+      return api.apis.LeadHistory.deleteOne(typeof where === 'object' ? { where } : { where: { id: where } });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   const deleteLeadHistoryFromTable = useCallback(
     (data: Record<string, any>) => {
@@ -249,7 +291,7 @@ export const useDeleteLeadHistory = (options: QueryOptions, secondaryOptions?: Q
 
   return {
     ...res,
-    isLoadingDeleteLeadHistory: res.isLoading,
+    isLoadingDeleteLeadHistory: res.isPending,
     isErrorDeleteLeadHistory: res.isError,
     deleteLeadHistory: res.mutate,
     deleteLeadHistoryFromTable,

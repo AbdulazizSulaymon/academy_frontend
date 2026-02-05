@@ -13,11 +13,11 @@ export const lessonsAggregateQueryKey = 'aggregate-lessons';
 
 export const useAggregateLessons = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery(
-    [lessonsAggregateQueryKey, props],
-    () => api.instance.post('/api/lesson/aggregate', props),
-    options,
-  );
+  const res = useQuery({
+    queryKey: [lessonsAggregateQueryKey, props],
+    queryFn: () => api.instance.post('/api/lesson/aggregate', props),
+    ...options,
+  });
   return {
     ...res,
     isLoadingAggregateLesson: res.isLoading,
@@ -28,7 +28,11 @@ export const useAggregateLessons = (props: Record<string, any>, options: QueryOp
 
 export const useCountLessons = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([lessonsCountQueryKey, props], () => api.apis.Lesson.count({ ...props }), options);
+  const res = useQuery({
+    queryKey: [lessonsCountQueryKey, props],
+    queryFn: () => api.apis.Lesson.count({ ...props }),
+    ...options,
+  });
   return {
     ...res,
     isLoadingCountLesson: res.isLoading,
@@ -39,7 +43,11 @@ export const useCountLessons = (props: Record<string, any>, options: QueryOption
 
 export const useExistLesson = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([lessonExistQueryKey, props], () => api.apis.Lesson.exist({ ...props }), options);
+  const res = useQuery({
+    queryKey: [lessonExistQueryKey, props],
+    queryFn: () => api.apis.Lesson.exist({ ...props }),
+    ...options,
+  });
   return {
     ...res,
     isLoadingExistLesson: res.isLoading,
@@ -51,35 +59,39 @@ export const useExistLesson = (props: Record<string, any>, options: QueryOptions
 export const useLessonsWithPagination = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
   const tableFetchProps = useTableFetchProps();
-  const res = useQuery(
-    [lessonsQueryKey, tableFetchProps, props],
-    () =>
+  const res = useQuery({
+    queryKey: [lessonsQueryKey, tableFetchProps, props],
+    queryFn: () =>
       api.apis.Lesson.findMany({
         ...tableFetchProps,
         ...props,
       }),
-    {
-      ...options,
-      enabled:
-        typeof options.enabled === 'undefined' ? !!tableFetchProps.take : !!options.enabled && !!tableFetchProps.take,
-    },
-  );
+    enabled:
+      typeof options.enabled === 'undefined' ? !!tableFetchProps.take : !!options.enabled && !!tableFetchProps.take,
+    ...options,
+  });
 
   return { ...res, isLoadingLessons: res.isLoading, isErrorLessons: res.isError, lessonsData: res.data };
 };
 
 export const useLessons = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([lessonsQueryKey, props], () => api.apis.Lesson.findMany({ ...props }), {
-    ...options,
+  const res = useQuery({
+    queryKey: [lessonsQueryKey, props],
+    queryFn: () => api.apis.Lesson.findMany({ ...props }),
     enabled: options.enabled != undefined ? !!options.enabled : undefined,
+    ...options,
   });
   return { ...res, isLoadingLessons: res.isLoading, isErrorLessons: res.isError, lessonsData: res.data };
 };
 
 export const useLesson = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([lessonQueryKey, props], () => api.apis.Lesson.findOne({ ...props }), options as any);
+  const res = useQuery({
+    queryKey: [lessonQueryKey, props],
+    queryFn: () => api.apis.Lesson.findOne({ ...props }),
+    ...(options as any),
+  });
   return {
     ...res,
     isLoadingLesson: res.isLoading,
@@ -91,13 +103,16 @@ export const useLesson = (props: Record<string, any>, options: QueryOptions = {}
 export const useCreateLessons = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.Lesson.createMany({ data });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.Lesson.createMany({ data });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   return {
     ...res,
-    isLoadingCreateLessons: res.isLoading,
+    isLoadingCreateLessons: res.isPending,
     isErrorCreateLessons: res.isError,
     createLessons: res.mutate,
     createdLessons: res.data,
@@ -107,13 +122,16 @@ export const useCreateLessons = (options: QueryOptions, secondaryOptions?: Query
 export const useCreateListLessons = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.Lesson.createList(data);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.Lesson.createList(data);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   return {
     ...res,
-    isLoadingCreateListLessons: res.isLoading,
+    isLoadingCreateListLessons: res.isPending,
     isErrorCreateListLessons: res.isError,
     createListLessons: res.mutate,
     createdListLessons: res.data,
@@ -123,12 +141,15 @@ export const useCreateListLessons = (options: QueryOptions, secondaryOptions?: Q
 export const useCreateLesson = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.Lesson.createOne({ data });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.Lesson.createOne({ data });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingCreateLesson: res.isLoading,
+    isLoadingCreateLesson: res.isPending,
     isErrorCreateLesson: res.isError,
     createLesson: res.mutate,
     createdLesson: res.data,
@@ -138,12 +159,15 @@ export const useCreateLesson = (options: QueryOptions, secondaryOptions?: QueryS
 export const useUpdateLessons = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.Lesson.updateMany(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.Lesson.updateMany(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateLessons: res.isLoading,
+    isLoadingUpdateLessons: res.isPending,
     isErrorUpdateLessons: res.isError,
     updateLessons: res.mutate,
     updatedLessons: res.data,
@@ -153,12 +177,15 @@ export const useUpdateLessons = (options: QueryOptions, secondaryOptions?: Query
 export const useUpdateListLessons = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.Lesson.updateList(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.Lesson.updateList(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateListLessons: res.isLoading,
+    isLoadingUpdateListLessons: res.isPending,
     isErrorUpdateListLessons: res.isError,
     updateListLessons: res.mutate,
     updatedListLessons: res.data,
@@ -168,12 +195,15 @@ export const useUpdateListLessons = (options: QueryOptions, secondaryOptions?: Q
 export const useUpdateLessonsList = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.Lesson.updateList(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.Lesson.updateList(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateLessonsList: res.isLoading,
+    isLoadingUpdateLessonsList: res.isPending,
     isErrorUpdateLessonsList: res.isError,
     updateLessonsList: res.mutate,
     updatedLessonsList: res.data,
@@ -183,12 +213,15 @@ export const useUpdateLessonsList = (options: QueryOptions, secondaryOptions?: Q
 export const useUpdateLesson = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.Lesson.updateOne(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.Lesson.updateOne(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateLesson: res.isLoading,
+    isLoadingUpdateLesson: res.isPending,
     isErrorUpdateLesson: res.isError,
     updateLesson: res.mutate,
     updatedLesson: res.data,
@@ -198,12 +231,15 @@ export const useUpdateLesson = (options: QueryOptions, secondaryOptions?: QueryS
 export const useDeleteLessons = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((where: Record<string, any>) => {
-    return api.apis.Lesson.deleteMany({ where });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (where: Record<string, any>) => {
+      return api.apis.Lesson.deleteMany({ where });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingDeleteLessons: res.isLoading,
+    isLoadingDeleteLessons: res.isPending,
     isErrorDeleteLessons: res.isError,
     deleteLessons: res.mutate,
   };
@@ -212,12 +248,15 @@ export const useDeleteLessons = (options: QueryOptions, secondaryOptions?: Query
 export const useDeleteAllLessons = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation(() => {
-    return api.apis.Lesson.deleteAll();
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: () => {
+      return api.apis.Lesson.deleteAll();
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingDeleteAllLessons: res.isLoading,
+    isLoadingDeleteAllLessons: res.isPending,
     isErrorDeleteAllLessons: res.isError,
     deleteAllLessons: res.mutate,
   };
@@ -226,9 +265,12 @@ export const useDeleteAllLessons = (options: QueryOptions, secondaryOptions?: Qu
 export const useDeleteLesson = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((where: Record<string, any> | number | string) => {
-    return api.apis.Lesson.deleteOne(typeof where === 'object' ? { where } : { where: { id: where } });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (where: Record<string, any> | number | string) => {
+      return api.apis.Lesson.deleteOne(typeof where === 'object' ? { where } : { where: { id: where } });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   const deleteLessonFromTable = useCallback(
     (data: Record<string, any>) => {
@@ -239,7 +281,7 @@ export const useDeleteLesson = (options: QueryOptions, secondaryOptions?: QueryS
 
   return {
     ...res,
-    isLoadingDeleteLesson: res.isLoading,
+    isLoadingDeleteLesson: res.isPending,
     isErrorDeleteLesson: res.isError,
     deleteLesson: res.mutate,
     deleteLessonFromTable,

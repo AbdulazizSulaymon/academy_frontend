@@ -13,11 +13,11 @@ export const courseEnrollmentsAggregateQueryKey = 'aggregate-course-enrollments'
 
 export const useAggregateCourseEnrollments = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery(
-    [courseEnrollmentsAggregateQueryKey, props],
-    () => api.instance.post('/api/courseEnrollment/aggregate', props),
-    options,
-  );
+  const res = useQuery({
+    queryKey: [courseEnrollmentsAggregateQueryKey, props],
+    queryFn: () => api.instance.post('/api/courseEnrollment/aggregate', props),
+    ...options,
+  });
   return {
     ...res,
     isLoadingAggregateCourseEnrollment: res.isLoading,
@@ -28,11 +28,11 @@ export const useAggregateCourseEnrollments = (props: Record<string, any>, option
 
 export const useCountCourseEnrollments = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery(
-    [courseEnrollmentsCountQueryKey, props],
-    () => api.apis.CourseEnrollment.count({ ...props }),
-    options,
-  );
+  const res = useQuery({
+    queryKey: [courseEnrollmentsCountQueryKey, props],
+    queryFn: () => api.apis.CourseEnrollment.count({ ...props }),
+    ...options,
+  });
   return {
     ...res,
     isLoadingCountCourseEnrollment: res.isLoading,
@@ -43,11 +43,11 @@ export const useCountCourseEnrollments = (props: Record<string, any>, options: Q
 
 export const useExistCourseEnrollment = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery(
-    [courseEnrollmentExistQueryKey, props],
-    () => api.apis.CourseEnrollment.exist({ ...props }),
-    options,
-  );
+  const res = useQuery({
+    queryKey: [courseEnrollmentExistQueryKey, props],
+    queryFn: () => api.apis.CourseEnrollment.exist({ ...props }),
+    ...options,
+  });
   return {
     ...res,
     isLoadingExistCourseEnrollment: res.isLoading,
@@ -59,19 +59,17 @@ export const useExistCourseEnrollment = (props: Record<string, any>, options: Qu
 export const useCourseEnrollmentsWithPagination = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
   const tableFetchProps = useTableFetchProps();
-  const res = useQuery(
-    [courseEnrollmentsQueryKey, tableFetchProps, props],
-    () =>
+  const res = useQuery({
+    queryKey: [courseEnrollmentsQueryKey, tableFetchProps, props],
+    queryFn: () =>
       api.apis.CourseEnrollment.findMany({
         ...tableFetchProps,
         ...props,
       }),
-    {
-      ...options,
-      enabled:
-        typeof options.enabled === 'undefined' ? !!tableFetchProps.take : !!options.enabled && !!tableFetchProps.take,
-    },
-  );
+    enabled:
+      typeof options.enabled === 'undefined' ? !!tableFetchProps.take : !!options.enabled && !!tableFetchProps.take,
+    ...options,
+  });
 
   return {
     ...res,
@@ -83,9 +81,11 @@ export const useCourseEnrollmentsWithPagination = (props: Record<string, any>, o
 
 export const useCourseEnrollments = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([courseEnrollmentsQueryKey, props], () => api.apis.CourseEnrollment.findMany({ ...props }), {
-    ...options,
+  const res = useQuery({
+    queryKey: [courseEnrollmentsQueryKey, props],
+    queryFn: () => api.apis.CourseEnrollment.findMany({ ...props }),
     enabled: options.enabled != undefined ? !!options.enabled : undefined,
+    ...options,
   });
   return {
     ...res,
@@ -97,11 +97,11 @@ export const useCourseEnrollments = (props: Record<string, any>, options: QueryO
 
 export const useCourseEnrollment = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery(
-    [courseEnrollmentQueryKey, props],
-    () => api.apis.CourseEnrollment.findOne({ ...props }),
-    options as any,
-  );
+  const res = useQuery({
+    queryKey: [courseEnrollmentQueryKey, props],
+    queryFn: () => api.apis.CourseEnrollment.findOne({ ...props }),
+    ...(options as any),
+  });
   return {
     ...res,
     isLoadingCourseEnrollment: res.isLoading,
@@ -113,13 +113,16 @@ export const useCourseEnrollment = (props: Record<string, any>, options: QueryOp
 export const useCreateCourseEnrollments = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.CourseEnrollment.createMany({ data });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.CourseEnrollment.createMany({ data });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   return {
     ...res,
-    isLoadingCreateCourseEnrollments: res.isLoading,
+    isLoadingCreateCourseEnrollments: res.isPending,
     isErrorCreateCourseEnrollments: res.isError,
     createCourseEnrollments: res.mutate,
     createdCourseEnrollments: res.data,
@@ -129,13 +132,16 @@ export const useCreateCourseEnrollments = (options: QueryOptions, secondaryOptio
 export const useCreateListCourseEnrollments = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.CourseEnrollment.createList(data);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.CourseEnrollment.createList(data);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   return {
     ...res,
-    isLoadingCreateListCourseEnrollments: res.isLoading,
+    isLoadingCreateListCourseEnrollments: res.isPending,
     isErrorCreateListCourseEnrollments: res.isError,
     createListCourseEnrollments: res.mutate,
     createdListCourseEnrollments: res.data,
@@ -145,12 +151,15 @@ export const useCreateListCourseEnrollments = (options: QueryOptions, secondaryO
 export const useCreateCourseEnrollment = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.CourseEnrollment.createOne({ data });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.CourseEnrollment.createOne({ data });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingCreateCourseEnrollment: res.isLoading,
+    isLoadingCreateCourseEnrollment: res.isPending,
     isErrorCreateCourseEnrollment: res.isError,
     createCourseEnrollment: res.mutate,
     createdCourseEnrollment: res.data,
@@ -160,12 +169,15 @@ export const useCreateCourseEnrollment = (options: QueryOptions, secondaryOption
 export const useUpdateCourseEnrollments = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.CourseEnrollment.updateMany(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.CourseEnrollment.updateMany(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateCourseEnrollments: res.isLoading,
+    isLoadingUpdateCourseEnrollments: res.isPending,
     isErrorUpdateCourseEnrollments: res.isError,
     updateCourseEnrollments: res.mutate,
     updatedCourseEnrollments: res.data,
@@ -175,12 +187,15 @@ export const useUpdateCourseEnrollments = (options: QueryOptions, secondaryOptio
 export const useUpdateListCourseEnrollments = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.CourseEnrollment.updateList(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.CourseEnrollment.updateList(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateListCourseEnrollments: res.isLoading,
+    isLoadingUpdateListCourseEnrollments: res.isPending,
     isErrorUpdateListCourseEnrollments: res.isError,
     updateListCourseEnrollments: res.mutate,
     updatedListCourseEnrollments: res.data,
@@ -190,12 +205,15 @@ export const useUpdateListCourseEnrollments = (options: QueryOptions, secondaryO
 export const useUpdateCourseEnrollmentsList = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.CourseEnrollment.updateList(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.CourseEnrollment.updateList(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateCourseEnrollmentsList: res.isLoading,
+    isLoadingUpdateCourseEnrollmentsList: res.isPending,
     isErrorUpdateCourseEnrollmentsList: res.isError,
     updateCourseEnrollmentsList: res.mutate,
     updatedCourseEnrollmentsList: res.data,
@@ -205,12 +223,15 @@ export const useUpdateCourseEnrollmentsList = (options: QueryOptions, secondaryO
 export const useUpdateCourseEnrollment = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.CourseEnrollment.updateOne(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.CourseEnrollment.updateOne(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateCourseEnrollment: res.isLoading,
+    isLoadingUpdateCourseEnrollment: res.isPending,
     isErrorUpdateCourseEnrollment: res.isError,
     updateCourseEnrollment: res.mutate,
     updatedCourseEnrollment: res.data,
@@ -220,12 +241,15 @@ export const useUpdateCourseEnrollment = (options: QueryOptions, secondaryOption
 export const useDeleteCourseEnrollments = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((where: Record<string, any>) => {
-    return api.apis.CourseEnrollment.deleteMany({ where });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (where: Record<string, any>) => {
+      return api.apis.CourseEnrollment.deleteMany({ where });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingDeleteCourseEnrollments: res.isLoading,
+    isLoadingDeleteCourseEnrollments: res.isPending,
     isErrorDeleteCourseEnrollments: res.isError,
     deleteCourseEnrollments: res.mutate,
   };
@@ -234,12 +258,15 @@ export const useDeleteCourseEnrollments = (options: QueryOptions, secondaryOptio
 export const useDeleteAllCourseEnrollments = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation(() => {
-    return api.apis.CourseEnrollment.deleteAll();
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: () => {
+      return api.apis.CourseEnrollment.deleteAll();
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingDeleteAllCourseEnrollments: res.isLoading,
+    isLoadingDeleteAllCourseEnrollments: res.isPending,
     isErrorDeleteAllCourseEnrollments: res.isError,
     deleteAllCourseEnrollments: res.mutate,
   };
@@ -248,9 +275,12 @@ export const useDeleteAllCourseEnrollments = (options: QueryOptions, secondaryOp
 export const useDeleteCourseEnrollment = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((where: Record<string, any> | number | string) => {
-    return api.apis.CourseEnrollment.deleteOne(typeof where === 'object' ? { where } : { where: { id: where } });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (where: Record<string, any> | number | string) => {
+      return api.apis.CourseEnrollment.deleteOne(typeof where === 'object' ? { where } : { where: { id: where } });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   const deleteCourseEnrollmentFromTable = useCallback(
     (data: Record<string, any>) => {
@@ -261,7 +291,7 @@ export const useDeleteCourseEnrollment = (options: QueryOptions, secondaryOption
 
   return {
     ...res,
-    isLoadingDeleteCourseEnrollment: res.isLoading,
+    isLoadingDeleteCourseEnrollment: res.isPending,
     isErrorDeleteCourseEnrollment: res.isError,
     deleteCourseEnrollment: res.mutate,
     deleteCourseEnrollmentFromTable,

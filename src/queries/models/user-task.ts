@@ -13,11 +13,11 @@ export const userTasksAggregateQueryKey = 'aggregate-user-tasks';
 
 export const useAggregateUserTasks = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery(
-    [userTasksAggregateQueryKey, props],
-    () => api.instance.post('/api/userTask/aggregate', props),
-    options,
-  );
+  const res = useQuery({
+    queryKey: [userTasksAggregateQueryKey, props],
+    queryFn: () => api.instance.post('/api/userTask/aggregate', props),
+    ...options,
+  });
   return {
     ...res,
     isLoadingAggregateUserTask: res.isLoading,
@@ -28,7 +28,11 @@ export const useAggregateUserTasks = (props: Record<string, any>, options: Query
 
 export const useCountUserTasks = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([userTasksCountQueryKey, props], () => api.apis.UserTask.count({ ...props }), options);
+  const res = useQuery({
+    queryKey: [userTasksCountQueryKey, props],
+    queryFn: () => api.apis.UserTask.count({ ...props }),
+    ...options,
+  });
   return {
     ...res,
     isLoadingCountUserTask: res.isLoading,
@@ -39,7 +43,11 @@ export const useCountUserTasks = (props: Record<string, any>, options: QueryOpti
 
 export const useExistUserTask = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([userTaskExistQueryKey, props], () => api.apis.UserTask.exist({ ...props }), options);
+  const res = useQuery({
+    queryKey: [userTaskExistQueryKey, props],
+    queryFn: () => api.apis.UserTask.exist({ ...props }),
+    ...options,
+  });
   return {
     ...res,
     isLoadingExistUserTask: res.isLoading,
@@ -51,35 +59,39 @@ export const useExistUserTask = (props: Record<string, any>, options: QueryOptio
 export const useUserTasksWithPagination = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
   const tableFetchProps = useTableFetchProps();
-  const res = useQuery(
-    [userTasksQueryKey, tableFetchProps, props],
-    () =>
+  const res = useQuery({
+    queryKey: [userTasksQueryKey, tableFetchProps, props],
+    queryFn: () =>
       api.apis.UserTask.findMany({
         ...tableFetchProps,
         ...props,
       }),
-    {
-      ...options,
-      enabled:
-        typeof options.enabled === 'undefined' ? !!tableFetchProps.take : !!options.enabled && !!tableFetchProps.take,
-    },
-  );
+    enabled:
+      typeof options.enabled === 'undefined' ? !!tableFetchProps.take : !!options.enabled && !!tableFetchProps.take,
+    ...options,
+  });
 
   return { ...res, isLoadingUserTasks: res.isLoading, isErrorUserTasks: res.isError, userTasksData: res.data };
 };
 
 export const useUserTasks = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([userTasksQueryKey, props], () => api.apis.UserTask.findMany({ ...props }), {
-    ...options,
+  const res = useQuery({
+    queryKey: [userTasksQueryKey, props],
+    queryFn: () => api.apis.UserTask.findMany({ ...props }),
     enabled: options.enabled != undefined ? !!options.enabled : undefined,
+    ...options,
   });
   return { ...res, isLoadingUserTasks: res.isLoading, isErrorUserTasks: res.isError, userTasksData: res.data };
 };
 
 export const useUserTask = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([userTaskQueryKey, props], () => api.apis.UserTask.findOne({ ...props }), options as any);
+  const res = useQuery({
+    queryKey: [userTaskQueryKey, props],
+    queryFn: () => api.apis.UserTask.findOne({ ...props }),
+    ...(options as any),
+  });
   return {
     ...res,
     isLoadingUserTask: res.isLoading,
@@ -91,13 +103,16 @@ export const useUserTask = (props: Record<string, any>, options: QueryOptions = 
 export const useCreateUserTasks = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.UserTask.createMany({ data });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.UserTask.createMany({ data });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   return {
     ...res,
-    isLoadingCreateUserTasks: res.isLoading,
+    isLoadingCreateUserTasks: res.isPending,
     isErrorCreateUserTasks: res.isError,
     createUserTasks: res.mutate,
     createdUserTasks: res.data,
@@ -107,13 +122,16 @@ export const useCreateUserTasks = (options: QueryOptions, secondaryOptions?: Que
 export const useCreateListUserTasks = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.UserTask.createList(data);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.UserTask.createList(data);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   return {
     ...res,
-    isLoadingCreateListUserTasks: res.isLoading,
+    isLoadingCreateListUserTasks: res.isPending,
     isErrorCreateListUserTasks: res.isError,
     createListUserTasks: res.mutate,
     createdListUserTasks: res.data,
@@ -123,12 +141,15 @@ export const useCreateListUserTasks = (options: QueryOptions, secondaryOptions?:
 export const useCreateUserTask = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.UserTask.createOne({ data });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.UserTask.createOne({ data });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingCreateUserTask: res.isLoading,
+    isLoadingCreateUserTask: res.isPending,
     isErrorCreateUserTask: res.isError,
     createUserTask: res.mutate,
     createdUserTask: res.data,
@@ -138,12 +159,15 @@ export const useCreateUserTask = (options: QueryOptions, secondaryOptions?: Quer
 export const useUpdateUserTasks = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.UserTask.updateMany(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.UserTask.updateMany(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateUserTasks: res.isLoading,
+    isLoadingUpdateUserTasks: res.isPending,
     isErrorUpdateUserTasks: res.isError,
     updateUserTasks: res.mutate,
     updatedUserTasks: res.data,
@@ -153,12 +177,15 @@ export const useUpdateUserTasks = (options: QueryOptions, secondaryOptions?: Que
 export const useUpdateListUserTasks = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.UserTask.updateList(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.UserTask.updateList(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateListUserTasks: res.isLoading,
+    isLoadingUpdateListUserTasks: res.isPending,
     isErrorUpdateListUserTasks: res.isError,
     updateListUserTasks: res.mutate,
     updatedListUserTasks: res.data,
@@ -168,12 +195,15 @@ export const useUpdateListUserTasks = (options: QueryOptions, secondaryOptions?:
 export const useUpdateUserTasksList = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.UserTask.updateList(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.UserTask.updateList(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateUserTasksList: res.isLoading,
+    isLoadingUpdateUserTasksList: res.isPending,
     isErrorUpdateUserTasksList: res.isError,
     updateUserTasksList: res.mutate,
     updatedUserTasksList: res.data,
@@ -183,12 +213,15 @@ export const useUpdateUserTasksList = (options: QueryOptions, secondaryOptions?:
 export const useUpdateUserTask = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.UserTask.updateOne(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.UserTask.updateOne(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateUserTask: res.isLoading,
+    isLoadingUpdateUserTask: res.isPending,
     isErrorUpdateUserTask: res.isError,
     updateUserTask: res.mutate,
     updatedUserTask: res.data,
@@ -198,12 +231,15 @@ export const useUpdateUserTask = (options: QueryOptions, secondaryOptions?: Quer
 export const useDeleteUserTasks = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((where: Record<string, any>) => {
-    return api.apis.UserTask.deleteMany({ where });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (where: Record<string, any>) => {
+      return api.apis.UserTask.deleteMany({ where });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingDeleteUserTasks: res.isLoading,
+    isLoadingDeleteUserTasks: res.isPending,
     isErrorDeleteUserTasks: res.isError,
     deleteUserTasks: res.mutate,
   };
@@ -212,12 +248,15 @@ export const useDeleteUserTasks = (options: QueryOptions, secondaryOptions?: Que
 export const useDeleteAllUserTasks = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation(() => {
-    return api.apis.UserTask.deleteAll();
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: () => {
+      return api.apis.UserTask.deleteAll();
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingDeleteAllUserTasks: res.isLoading,
+    isLoadingDeleteAllUserTasks: res.isPending,
     isErrorDeleteAllUserTasks: res.isError,
     deleteAllUserTasks: res.mutate,
   };
@@ -226,9 +265,12 @@ export const useDeleteAllUserTasks = (options: QueryOptions, secondaryOptions?: 
 export const useDeleteUserTask = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((where: Record<string, any> | number | string) => {
-    return api.apis.UserTask.deleteOne(typeof where === 'object' ? { where } : { where: { id: where } });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (where: Record<string, any> | number | string) => {
+      return api.apis.UserTask.deleteOne(typeof where === 'object' ? { where } : { where: { id: where } });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   const deleteUserTaskFromTable = useCallback(
     (data: Record<string, any>) => {
@@ -239,7 +281,7 @@ export const useDeleteUserTask = (options: QueryOptions, secondaryOptions?: Quer
 
   return {
     ...res,
-    isLoadingDeleteUserTask: res.isLoading,
+    isLoadingDeleteUserTask: res.isPending,
     isErrorDeleteUserTask: res.isError,
     deleteUserTask: res.mutate,
     deleteUserTaskFromTable,

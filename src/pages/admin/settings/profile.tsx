@@ -15,7 +15,7 @@ const { Text } = Typography;
 const Page: NextPageWithLayout = observer(function Page() {
   const { user } = useLayoutStore();
 
-  const { updateUser, isLoading } = useUpdateUser({}, getUpdateSecondaryOptions(['user-me']));
+  const { updateUser, isLoadingUpdateUser } = useUpdateUser({}, getUpdateSecondaryOptions(['user-me']));
 
   const onFinish = useCallback(
     (values: any) => {
@@ -49,7 +49,7 @@ const Page: NextPageWithLayout = observer(function Page() {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" className={'mt-3'} loading={isLoading}>
+            <Button type="primary" htmlType="submit" className={'mt-3'} loading={isLoadingUpdateUser}>
               Saqlash
             </Button>
           </Form.Item>

@@ -16,11 +16,6 @@ export const usePartnersMenus = () => {
         icon: <BiHome />,
         label: t('Dashboard') || '',
       },
-      // {
-      //   key: 'promo-codes',
-      //   icon: <MdDiscount />,
-      //   label: t('Promo-codes') || '',
-      // },
       {
         key: 'about-project',
         icon: <MdOutlineMonitor />,

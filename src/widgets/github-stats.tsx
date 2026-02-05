@@ -26,7 +26,10 @@ export type GitHubStatsProps = {
 export const useGithubStats = () => {
   const api = useApi();
 
-  const { data, ...props } = useQuery(['github-stats'], () => api.instance.get('/api/github-stats/stats'), {});
+  const { data, ...props } = useQuery({
+    queryKey: ['github-stats'],
+    queryFn: () => api.instance.get('/api/github-stats/stats'),
+  });
 
   const githubStats = useMemo(() => {
     const parsed = data?.data || {};
@@ -63,7 +66,10 @@ export const useGithubStats = () => {
 export const useMonthlyCommits = () => {
   const api = useApi();
 
-  const { data, ...props } = useQuery(['monthly-commits'], () => api.instance.get('/api/github-stats/monthly'), {});
+  const { data, ...props } = useQuery({
+    queryKey: ['monthly-commits'],
+    queryFn: () => api.instance.get('/api/github-stats/monthly'),
+  });
 
   return {
     monthlyCommits: data?.data || [],

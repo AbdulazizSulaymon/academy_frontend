@@ -119,13 +119,15 @@ const CodeEditor = ({
   const {
     data,
     error,
-    isLoading,
+    isPending,
     mutateAsync: run,
-  } = useMutation(() => {
-    return axios.post('http://localhost:3002/api/compiler', {
-      code: getValue(),
-      lang: 'C++',
-    });
+  } = useMutation({
+    mutationFn: () => {
+      return axios.post('http://localhost:3002/api/compiler', {
+        code: getValue(),
+        lang: 'C++',
+      });
+    },
   });
 
   // console.log({ data, error, loading, run, cancel });
@@ -188,7 +190,7 @@ const CodeEditor = ({
       />
       <pre className={'p-3 border-t-[1px] border-gray-500'}>
         <code className={clsx({ 'text-red-500': error })}>
-          {(isLoading && <Loading />) || ''}
+          {(isPending && <Loading />) || ''}
           {data && JSON.stringify(data.data)}
           {(!!error && (
             <>

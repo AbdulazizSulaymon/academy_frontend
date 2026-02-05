@@ -13,7 +13,11 @@ export const pagesAggregateQueryKey = 'aggregate-pages';
 
 export const useAggregatePages = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([pagesAggregateQueryKey, props], () => api.instance.post('/api/page/aggregate', props), options);
+  const res = useQuery({
+    queryKey: [pagesAggregateQueryKey, props],
+    queryFn: () => api.instance.post('/api/page/aggregate', props),
+    ...options,
+  });
   return {
     ...res,
     isLoadingAggregatePages: res.isLoading,
@@ -24,7 +28,11 @@ export const useAggregatePages = (props: Record<string, any>, options: QueryOpti
 
 export const useCountPages = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([pagesCountQueryKey, props], () => api.apis.Pages.count({ ...props }), options);
+  const res = useQuery({
+    queryKey: [pagesCountQueryKey, props],
+    queryFn: () => api.apis.Pages.count({ ...props }),
+    ...options,
+  });
   return {
     ...res,
     isLoadingCountPages: res.isLoading,
@@ -35,7 +43,11 @@ export const useCountPages = (props: Record<string, any>, options: QueryOptions 
 
 export const useExistPage = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([pageExistQueryKey, props], () => api.apis.Pages.exist({ ...props }), options);
+  const res = useQuery({
+    queryKey: [pageExistQueryKey, props],
+    queryFn: () => api.apis.Pages.exist({ ...props }),
+    ...options,
+  });
   return {
     ...res,
     isLoadingExistPages: res.isLoading,
@@ -47,35 +59,39 @@ export const useExistPage = (props: Record<string, any>, options: QueryOptions =
 export const usePagesWithPagination = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
   const tableFetchProps = useTableFetchProps();
-  const res = useQuery(
-    [pagesQueryKey, tableFetchProps, props],
-    () =>
+  const res = useQuery({
+    queryKey: [pagesQueryKey, tableFetchProps, props],
+    queryFn: () =>
       api.apis.Pages.findMany({
         ...tableFetchProps,
         ...props,
       }),
-    {
-      ...options,
-      enabled:
-        typeof options.enabled === 'undefined' ? !!tableFetchProps.take : !!options.enabled && !!tableFetchProps.take,
-    },
-  );
+    enabled:
+      typeof options.enabled === 'undefined' ? !!tableFetchProps.take : !!options.enabled && !!tableFetchProps.take,
+    ...options,
+  });
 
   return { ...res, isLoadingPages: res.isLoading, isErrorPages: res.isError, pagesData: res.data };
 };
 
 export const usePages = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([pagesQueryKey, props], () => api.apis.Pages.findMany({ ...props }), {
-    ...options,
+  const res = useQuery({
+    queryKey: [pagesQueryKey, props],
+    queryFn: () => api.apis.Pages.findMany({ ...props }),
     enabled: options.enabled != undefined ? !!options.enabled : undefined,
+    ...options,
   });
   return { ...res, isLoadingPages: res.isLoading, isErrorPages: res.isError, pagesData: res.data };
 };
 
 export const usePage = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([pageQueryKey, props], () => api.apis.Pages.findOne({ ...props }), options as any);
+  const res = useQuery({
+    queryKey: [pageQueryKey, props],
+    queryFn: () => api.apis.Pages.findOne({ ...props }),
+    ...(options as any),
+  });
   return {
     ...res,
     isLoadingPage: res.isLoading,
@@ -87,13 +103,16 @@ export const usePage = (props: Record<string, any>, options: QueryOptions = {}) 
 export const useCreatePages = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.Pages.createMany({ data });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.Pages.createMany({ data });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   return {
     ...res,
-    isLoadingCreatePages: res.isLoading,
+    isLoadingCreatePages: res.isPending,
     isErrorCreatePages: res.isError,
     createPages: res.mutate,
     createdPages: res.data,
@@ -103,13 +122,16 @@ export const useCreatePages = (options: QueryOptions, secondaryOptions?: QuerySe
 export const useCreateListPages = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.Pages.createList(data);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.Pages.createList(data);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   return {
     ...res,
-    isLoadingCreateListPages: res.isLoading,
+    isLoadingCreateListPages: res.isPending,
     isErrorCreateListPages: res.isError,
     createListPages: res.mutate,
     createdListPages: res.data,
@@ -119,12 +141,15 @@ export const useCreateListPages = (options: QueryOptions, secondaryOptions?: Que
 export const useCreatePage = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.Pages.createOne({ data });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.Pages.createOne({ data });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingCreatePage: res.isLoading,
+    isLoadingCreatePage: res.isPending,
     isErrorCreatePage: res.isError,
     createPage: res.mutate,
     createdPage: res.data,
@@ -134,12 +159,15 @@ export const useCreatePage = (options: QueryOptions, secondaryOptions?: QuerySec
 export const useUpdatePages = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.Pages.updateMany(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.Pages.updateMany(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdatePages: res.isLoading,
+    isLoadingUpdatePages: res.isPending,
     isErrorUpdatePages: res.isError,
     updatePages: res.mutate,
     updatedPages: res.data,
@@ -149,12 +177,15 @@ export const useUpdatePages = (options: QueryOptions, secondaryOptions?: QuerySe
 export const useUpdateListPages = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.Pages.updateList(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.Pages.updateList(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateListPages: res.isLoading,
+    isLoadingUpdateListPages: res.isPending,
     isErrorUpdateListPages: res.isError,
     updateListPages: res.mutate,
     updatedListPages: res.data,
@@ -164,12 +195,15 @@ export const useUpdateListPages = (options: QueryOptions, secondaryOptions?: Que
 export const useUpdatePagesList = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.Pages.updateList(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.Pages.updateList(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdatePagesList: res.isLoading,
+    isLoadingUpdatePagesList: res.isPending,
     isErrorUpdatePagesList: res.isError,
     updatePagesList: res.mutate,
     updatedPagesList: res.data,
@@ -179,12 +213,15 @@ export const useUpdatePagesList = (options: QueryOptions, secondaryOptions?: Que
 export const useUpdatePage = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.Pages.updateOne(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.Pages.updateOne(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdatePage: res.isLoading,
+    isLoadingUpdatePage: res.isPending,
     isErrorUpdatePage: res.isError,
     updatePage: res.mutate,
     updatedPage: res.data,
@@ -194,12 +231,15 @@ export const useUpdatePage = (options: QueryOptions, secondaryOptions?: QuerySec
 export const useDeletePages = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((where: Record<string, any>) => {
-    return api.apis.Pages.deleteMany({ where });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (where: Record<string, any>) => {
+      return api.apis.Pages.deleteMany({ where });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingDeletePages: res.isLoading,
+    isLoadingDeletePages: res.isPending,
     isErrorDeletePages: res.isError,
     deletePages: res.mutate,
   };
@@ -208,12 +248,15 @@ export const useDeletePages = (options: QueryOptions, secondaryOptions?: QuerySe
 export const useDeleteAllPages = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation(() => {
-    return api.apis.Pages.deleteAll();
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: () => {
+      return api.apis.Pages.deleteAll();
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingDeleteAllPages: res.isLoading,
+    isLoadingDeleteAllPages: res.isPending,
     isErrorDeleteAllPages: res.isError,
     deleteAllPages: res.mutate,
   };
@@ -222,9 +265,12 @@ export const useDeleteAllPages = (options: QueryOptions, secondaryOptions?: Quer
 export const useDeletePage = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((where: Record<string, any> | number | string) => {
-    return api.apis.Pages.deleteOne(typeof where === 'object' ? { where } : { where: { id: where } });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (where: Record<string, any> | number | string) => {
+      return api.apis.Pages.deleteOne(typeof where === 'object' ? { where } : { where: { id: where } });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   const deletePageFromTable = useCallback(
     (data: Record<string, any>) => {
@@ -235,7 +281,7 @@ export const useDeletePage = (options: QueryOptions, secondaryOptions?: QuerySec
 
   return {
     ...res,
-    isLoadingDeletePage: res.isLoading,
+    isLoadingDeletePage: res.isPending,
     isErrorDeletePage: res.isError,
     deletePage: res.mutate,
     deletePageFromTable,

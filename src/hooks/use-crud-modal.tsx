@@ -30,7 +30,8 @@ export const useCrudModal = ({
   const queryClient = useQueryClient();
   const { notifySuccess, notifyError } = useNotification();
 
-  const { mutate: post, isLoading: isLoadingPost } = useMutation((data: Record<string, any>) => model.createOne(data), {
+  const { mutate: post, isPending: isLoadingPost } = useMutation({
+    mutationFn: (data: Record<string, any>) => model.createOne(data),
     onSuccess: (data) => {
       notifySuccess(`Muvaffaqiyatli qo'shildi!`);
       queryClient.invalidateQueries({ queryKey: [name] });
@@ -42,34 +43,30 @@ export const useCrudModal = ({
     },
   });
 
-  const { mutate: update, isLoading: isLoadingUpdate } = useMutation(
-    (values?: Record<string, unknown>) => {
+  const { mutate: update, isPending: isLoadingUpdate } = useMutation({
+    mutationFn: (values?: Record<string, unknown>) => {
       return model.updateOne(values);
     },
-    {
-      onSuccess: (data) => {
-        notifySuccess(`Muvaffaqiyatli o'zgartirildi!`);
-        queryClient.invalidateQueries({ queryKey: [name] });
-        if (onSuccess) onSuccess(data, 'update');
-      },
-      onError: (error: Error) => {
-        notifyError(error);
-        if (onError) onError(error);
-      },
+    onSuccess: (data) => {
+      notifySuccess(`Muvaffaqiyatli o'zgartirildi!`);
+      queryClient.invalidateQueries({ queryKey: [name] });
+      if (onSuccess) onSuccess(data, 'update');
     },
-  );
+    onError: (error: Error) => {
+      notifyError(error);
+      if (onError) onError(error);
+    },
+  });
 
   const {
     data: dataById,
     isLoading: isLoadingOne,
     isError,
-  } = useQuery(
-    [name, id || query.id],
-    getOne ? getOne : () => model.findOne({ where: { id: id || query.id }, ...(apiProps || {}) }),
-    {
-      enabled: !!(id || query.id),
-    },
-  );
+  } = useQuery({
+    queryKey: [name, id || query.id],
+    queryFn: getOne ? getOne : () => model.findOne({ where: { id: id || query.id }, ...(apiProps || {}) }),
+    enabled: !!(id || query.id),
+  });
 
   const data = useMemo(() => dataById?.data, [dataById?.data]);
 

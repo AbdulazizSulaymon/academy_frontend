@@ -24,8 +24,8 @@ const Page = observer(function Page() {
   const [form] = Form.useForm();
   const { t } = useTranslation();
 
-  const { mutate: login, isLoading } = useMutation(
-    (values: Record<string, any>) => {
+  const { mutate: login, isPending: isLoading } = useMutation({
+    mutationFn: (values: Record<string, any>) => {
       const { phone, password } = values;
       const res = api.login({
         phone: '+' + phone.trim(),
@@ -33,15 +33,13 @@ const Page = observer(function Page() {
       });
       return res;
     },
-    {
-      onSuccess: () => {
-        router.push('/student/dashboard');
-      },
-      onError: () => {
-        notifyError(t("Login yoki parol noto'g'ri!"));
-      },
+    onSuccess: () => {
+      router.push('/student/dashboard');
     },
-  );
+    onError: () => {
+      notifyError(t("Login yoki parol noto'g'ri!"));
+    },
+  });
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/\s/g, '');

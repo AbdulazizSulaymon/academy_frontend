@@ -122,9 +122,11 @@ const EditModal = () => {
   const { query } = useLocationParams();
   const { notifySuccess, notifyError } = useNotification();
 
-  const { data: userData } = useQuery([usersQueryKey], () =>
-    api.apis.User.findMany({ select: { firstName: true, lastName: true, phone: true, id: true } }),
-  );
+  const { data: userData } = useQuery({
+    queryKey: [usersQueryKey],
+    queryFn: () =>
+      api.apis.User.findMany({ select: { firstName: true, lastName: true, phone: true, id: true } }),
+  });
 
   const { isLoadingPost, isLoadingUpdate, isLoadingOne, post, update, dataById, onCancel } = useCrudModal({
     form,

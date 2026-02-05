@@ -117,7 +117,7 @@ Page.getLayout = function getLayout(page: ReactElement) {
 const ViewModal = observer(() => {
   const { query, push } = useLocationParams();
 
-  const { data, isLoading } = useErrorLog({ where: { id: query.id } }, { enabled: !!query.id });
+  const { errorLogData: data, isLoading } = useErrorLog({ where: { id: query.id } }, { enabled: !!query.id });
 
   return (
     <Modal
@@ -132,14 +132,14 @@ const ViewModal = observer(() => {
         <span className={'flex items-center gap-2'}>
           <BsChatLeftText className={'text-yellow-500'} /> <span>Text:</span>
         </span>
-        {data?.data?.text}
+        {data?.text}
       </div>
-      {data?.data?.desc && (
+      {data?.desc && (
         <div className={'border border-solid border-gray-200 dark:border-gray-700 p-3 mb-2 rounded'}>
           <span className={'flex items-center gap-2'}>
             <BsChatLeftText className={'text-yellow-500'} /> <span>Description:</span>
           </span>
-          {data?.data?.desc?.split('\n').map((item: string, index: number) => (
+          {data?.desc?.split('\n').map((item: string, index: number) => (
             <Typography key={index}>
               {index + 1}. {item}
             </Typography>

@@ -34,12 +34,10 @@ import { useI18n } from '@src/i18/useI18n';
 import { useLayoutStore } from '@src/stores/layout-store';
 import { LanguageElements } from '@src/widgets/language/language';
 import Notification from '@src/widgets/notification';
-import MyShops from '@src/widgets/shops/shop';
 import { Link } from '@components/link';
 import { Title } from '@components/title';
 import { Theme, useMyTheme } from '@hooks/use-my-theme';
 import { useFullscreen } from '@hooks/use-fullscreen';
-import { useShopId } from '@hooks/use-shop-id';
 import { AiOutlineUserSwitch } from 'react-icons/ai';
 import { useCheckRoles } from '@hooks/use-check-roles';
 import { LoadingScreen } from '@hocs/loading-wrapper';
@@ -102,7 +100,6 @@ const DashboardLayout = observer(
     const { theme, setTheme, toggleTheme, isDarkMode, localTheme } = useMyTheme();
     const [isClient, setIsClient] = useState(false);
     const responsive = useResponsive();
-    const { shop } = useShopId();
     const { accessRoles, isAdmin } = useCheckRoles();
 
     useEffect(() => {
@@ -155,22 +152,6 @@ const DashboardLayout = observer(
     const profileItems: MenuProps['items'] = useMemo(
       () =>
         [
-          // ...(router.route.startsWith('/shop/')
-          //   ? [
-          //       {
-          //         label: (
-          //           <p className={'m-0 flex items-center gap-2 font-bold'}>
-          //             <MdOutlineStorefront />
-          //             {shop.name || ''}
-          //           </p>
-          //         ),
-          //         key: 'shop',
-          //         onClick: () => {
-          //           // router.push(join(startPath, 'profile-settings'));
-          //         },
-          //       },
-          //     ]
-          //   : []),
           {
             label: (
               <p className={'m-0 flex items-center gap-2'}>
@@ -212,7 +193,7 @@ const DashboardLayout = observer(
             },
           },
         ].filter(Boolean) as MenuProps['items'],
-      [user, lang, user?.lang, shop, router.route, api, t, accessRoles.length],
+      [user, lang, user?.lang, router.route, api, t, accessRoles.length],
     );
 
     // Fullscreen
@@ -287,229 +268,229 @@ const DashboardLayout = observer(
     return (
       <>
         <Layout ref={ref} className={clsx('h-[100vh]', isDarkMode && 'dark')} css={LayoutCSS}>
-        {!responsive.middle && (
-          <Drawer
-            title={
-              <Link href={startPath}>
-                {/*{collapsed ? (*/}
-                {/*  <Image src={`/logo/dark/left.png`} alt={'logo'} width={45} height={35} />*/}
-                {/*) : (*/}
-                {/*  <Image src={`/logo/dark/logo.svg`} alt={'logo'} width={290} height={50} className={'block'} />*/}
-                {/*)}*/}
-                <div className={'mb-1'}>
-                  <img src={`/logo/dark/logo.png`} alt={'logo'} height={36} className={'block max-w-[80%]'} />
-                </div>
-              </Link>
-            }
-            placement="left"
-            onClose={() => setCollapsed(true)}
-            open={!collapsed}
-            rootClassName={'layout-drawer'}
-            // style={{ backgroundColor: 'rgba(0, 0, 0, 0.06)', backdropFilter: 'blur(10px)' }}
-            style={{ backgroundColor: '#001529' }}
-            css={css`
-              .ant-drawer-title,
-              .ant-drawer-close {
-                color: white !important;
+          {!responsive.middle && (
+            <Drawer
+              title={
+                <Link href={startPath}>
+                  {/*{collapsed ? (*/}
+                  {/*  <Image src={`/logo/dark/left.png`} alt={'logo'} width={45} height={35} />*/}
+                  {/*) : (*/}
+                  {/*  <Image src={`/logo/dark/logo.svg`} alt={'logo'} width={290} height={50} className={'block'} />*/}
+                  {/*)}*/}
+                  <div className={'mb-1'}>
+                    <img src={`/logo/dark/logo.png`} alt={'logo'} height={36} className={'block max-w-[80%]'} />
+                  </div>
+                </Link>
               }
-              .ant-drawer-body {
-                padding: 0 !important;
-              }
-              .ant-drawer-header-title {
-                flex-direction: row-reverse;
-                justify-content: space-between;
-                align-items: center;
-              }
-            `}
-          >
+              placement="left"
+              onClose={() => setCollapsed(true)}
+              open={!collapsed}
+              rootClassName={'layout-drawer'}
+              // style={{ backgroundColor: 'rgba(0, 0, 0, 0.06)', backdropFilter: 'blur(10px)' }}
+              style={{ backgroundColor: '#001529' }}
+              css={css`
+                .ant-drawer-title,
+                .ant-drawer-close {
+                  color: white !important;
+                }
+                .ant-drawer-body {
+                  padding: 0 !important;
+                }
+                .ant-drawer-header-title {
+                  flex-direction: row-reverse;
+                  justify-content: space-between;
+                  align-items: center;
+                }
+              `}
+            >
+              <Sider
+                trigger={null}
+                collapsible
+                collapsed={collapsed}
+                className={'sticky top-0'}
+                css={css`
+                  &:not(.ant-layout-sider-collapsed) {
+                    flex: none !important;
+                    min-width: 240px !important;
+                    max-width: 100% !important;
+                    width: 100% !important;
+                  }
+                `}
+              >
+                {/*<Text className={'font-bold block  text-white text-center text-2xl p-3 whitespace-nowrap'}>*/}
+                {/*  {(collapsed && 'R') || projectName}*/}
+                {/*</Text>*/}
+
+                <Menu
+                  theme="dark"
+                  mode="inline"
+                  selectedKeys={[title || subPath]}
+                  defaultOpenKeys={[subPath]}
+                  items={wrappedMenuItems}
+                  onSelect={(obj: Record<string, any>) => onSelectMenu(obj, true)}
+                />
+              </Sider>
+            </Drawer>
+          )}
+          {responsive.middle && (
             <Sider
+              theme={theme}
               trigger={null}
               collapsible
               collapsed={collapsed}
               className={'sticky top-0'}
               css={css`
+                overflow-y: auto;
+                overflow-x: hidden;
+
                 &:not(.ant-layout-sider-collapsed) {
                   flex: none !important;
                   min-width: 240px !important;
-                  max-width: 100% !important;
-                  width: 100% !important;
+                  max-width: 300px !important;
+                  width: auto !important;
                 }
               `}
             >
-              {/*<Text className={'font-bold block  text-white text-center text-2xl p-3 whitespace-nowrap'}>*/}
-              {/*  {(collapsed && 'R') || projectName}*/}
-              {/*</Text>*/}
-
+              <div className="hidden p-0 px-6 logo md:block">
+                <Link href={startPath}>
+                  <div
+                    css={css`
+                      margin-top: 16px;
+                      margin-left: 0;
+                      margin-bottom: 16px;
+                    `}
+                    className={'flex flex-nowrap'}
+                  >
+                    {collapsed ? (
+                      <img
+                        src={`/logo/${!isDarkMode ? 'light' : 'dark'}/left.png`}
+                        alt={''}
+                        height={42}
+                        className="block mb-[6px]"
+                      />
+                    ) : (
+                      <img
+                        src={`/logo/${!isDarkMode ? 'light' : 'dark'}/logo.svg`}
+                        alt={''}
+                        height={42}
+                        className={'block'}
+                      />
+                    )}
+                  </div>
+                </Link>
+                {/*<Text className={'font-bold block  text-white text-center text-2xl p-3 whitespace-nowrap'}>*/}
+                {/*  {(collapsed && 'R') || projectName}*/}
+                {/*</Text>*/}
+              </div>
               <Menu
-                theme="dark"
+                theme={theme}
                 mode="inline"
                 selectedKeys={[title || subPath]}
-                defaultOpenKeys={[subPath]}
+                // defaultOpenKeys={collapsed ? [] : [subPath]}
                 items={wrappedMenuItems}
-                onSelect={(obj: Record<string, any>) => onSelectMenu(obj, true)}
+                // onSelect={onSelectMenu}
               />
             </Sider>
-          </Drawer>
-        )}
-        {responsive.middle && (
-          <Sider
-            theme={theme}
-            trigger={null}
-            collapsible
-            collapsed={collapsed}
-            className={'sticky top-0'}
-            css={css`
-              overflow-y: auto;
-              overflow-x: hidden;
+          )}
 
-              &:not(.ant-layout-sider-collapsed) {
-                flex: none !important;
-                min-width: 240px !important;
-                max-width: 300px !important;
-                width: auto !important;
-              }
-            `}
-          >
-            <div className="hidden p-0 px-6 logo md:block">
-              <Link href={startPath}>
-                <div
-                  css={css`
-                    margin-top: 16px;
-                    margin-left: 0;
-                    margin-bottom: 16px;
-                  `}
-                  className={'flex flex-nowrap'}
-                >
-                  {collapsed ? (
-                    <img
-                      src={`/logo/${!isDarkMode ? 'light' : 'dark'}/left.png`}
-                      alt={''}
-                      height={42}
-                      className="block mb-[6px]"
-                    />
-                  ) : (
-                    <img
-                      src={`/logo/${!isDarkMode ? 'light' : 'dark'}/logo.svg`}
-                      alt={''}
-                      height={42}
-                      className={'block'}
-                    />
-                  )}
-                </div>
-              </Link>
-              {/*<Text className={'font-bold block  text-white text-center text-2xl p-3 whitespace-nowrap'}>*/}
-              {/*  {(collapsed && 'R') || projectName}*/}
-              {/*</Text>*/}
-            </div>
-            <Menu
-              theme={theme}
-              mode="inline"
-              selectedKeys={[title || subPath]}
-              // defaultOpenKeys={collapsed ? [] : [subPath]}
-              items={wrappedMenuItems}
-              // onSelect={onSelectMenu}
-            />
-          </Sider>
-        )}
-
-        <Layout className="site-layout flex flex-column h-[100vh]">
-          <Header className={'drop-shadow-xl bg-white dark:bg-black flex items-center justify-between px-8'}>
-            <div className={'flex items-center justify-center'}>
-              {/*{React.createElement(collapsed ? RiMenuUnfoldLine : RiMenuFoldLine, {*/}
-              {/*{React.createElement(HiMenuAlt2, {*/}
-              {/*  className: 'trigger cursor-pointer',*/}
-              {/*  onClick: () => setCollapsed(!collapsed),*/}
-              {/*})}*/}
-              <Button type={'text'} onClick={() => setCollapsed(!collapsed)} size={'small'}>
-                <HiMenuAlt2 />
-              </Button>
-              {breadcrumbItems ? (
-                <Breadcrumb separator="/" className="ml-3 font-bold capitalize" items={breadcrumbItems} />
-              ) : (
-                <Text className={'font-bold capitalize ml-3 hidden sm:block'}>
-                  {titleFromProps ? t(titleFromProps) : currentMenuItem?.label || title || subPath}
-                </Text>
-              )}
-            </div>
-            <div className={'flex items-center justify-center gap-0'}>
-              {/*  Language */}
-              <LanguageElements />
-
-              {/*{React.createElement(theme == 'light' ? GoSun : GoMoon, {*/}
-              {/*  className: 'trigger cursor-pointer w-5 h-5',*/}
-              {/*  onClick: () => (theme == 'dark' ? setTheme('light') : setTheme('dark')),*/}
-              {/*})}*/}
-
-              <Button onClick={toggleTheme} type={'text'}>
-                {theme == 'light' ? <GoSun /> : <GoMoon />}
-              </Button>
-              {/*<DarkMode />*/}
-              <Notification />
-
-              {responsive.mobile && (
-                <Button onClick={toggleFullscreen} type={'text'}>
-                  {isFullscreen ? <MdFullscreenExit /> : <MdFullscreen />}
+          <Layout className="site-layout flex flex-column h-[100vh]">
+            <Header className={'drop-shadow-xl bg-white dark:bg-black flex items-center justify-between px-8'}>
+              <div className={'flex items-center justify-center'}>
+                {/*{React.createElement(collapsed ? RiMenuUnfoldLine : RiMenuFoldLine, {*/}
+                {/*{React.createElement(HiMenuAlt2, {*/}
+                {/*  className: 'trigger cursor-pointer',*/}
+                {/*  onClick: () => setCollapsed(!collapsed),*/}
+                {/*})}*/}
+                <Button type={'text'} onClick={() => setCollapsed(!collapsed)} size={'small'}>
+                  <HiMenuAlt2 />
                 </Button>
-              )}
-
-              <Dropdown
-                menu={{ items: profileItems }}
-                trigger={['click']}
-                dropdownRender={(menu) => (
-                  <div style={contentStyle}>
-                    <div className={'py-2 px-3 flex items-center'}>
-                      <Avatar className={'mr-2'} icon={<UserOutlined />} />
-                      <div className={'m-0'}>
-                        <Typography className={'font-bold'}>
-                          {user?.firstName || user?.lastName
-                            ? `${user?.firstName || ''} ${user?.lastName || ''}`
-                            : 'Foydalanuvchi'}
-                        </Typography>
-                        <Typography> {user?.email}</Typography>
-                      </div>
-                    </div>
-                    <Divider className={'py-0 my-0'} />
-                    {/* @ts-ignore */}
-                    {React.cloneElement(menu as React.ReactElement, { style: menuStyle })}
-                    {/*<Divider style={{ margin: 0 }} />*/}
-                    {/*<Space style={{ padding: 8 }}>*/}
-                    {/*  <Button type="primary">Click me!</Button>*/}
-                    {/*</Space>*/}
-                  </div>
+                {breadcrumbItems ? (
+                  <Breadcrumb separator="/" className="ml-3 font-bold capitalize" items={breadcrumbItems} />
+                ) : (
+                  <Text className={'font-bold capitalize ml-3 hidden sm:block'}>
+                    {titleFromProps ? t(titleFromProps) : currentMenuItem?.label || title || subPath}
+                  </Text>
                 )}
-              >
-                <Button type={'text'}>
-                  <CgProfile />
-                </Button>
-              </Dropdown>
+              </div>
+              <div className={'flex items-center justify-center gap-0'}>
+                {/*  Language */}
+                <LanguageElements />
 
-              {startPath === '/shop' && (
-                <>
-                  <Divider type={'vertical'} />
-                  <MyShops />
-                </>
-              )}
-            </div>
-          </Header>
-          <Content
-            className={clsx({ 'p-2 md:p-4 xl:p-6': !withoutPadding, 'p-0': withoutPadding })}
-            style={{
-              minHeight: 280,
-              flex: 1,
-              overflow: 'auto',
-            }}
-          >
-            {isClient ? <>{happyWork ? <HappyProvider>{children}</HappyProvider> : children}</> : ''}
-          </Content>
-          {/*{responsive.middle && (*/}
-          {/*  <Footer className={'px-4 md:px-10 xl:px-12 '}>*/}
-          {/*    <Typography className={'font-bold mb-1'}>«{projectName}»</Typography>*/}
-          {/*    <Typography>{footerTitle}</Typography>*/}
-          {/*  </Footer>*/}
-          {/*)}*/}
+                {/*{React.createElement(theme == 'light' ? GoSun : GoMoon, {*/}
+                {/*  className: 'trigger cursor-pointer w-5 h-5',*/}
+                {/*  onClick: () => (theme == 'dark' ? setTheme('light') : setTheme('dark')),*/}
+                {/*})}*/}
+
+                <Button onClick={toggleTheme} type={'text'}>
+                  {theme == 'light' ? <GoSun /> : <GoMoon />}
+                </Button>
+                {/*<DarkMode />*/}
+                <Notification />
+
+                {responsive.mobile && (
+                  <Button onClick={toggleFullscreen} type={'text'}>
+                    {isFullscreen ? <MdFullscreenExit /> : <MdFullscreen />}
+                  </Button>
+                )}
+
+                <Dropdown
+                  menu={{ items: profileItems }}
+                  trigger={['click']}
+                  dropdownRender={(menu) => (
+                    <div style={contentStyle}>
+                      <div className={'py-2 px-3 flex items-center'}>
+                        <Avatar className={'mr-2'} icon={<UserOutlined />} />
+                        <div className={'m-0'}>
+                          <Typography className={'font-bold'}>
+                            {user?.firstName || user?.lastName
+                              ? `${user?.firstName || ''} ${user?.lastName || ''}`
+                              : 'Foydalanuvchi'}
+                          </Typography>
+                          <Typography> {user?.email}</Typography>
+                        </div>
+                      </div>
+                      <Divider className={'py-0 my-0'} />
+                      {/* @ts-ignore */}
+                      {React.cloneElement(menu as React.ReactElement, { style: menuStyle })}
+                      {/*<Divider style={{ margin: 0 }} />*/}
+                      {/*<Space style={{ padding: 8 }}>*/}
+                      {/*  <Button type="primary">Click me!</Button>*/}
+                      {/*</Space>*/}
+                    </div>
+                  )}
+                >
+                  <Button type={'text'}>
+                    <CgProfile />
+                  </Button>
+                </Dropdown>
+
+                {/*{startPath === '/shop' && (*/}
+                {/*  <>*/}
+                {/*    <Divider type={'vertical'} />*/}
+                {/*    <MyShops />*/}
+                {/*  </>*/}
+                {/*)}*/}
+              </div>
+            </Header>
+            <Content
+              className={clsx({ 'p-2 md:p-4 xl:p-6': !withoutPadding, 'p-0': withoutPadding })}
+              style={{
+                minHeight: 280,
+                flex: 1,
+                overflow: 'auto',
+              }}
+            >
+              {isClient ? <>{happyWork ? <HappyProvider>{children}</HappyProvider> : children}</> : ''}
+            </Content>
+            {/*{responsive.middle && (*/}
+            {/*  <Footer className={'px-4 md:px-10 xl:px-12 '}>*/}
+            {/*    <Typography className={'font-bold mb-1'}>«{projectName}»</Typography>*/}
+            {/*    <Typography>{footerTitle}</Typography>*/}
+            {/*  </Footer>*/}
+            {/*)}*/}
+          </Layout>
         </Layout>
-      </Layout>
-      {startPath === '/shop' && <QuickActions />}
+        {/*{startPath === '/shop' && <QuickActions />}*/}
       </>
     );
   },

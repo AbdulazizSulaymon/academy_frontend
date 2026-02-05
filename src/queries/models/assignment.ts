@@ -13,11 +13,11 @@ export const assignmentsAggregateQueryKey = 'aggregate-assignments';
 
 export const useAggregateAssignments = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery(
-    [assignmentsAggregateQueryKey, props],
-    () => api.instance.post('/api/assignment/aggregate', props),
-    options,
-  );
+  const res = useQuery({
+    queryKey: [assignmentsAggregateQueryKey, props],
+    queryFn: () => api.instance.post('/api/assignment/aggregate', props),
+    ...options,
+  });
   return {
     ...res,
     isLoadingAggregateAssignment: res.isLoading,
@@ -28,7 +28,11 @@ export const useAggregateAssignments = (props: Record<string, any>, options: Que
 
 export const useCountAssignments = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([assignmentsCountQueryKey, props], () => api.apis.Assignment.count({ ...props }), options);
+  const res = useQuery({
+    queryKey: [assignmentsCountQueryKey, props],
+    queryFn: () => api.apis.Assignment.count({ ...props }),
+    ...options,
+  });
   return {
     ...res,
     isLoadingCountAssignment: res.isLoading,
@@ -39,7 +43,11 @@ export const useCountAssignments = (props: Record<string, any>, options: QueryOp
 
 export const useExistAssignment = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([assignmentExistQueryKey, props], () => api.apis.Assignment.exist({ ...props }), options);
+  const res = useQuery({
+    queryKey: [assignmentExistQueryKey, props],
+    queryFn: () => api.apis.Assignment.exist({ ...props }),
+    ...options,
+  });
   return {
     ...res,
     isLoadingExistAssignment: res.isLoading,
@@ -51,35 +59,39 @@ export const useExistAssignment = (props: Record<string, any>, options: QueryOpt
 export const useAssignmentsWithPagination = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
   const tableFetchProps = useTableFetchProps();
-  const res = useQuery(
-    [assignmentsQueryKey, tableFetchProps, props],
-    () =>
+  const res = useQuery({
+    queryKey: [assignmentsQueryKey, tableFetchProps, props],
+    queryFn: () =>
       api.apis.Assignment.findMany({
         ...tableFetchProps,
         ...props,
       }),
-    {
-      ...options,
-      enabled:
-        typeof options.enabled === 'undefined' ? !!tableFetchProps.take : !!options.enabled && !!tableFetchProps.take,
-    },
-  );
+    enabled:
+      typeof options.enabled === 'undefined' ? !!tableFetchProps.take : !!options.enabled && !!tableFetchProps.take,
+    ...options,
+  });
 
   return { ...res, isLoadingAssignments: res.isLoading, isErrorAssignments: res.isError, assignmentsData: res.data };
 };
 
 export const useAssignments = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([assignmentsQueryKey, props], () => api.apis.Assignment.findMany({ ...props }), {
-    ...options,
+  const res = useQuery({
+    queryKey: [assignmentsQueryKey, props],
+    queryFn: () => api.apis.Assignment.findMany({ ...props }),
     enabled: options.enabled != undefined ? !!options.enabled : undefined,
+    ...options,
   });
   return { ...res, isLoadingAssignments: res.isLoading, isErrorAssignments: res.isError, assignmentsData: res.data };
 };
 
 export const useAssignment = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([assignmentQueryKey, props], () => api.apis.Assignment.findOne({ ...props }), options as any);
+  const res = useQuery({
+    queryKey: [assignmentQueryKey, props],
+    queryFn: () => api.apis.Assignment.findOne({ ...props }),
+    ...(options as any),
+  });
   return {
     ...res,
     isLoadingAssignment: res.isLoading,
@@ -91,13 +103,16 @@ export const useAssignment = (props: Record<string, any>, options: QueryOptions 
 export const useCreateAssignments = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.Assignment.createMany({ data });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.Assignment.createMany({ data });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   return {
     ...res,
-    isLoadingCreateAssignments: res.isLoading,
+    isLoadingCreateAssignments: res.isPending,
     isErrorCreateAssignments: res.isError,
     createAssignments: res.mutate,
     createdAssignments: res.data,
@@ -107,13 +122,16 @@ export const useCreateAssignments = (options: QueryOptions, secondaryOptions?: Q
 export const useCreateListAssignments = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.Assignment.createList(data);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.Assignment.createList(data);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   return {
     ...res,
-    isLoadingCreateListAssignments: res.isLoading,
+    isLoadingCreateListAssignments: res.isPending,
     isErrorCreateListAssignments: res.isError,
     createListAssignments: res.mutate,
     createdListAssignments: res.data,
@@ -123,12 +141,15 @@ export const useCreateListAssignments = (options: QueryOptions, secondaryOptions
 export const useCreateAssignment = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.Assignment.createOne({ data });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.Assignment.createOne({ data });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingCreateAssignment: res.isLoading,
+    isLoadingCreateAssignment: res.isPending,
     isErrorCreateAssignment: res.isError,
     createAssignment: res.mutate,
     createdAssignment: res.data,
@@ -138,12 +159,15 @@ export const useCreateAssignment = (options: QueryOptions, secondaryOptions?: Qu
 export const useUpdateAssignments = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.Assignment.updateMany(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.Assignment.updateMany(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateAssignments: res.isLoading,
+    isLoadingUpdateAssignments: res.isPending,
     isErrorUpdateAssignments: res.isError,
     updateAssignments: res.mutate,
     updatedAssignments: res.data,
@@ -153,12 +177,15 @@ export const useUpdateAssignments = (options: QueryOptions, secondaryOptions?: Q
 export const useUpdateListAssignments = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.Assignment.updateList(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.Assignment.updateList(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateListAssignments: res.isLoading,
+    isLoadingUpdateListAssignments: res.isPending,
     isErrorUpdateListAssignments: res.isError,
     updateListAssignments: res.mutate,
     updatedListAssignments: res.data,
@@ -168,12 +195,15 @@ export const useUpdateListAssignments = (options: QueryOptions, secondaryOptions
 export const useUpdateAssignmentsList = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.Assignment.updateList(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.Assignment.updateList(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateAssignmentsList: res.isLoading,
+    isLoadingUpdateAssignmentsList: res.isPending,
     isErrorUpdateAssignmentsList: res.isError,
     updateAssignmentsList: res.mutate,
     updatedAssignmentsList: res.data,
@@ -183,12 +213,15 @@ export const useUpdateAssignmentsList = (options: QueryOptions, secondaryOptions
 export const useUpdateAssignment = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.Assignment.updateOne(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.Assignment.updateOne(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateAssignment: res.isLoading,
+    isLoadingUpdateAssignment: res.isPending,
     isErrorUpdateAssignment: res.isError,
     updateAssignment: res.mutate,
     updatedAssignment: res.data,
@@ -198,12 +231,15 @@ export const useUpdateAssignment = (options: QueryOptions, secondaryOptions?: Qu
 export const useDeleteAssignments = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((where: Record<string, any>) => {
-    return api.apis.Assignment.deleteMany({ where });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (where: Record<string, any>) => {
+      return api.apis.Assignment.deleteMany({ where });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingDeleteAssignments: res.isLoading,
+    isLoadingDeleteAssignments: res.isPending,
     isErrorDeleteAssignments: res.isError,
     deleteAssignments: res.mutate,
   };
@@ -212,12 +248,15 @@ export const useDeleteAssignments = (options: QueryOptions, secondaryOptions?: Q
 export const useDeleteAllAssignments = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation(() => {
-    return api.apis.Assignment.deleteAll();
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: () => {
+      return api.apis.Assignment.deleteAll();
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingDeleteAllAssignments: res.isLoading,
+    isLoadingDeleteAllAssignments: res.isPending,
     isErrorDeleteAllAssignments: res.isError,
     deleteAllAssignments: res.mutate,
   };
@@ -226,9 +265,12 @@ export const useDeleteAllAssignments = (options: QueryOptions, secondaryOptions?
 export const useDeleteAssignment = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((where: Record<string, any> | number | string) => {
-    return api.apis.Assignment.deleteOne(typeof where === 'object' ? { where } : { where: { id: where } });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (where: Record<string, any> | number | string) => {
+      return api.apis.Assignment.deleteOne(typeof where === 'object' ? { where } : { where: { id: where } });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   const deleteAssignmentFromTable = useCallback(
     (data: Record<string, any>) => {
@@ -239,7 +281,7 @@ export const useDeleteAssignment = (options: QueryOptions, secondaryOptions?: Qu
 
   return {
     ...res,
-    isLoadingDeleteAssignment: res.isLoading,
+    isLoadingDeleteAssignment: res.isPending,
     isErrorDeleteAssignment: res.isError,
     deleteAssignment: res.mutate,
     deleteAssignmentFromTable,

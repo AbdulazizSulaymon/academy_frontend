@@ -717,9 +717,9 @@ const TranslationTable = () => {
   const searchText = (query.search || 's').slice(1) as string;
   const langs = useMemo(() => ['uz', 'ru', 'en'], []);
 
-  const { data, isLoading, isError } = useQuery(
-    ['translations', langs],
-    async () => {
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['translations', langs],
+    queryFn: async () => {
       const translations = await Promise.all(
         langs.map(async (lang) => {
           const res = await api.instance.get(join(domain, `/locales/${lang}/translation.json`));
@@ -729,8 +729,7 @@ const TranslationTable = () => {
 
       return Object.assign({}, ...translations);
     },
-    {},
-  );
+  });
 
   const addCallback = useCallback(() => push({ add: true }, { update: true }), [push]);
   const editCallback = useCallback(
@@ -738,19 +737,17 @@ const TranslationTable = () => {
     [push],
   );
 
-  const { mutate: remove, isLoading: isLoadingRemove } = useMutation(
-    (data: Record<string, any>) => {
+  const { mutate: remove, isPending: isLoadingRemove } = useMutation({
+    mutationFn: (data: Record<string, any>) => {
       console.log(data);
       return axios.delete('/api/translation', { params: { key: data.key, languages: langs } });
     },
-    {
-      onSuccess: () => {
-        notifySuccess('Deleted successfully!');
-        queryClient.invalidateQueries({ queryKey: ['translations'] });
-      },
-      onError: () => notifyError('An error occurred!'),
+    onSuccess: () => {
+      notifySuccess('Deleted successfully!');
+      queryClient.invalidateQueries({ queryKey: ['translations'] });
     },
-  );
+    onError: () => notifyError('An error occurred!'),
+  });
 
   const columns = useMemo(() => {
     if (!data) return [];
@@ -842,8 +839,8 @@ const TranslationDrawer = ({ data }: { data?: Record<string, any> }) => {
   const { query, domain, push } = useLocationParams();
   const [form] = Form.useForm();
 
-  const { mutate, isLoading } = useMutation(
-    (data: { key: string; translations: Record<string, string> }) =>
+  const { mutate, isPending: isLoading } = useMutation({
+    mutationFn: (data: { key: string; translations: Record<string, string> }) =>
       fetch('/api/translation', {
         method: 'POST',
         headers: {
@@ -851,16 +848,14 @@ const TranslationDrawer = ({ data }: { data?: Record<string, any> }) => {
         },
         body: JSON.stringify(data),
       }).then((res) => res.json()),
-    {
-      onSuccess: () => {
-        notifySuccess('Translations saved successfully.');
-        queryClient.invalidateQueries(['translations']);
-      },
-      onError: () => {
-        notifyError('An error occurred.');
-      },
+    onSuccess: () => {
+      notifySuccess('Translations saved successfully.');
+      queryClient.invalidateQueries({ queryKey: ['translations'] });
     },
-  );
+    onError: () => {
+      notifyError('An error occurred.');
+    },
+  });
 
   const onFinish = (values: any) => {
     mutate({

@@ -13,11 +13,11 @@ export const partnersAggregateQueryKey = 'aggregate-partners';
 
 export const useAggregatePartners = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery(
-    [partnersAggregateQueryKey, props],
-    () => api.instance.post('/api/partner/aggregate', props),
-    options,
-  );
+  const res = useQuery({
+    queryKey: [partnersAggregateQueryKey, props],
+    queryFn: () => api.instance.post('/api/partner/aggregate', props),
+    ...options,
+  });
   return {
     ...res,
     isLoadingAggregatePartner: res.isLoading,
@@ -28,7 +28,11 @@ export const useAggregatePartners = (props: Record<string, any>, options: QueryO
 
 export const useCountPartners = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([partnersCountQueryKey, props], () => api.apis.Partner.count({ ...props }), options);
+  const res = useQuery({
+    queryKey: [partnersCountQueryKey, props],
+    queryFn: () => api.apis.Partner.count({ ...props }),
+    ...options,
+  });
   return {
     ...res,
     isLoadingCountPartner: res.isLoading,
@@ -39,7 +43,11 @@ export const useCountPartners = (props: Record<string, any>, options: QueryOptio
 
 export const useExistPartner = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([partnerExistQueryKey, props], () => api.apis.Partner.exist({ ...props }), options);
+  const res = useQuery({
+    queryKey: [partnerExistQueryKey, props],
+    queryFn: () => api.apis.Partner.exist({ ...props }),
+    ...options,
+  });
   return {
     ...res,
     isLoadingExistPartner: res.isLoading,
@@ -51,35 +59,39 @@ export const useExistPartner = (props: Record<string, any>, options: QueryOption
 export const usePartnersWithPagination = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
   const tableFetchProps = useTableFetchProps();
-  const res = useQuery(
-    [partnersQueryKey, tableFetchProps, props],
-    () =>
+  const res = useQuery({
+    queryKey: [partnersQueryKey, tableFetchProps, props],
+    queryFn: () =>
       api.apis.Partner.findMany({
         ...tableFetchProps,
         ...props,
       }),
-    {
-      ...options,
-      enabled:
-        typeof options.enabled === 'undefined' ? !!tableFetchProps.take : !!options.enabled && !!tableFetchProps.take,
-    },
-  );
+    enabled:
+      typeof options.enabled === 'undefined' ? !!tableFetchProps.take : !!options.enabled && !!tableFetchProps.take,
+    ...options,
+  });
 
   return { ...res, isLoadingPartners: res.isLoading, isErrorPartners: res.isError, partnersData: res.data };
 };
 
 export const usePartners = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([partnersQueryKey, props], () => api.apis.Partner.findMany({ ...props }), {
-    ...options,
+  const res = useQuery({
+    queryKey: [partnersQueryKey, props],
+    queryFn: () => api.apis.Partner.findMany({ ...props }),
     enabled: options.enabled != undefined ? !!options.enabled : undefined,
+    ...options,
   });
   return { ...res, isLoadingPartners: res.isLoading, isErrorPartners: res.isError, partnersData: res.data };
 };
 
 export const usePartner = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([partnerQueryKey, props], () => api.apis.Partner.findOne({ ...props }), options as any);
+  const res = useQuery({
+    queryKey: [partnerQueryKey, props],
+    queryFn: () => api.apis.Partner.findOne({ ...props }),
+    ...(options as any),
+  });
   return {
     ...res,
     isLoadingPartner: res.isLoading,
@@ -91,13 +103,16 @@ export const usePartner = (props: Record<string, any>, options: QueryOptions = {
 export const useCreatePartners = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.Partner.createMany({ data });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.Partner.createMany({ data });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   return {
     ...res,
-    isLoadingCreatePartners: res.isLoading,
+    isLoadingCreatePartners: res.isPending,
     isErrorCreatePartners: res.isError,
     createPartners: res.mutate,
     createdPartners: res.data,
@@ -107,13 +122,16 @@ export const useCreatePartners = (options: QueryOptions, secondaryOptions?: Quer
 export const useCreateListPartners = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.Partner.createList(data);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.Partner.createList(data);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   return {
     ...res,
-    isLoadingCreateListPartners: res.isLoading,
+    isLoadingCreateListPartners: res.isPending,
     isErrorCreateListPartners: res.isError,
     createListPartners: res.mutate,
     createdListPartners: res.data,
@@ -123,12 +141,15 @@ export const useCreateListPartners = (options: QueryOptions, secondaryOptions?: 
 export const useCreatePartner = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.Partner.createOne({ data });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.Partner.createOne({ data });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingCreatePartner: res.isLoading,
+    isLoadingCreatePartner: res.isPending,
     isErrorCreatePartner: res.isError,
     createPartner: res.mutate,
     createdPartner: res.data,
@@ -138,12 +159,15 @@ export const useCreatePartner = (options: QueryOptions, secondaryOptions?: Query
 export const useUpdatePartners = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.Partner.updateMany(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.Partner.updateMany(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdatePartners: res.isLoading,
+    isLoadingUpdatePartners: res.isPending,
     isErrorUpdatePartners: res.isError,
     updatePartners: res.mutate,
     updatedPartners: res.data,
@@ -153,12 +177,15 @@ export const useUpdatePartners = (options: QueryOptions, secondaryOptions?: Quer
 export const useUpdateListPartners = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.Partner.updateList(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.Partner.updateList(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateListPartners: res.isLoading,
+    isLoadingUpdateListPartners: res.isPending,
     isErrorUpdateListPartners: res.isError,
     updateListPartners: res.mutate,
     updatedListPartners: res.data,
@@ -168,12 +195,15 @@ export const useUpdateListPartners = (options: QueryOptions, secondaryOptions?: 
 export const useUpdatePartnersList = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.Partner.updateList(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.Partner.updateList(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdatePartnersList: res.isLoading,
+    isLoadingUpdatePartnersList: res.isPending,
     isErrorUpdatePartnersList: res.isError,
     updatePartnersList: res.mutate,
     updatedPartnersList: res.data,
@@ -183,12 +213,15 @@ export const useUpdatePartnersList = (options: QueryOptions, secondaryOptions?: 
 export const useUpdatePartner = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.Partner.updateOne(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.Partner.updateOne(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdatePartner: res.isLoading,
+    isLoadingUpdatePartner: res.isPending,
     isErrorUpdatePartner: res.isError,
     updatePartner: res.mutate,
     updatedPartner: res.data,
@@ -198,12 +231,15 @@ export const useUpdatePartner = (options: QueryOptions, secondaryOptions?: Query
 export const useDeletePartners = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((where: Record<string, any>) => {
-    return api.apis.Partner.deleteMany({ where });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (where: Record<string, any>) => {
+      return api.apis.Partner.deleteMany({ where });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingDeletePartners: res.isLoading,
+    isLoadingDeletePartners: res.isPending,
     isErrorDeletePartners: res.isError,
     deletePartners: res.mutate,
   };
@@ -212,12 +248,15 @@ export const useDeletePartners = (options: QueryOptions, secondaryOptions?: Quer
 export const useDeleteAllPartners = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation(() => {
-    return api.apis.Partner.deleteAll();
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: () => {
+      return api.apis.Partner.deleteAll();
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingDeleteAllPartners: res.isLoading,
+    isLoadingDeleteAllPartners: res.isPending,
     isErrorDeleteAllPartners: res.isError,
     deleteAllPartners: res.mutate,
   };
@@ -226,9 +265,12 @@ export const useDeleteAllPartners = (options: QueryOptions, secondaryOptions?: Q
 export const useDeletePartner = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((where: Record<string, any> | number | string) => {
-    return api.apis.Partner.deleteOne(typeof where === 'object' ? { where } : { where: { id: where } });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (where: Record<string, any> | number | string) => {
+      return api.apis.Partner.deleteOne(typeof where === 'object' ? { where } : { where: { id: where } });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   const deletePartnerFromTable = useCallback(
     (data: Record<string, any>) => {
@@ -239,7 +281,7 @@ export const useDeletePartner = (options: QueryOptions, secondaryOptions?: Query
 
   return {
     ...res,
-    isLoadingDeletePartner: res.isLoading,
+    isLoadingDeletePartner: res.isPending,
     isErrorDeletePartner: res.isError,
     deletePartner: res.mutate,
     deletePartnerFromTable,

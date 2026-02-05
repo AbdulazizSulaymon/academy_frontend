@@ -8,9 +8,8 @@ import { useTranslation } from 'react-i18next';
 
 import { useApi } from '@src/api';
 import { NextPageWithLayout } from '@/types';
-import { usePositions } from '@src/queries/models/position';
 import { useRoles } from '@src/queries/models/role';
-import { usersQueryKey } from '@src/queries/models/user';
+import { usersQueryKey, useUsers } from '@src/queries/models/user';
 import { AdminLayout } from '@src/widgets/dashboard-layout/layouts';
 
 import { Box } from '@components/box';
@@ -123,9 +122,8 @@ const Page: NextPageWithLayout = observer(function Home() {
   );
 
   const tableFetchProps = useTableFetchProps();
-  const { data, isLoading, isError } = useQuery(
-    ['users', tableFetchProps],
-    () => api.apis.User.findMany({ ...tableFetchProps, include: { roles: true, Position: true } }),
+  const { data, isLoading, isError } = useUsers(
+    { ...tableFetchProps, include: { roles: true, Position: true } },
     { enabled: !!tableFetchProps.take },
   );
 
@@ -135,17 +133,15 @@ const Page: NextPageWithLayout = observer(function Home() {
     [push],
   );
 
-  const { mutate: remove, isLoading: isLoadingRemove } = useMutation(
-    ['delete-user'],
-    (data: Record<string, any>) => api.apis.User.deleteOne({ where: { id: data.id } }),
-    {
-      onSuccess: () => {
-        notifySuccess('Deleted successfully!');
-        queryClient.invalidateQueries({ queryKey: ['users'] });
-      },
-      onError: () => notifySuccess('An error occurred!'),
+  const { mutate: remove, isPending: isLoadingRemove } = useMutation({
+    mutationKey: ['delete-user'],
+    mutationFn: (data: Record<string, any>) => api.apis.User.deleteOne({ where: { id: data.id } }),
+    onSuccess: () => {
+      notifySuccess('Deleted successfully!');
+      queryClient.invalidateQueries({ queryKey: ['users'] });
     },
-  );
+    onError: () => notifySuccess('An error occurred!'),
+  });
 
   return (
     <Box>
@@ -182,7 +178,6 @@ const ItemModal = observer(() => {
   });
 
   const { data: roles } = useRoles({});
-  const { data: positions, isLoading, isError } = usePositions({ include: { department: true } });
 
   useEffect(() => {
     if (query.edit && dataById?.data)
@@ -251,13 +246,8 @@ const ItemModal = observer(() => {
         options: makeOptions(roles?.data?.data, 'name'),
         mode: 'multiple',
       },
-      {
-        label: t('Positions') || '',
-        name: 'positionId',
-        options: makeOptions(positions?.data?.data, 'name'),
-      },
     ],
-    [roles, positions, t],
+    [roles, t],
   );
 
   return (

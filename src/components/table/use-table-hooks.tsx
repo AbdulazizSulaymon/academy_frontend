@@ -28,18 +28,17 @@ export const useTableHooks = ({ name = '', model }: { name?: string; model?: Api
       );
   };
 
-  const { mutate: remove, isLoading: isLoadingRemove } = useMutation(
-    [`delete-${name}`],
-    (id: number) => (model ? model.deleteOne({ where: { id } }) : new Promise((resolve, reject) => resolve(undefined))),
-    {
-      onSuccess: () => {
-        if (!model) return;
-        notifySuccess('Deleted successfully!');
-        queryClient.invalidateQueries({ queryKey: ['fuel-types'] });
-      },
-      onError: () => notifyError('An error occurred!'),
+  const { mutate: remove, isPending: isLoadingRemove } = useMutation({
+    mutationKey: [`delete-${name}`],
+    mutationFn: (id: number) =>
+      model ? model.deleteOne({ where: { id } }) : new Promise((resolve, reject) => resolve(undefined)),
+    onSuccess: () => {
+      if (!model) return;
+      notifySuccess('Deleted successfully!');
+      queryClient.invalidateQueries({ queryKey: ['fuel-types'] });
     },
-  );
+    onError: () => notifyError('An error occurred!'),
+  });
 
   const addCallback = useCallback(() => push({ add: true }), []);
   const editCallback = useCallback((data: Record<string, any>) => push({ edit: true, id: data.id }), []);

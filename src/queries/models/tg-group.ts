@@ -13,11 +13,11 @@ export const tgGroupsAggregateQueryKey = 'aggregate-tg-groups';
 
 export const useAggregateTgGroups = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery(
-    [tgGroupsAggregateQueryKey, props],
-    () => api.instance.post('/api/tgGroup/aggregate', props),
-    options,
-  );
+  const res = useQuery({
+    queryKey: [tgGroupsAggregateQueryKey, props],
+    queryFn: () => api.instance.post('/api/tgGroup/aggregate', props),
+    ...options,
+  });
   return {
     ...res,
     isLoadingAggregateTgGroup: res.isLoading,
@@ -28,7 +28,11 @@ export const useAggregateTgGroups = (props: Record<string, any>, options: QueryO
 
 export const useCountTgGroups = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([tgGroupsCountQueryKey, props], () => api.apis.TgGroup.count({ ...props }), options);
+  const res = useQuery({
+    queryKey: [tgGroupsCountQueryKey, props],
+    queryFn: () => api.apis.TgGroup.count({ ...props }),
+    ...options,
+  });
   return {
     ...res,
     isLoadingCountTgGroup: res.isLoading,
@@ -39,7 +43,11 @@ export const useCountTgGroups = (props: Record<string, any>, options: QueryOptio
 
 export const useExistTgGroup = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([tgGroupExistQueryKey, props], () => api.apis.TgGroup.exist({ ...props }), options);
+  const res = useQuery({
+    queryKey: [tgGroupExistQueryKey, props],
+    queryFn: () => api.apis.TgGroup.exist({ ...props }),
+    ...options,
+  });
   return {
     ...res,
     isLoadingExistTgGroup: res.isLoading,
@@ -51,35 +59,39 @@ export const useExistTgGroup = (props: Record<string, any>, options: QueryOption
 export const useTgGroupsWithPagination = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
   const tableFetchProps = useTableFetchProps();
-  const res = useQuery(
-    [tgGroupsQueryKey, tableFetchProps, props],
-    () =>
+  const res = useQuery({
+    queryKey: [tgGroupsQueryKey, tableFetchProps, props],
+    queryFn: () =>
       api.apis.TgGroup.findMany({
         ...tableFetchProps,
         ...props,
       }),
-    {
-      ...options,
-      enabled:
-        typeof options.enabled === 'undefined' ? !!tableFetchProps.take : !!options.enabled && !!tableFetchProps.take,
-    },
-  );
+    enabled:
+      typeof options.enabled === 'undefined' ? !!tableFetchProps.take : !!options.enabled && !!tableFetchProps.take,
+    ...options,
+  });
 
   return { ...res, isLoadingTgGroups: res.isLoading, isErrorTgGroups: res.isError, tgGroupsData: res.data };
 };
 
 export const useTgGroups = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([tgGroupsQueryKey, props], () => api.apis.TgGroup.findMany({ ...props }), {
-    ...options,
+  const res = useQuery({
+    queryKey: [tgGroupsQueryKey, props],
+    queryFn: () => api.apis.TgGroup.findMany({ ...props }),
     enabled: options.enabled != undefined ? !!options.enabled : undefined,
+    ...options,
   });
   return { ...res, isLoadingTgGroups: res.isLoading, isErrorTgGroups: res.isError, tgGroupsData: res.data };
 };
 
 export const useTgGroup = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([tgGroupQueryKey, props], () => api.apis.TgGroup.findOne({ ...props }), options as any);
+  const res = useQuery({
+    queryKey: [tgGroupQueryKey, props],
+    queryFn: () => api.apis.TgGroup.findOne({ ...props }),
+    ...(options as any),
+  });
   return {
     ...res,
     isLoadingTgGroup: res.isLoading,
@@ -91,13 +103,16 @@ export const useTgGroup = (props: Record<string, any>, options: QueryOptions = {
 export const useCreateTgGroups = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.TgGroup.createMany({ data });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.TgGroup.createMany({ data });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   return {
     ...res,
-    isLoadingCreateTgGroups: res.isLoading,
+    isLoadingCreateTgGroups: res.isPending,
     isErrorCreateTgGroups: res.isError,
     createTgGroups: res.mutate,
     createdTgGroups: res.data,
@@ -107,13 +122,16 @@ export const useCreateTgGroups = (options: QueryOptions, secondaryOptions?: Quer
 export const useCreateListTgGroups = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.TgGroup.createList(data);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.TgGroup.createList(data);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   return {
     ...res,
-    isLoadingCreateListTgGroups: res.isLoading,
+    isLoadingCreateListTgGroups: res.isPending,
     isErrorCreateListTgGroups: res.isError,
     createListTgGroups: res.mutate,
     createdListTgGroups: res.data,
@@ -123,12 +141,15 @@ export const useCreateListTgGroups = (options: QueryOptions, secondaryOptions?: 
 export const useCreateTgGroup = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.TgGroup.createOne({ data });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.TgGroup.createOne({ data });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingCreateTgGroup: res.isLoading,
+    isLoadingCreateTgGroup: res.isPending,
     isErrorCreateTgGroup: res.isError,
     createTgGroup: res.mutate,
     createdTgGroup: res.data,
@@ -138,12 +159,15 @@ export const useCreateTgGroup = (options: QueryOptions, secondaryOptions?: Query
 export const useUpdateTgGroups = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.TgGroup.updateMany(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.TgGroup.updateMany(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateTgGroups: res.isLoading,
+    isLoadingUpdateTgGroups: res.isPending,
     isErrorUpdateTgGroups: res.isError,
     updateTgGroups: res.mutate,
     updatedTgGroups: res.data,
@@ -153,12 +177,15 @@ export const useUpdateTgGroups = (options: QueryOptions, secondaryOptions?: Quer
 export const useUpdateListTgGroups = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.TgGroup.updateList(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.TgGroup.updateList(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateListTgGroups: res.isLoading,
+    isLoadingUpdateListTgGroups: res.isPending,
     isErrorUpdateListTgGroups: res.isError,
     updateListTgGroups: res.mutate,
     updatedListTgGroups: res.data,
@@ -168,12 +195,15 @@ export const useUpdateListTgGroups = (options: QueryOptions, secondaryOptions?: 
 export const useUpdateTgGroupsList = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.TgGroup.updateList(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.TgGroup.updateList(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateTgGroupsList: res.isLoading,
+    isLoadingUpdateTgGroupsList: res.isPending,
     isErrorUpdateTgGroupsList: res.isError,
     updateTgGroupsList: res.mutate,
     updatedTgGroupsList: res.data,
@@ -183,12 +213,15 @@ export const useUpdateTgGroupsList = (options: QueryOptions, secondaryOptions?: 
 export const useUpdateTgGroup = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.TgGroup.updateOne(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.TgGroup.updateOne(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateTgGroup: res.isLoading,
+    isLoadingUpdateTgGroup: res.isPending,
     isErrorUpdateTgGroup: res.isError,
     updateTgGroup: res.mutate,
     updatedTgGroup: res.data,
@@ -198,12 +231,15 @@ export const useUpdateTgGroup = (options: QueryOptions, secondaryOptions?: Query
 export const useDeleteTgGroups = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((where: Record<string, any>) => {
-    return api.apis.TgGroup.deleteMany({ where });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (where: Record<string, any>) => {
+      return api.apis.TgGroup.deleteMany({ where });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingDeleteTgGroups: res.isLoading,
+    isLoadingDeleteTgGroups: res.isPending,
     isErrorDeleteTgGroups: res.isError,
     deleteTgGroups: res.mutate,
   };
@@ -212,12 +248,15 @@ export const useDeleteTgGroups = (options: QueryOptions, secondaryOptions?: Quer
 export const useDeleteAllTgGroups = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation(() => {
-    return api.apis.TgGroup.deleteAll();
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: () => {
+      return api.apis.TgGroup.deleteAll();
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingDeleteAllTgGroups: res.isLoading,
+    isLoadingDeleteAllTgGroups: res.isPending,
     isErrorDeleteAllTgGroups: res.isError,
     deleteAllTgGroups: res.mutate,
   };
@@ -226,9 +265,12 @@ export const useDeleteAllTgGroups = (options: QueryOptions, secondaryOptions?: Q
 export const useDeleteTgGroup = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((where: Record<string, any> | number | string) => {
-    return api.apis.TgGroup.deleteOne(typeof where === 'object' ? { where } : { where: { id: where } });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (where: Record<string, any> | number | string) => {
+      return api.apis.TgGroup.deleteOne(typeof where === 'object' ? { where } : { where: { id: where } });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   const deleteTgGroupFromTable = useCallback(
     (data: Record<string, any>) => {
@@ -239,7 +281,7 @@ export const useDeleteTgGroup = (options: QueryOptions, secondaryOptions?: Query
 
   return {
     ...res,
-    isLoadingDeleteTgGroup: res.isLoading,
+    isLoadingDeleteTgGroup: res.isPending,
     isErrorDeleteTgGroup: res.isError,
     deleteTgGroup: res.mutate,
     deleteTgGroupFromTable,

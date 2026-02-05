@@ -13,11 +13,11 @@ export const bookmarksAggregateQueryKey = 'aggregate-bookmarks';
 
 export const useAggregateBookmarks = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery(
-    [bookmarksAggregateQueryKey, props],
-    () => api.instance.post('/api/bookmark/aggregate', props),
-    options,
-  );
+  const res = useQuery({
+    queryKey: [bookmarksAggregateQueryKey, props],
+    queryFn: () => api.instance.post('/api/bookmark/aggregate', props),
+    ...options,
+  });
   return {
     ...res,
     isLoadingAggregateBookmark: res.isLoading,
@@ -28,7 +28,11 @@ export const useAggregateBookmarks = (props: Record<string, any>, options: Query
 
 export const useCountBookmarks = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([bookmarksCountQueryKey, props], () => api.apis.Bookmark.count({ ...props }), options);
+  const res = useQuery({
+    queryKey: [bookmarksCountQueryKey, props],
+    queryFn: () => api.apis.Bookmark.count({ ...props }),
+    ...options,
+  });
   return {
     ...res,
     isLoadingCountBookmark: res.isLoading,
@@ -39,7 +43,11 @@ export const useCountBookmarks = (props: Record<string, any>, options: QueryOpti
 
 export const useExistBookmark = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([bookmarkExistQueryKey, props], () => api.apis.Bookmark.exist({ ...props }), options);
+  const res = useQuery({
+    queryKey: [bookmarkExistQueryKey, props],
+    queryFn: () => api.apis.Bookmark.exist({ ...props }),
+    ...options,
+  });
   return {
     ...res,
     isLoadingExistBookmark: res.isLoading,
@@ -51,35 +59,39 @@ export const useExistBookmark = (props: Record<string, any>, options: QueryOptio
 export const useBookmarksWithPagination = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
   const tableFetchProps = useTableFetchProps();
-  const res = useQuery(
-    [bookmarksQueryKey, tableFetchProps, props],
-    () =>
+  const res = useQuery({
+    queryKey: [bookmarksQueryKey, tableFetchProps, props],
+    queryFn: () =>
       api.apis.Bookmark.findMany({
         ...tableFetchProps,
         ...props,
       }),
-    {
-      ...options,
-      enabled:
-        typeof options.enabled === 'undefined' ? !!tableFetchProps.take : !!options.enabled && !!tableFetchProps.take,
-    },
-  );
+    enabled:
+      typeof options.enabled === 'undefined' ? !!tableFetchProps.take : !!options.enabled && !!tableFetchProps.take,
+    ...options,
+  });
 
   return { ...res, isLoadingBookmarks: res.isLoading, isErrorBookmarks: res.isError, bookmarksData: res.data };
 };
 
 export const useBookmarks = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([bookmarksQueryKey, props], () => api.apis.Bookmark.findMany({ ...props }), {
-    ...options,
+  const res = useQuery({
+    queryKey: [bookmarksQueryKey, props],
+    queryFn: () => api.apis.Bookmark.findMany({ ...props }),
     enabled: options.enabled != undefined ? !!options.enabled : undefined,
+    ...options,
   });
   return { ...res, isLoadingBookmarks: res.isLoading, isErrorBookmarks: res.isError, bookmarksData: res.data };
 };
 
 export const useBookmark = (props: Record<string, any>, options: QueryOptions = {}) => {
   const api = useApi();
-  const res = useQuery([bookmarkQueryKey, props], () => api.apis.Bookmark.findOne({ ...props }), options as any);
+  const res = useQuery({
+    queryKey: [bookmarkQueryKey, props],
+    queryFn: () => api.apis.Bookmark.findOne({ ...props }),
+    ...(options as any),
+  });
   return {
     ...res,
     isLoadingBookmark: res.isLoading,
@@ -91,13 +103,16 @@ export const useBookmark = (props: Record<string, any>, options: QueryOptions = 
 export const useCreateBookmarks = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.Bookmark.createMany({ data });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.Bookmark.createMany({ data });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   return {
     ...res,
-    isLoadingCreateBookmarks: res.isLoading,
+    isLoadingCreateBookmarks: res.isPending,
     isErrorCreateBookmarks: res.isError,
     createBookmarks: res.mutate,
     createdBookmarks: res.data,
@@ -107,13 +122,16 @@ export const useCreateBookmarks = (options: QueryOptions, secondaryOptions?: Que
 export const useCreateListBookmarks = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.Bookmark.createList(data);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.Bookmark.createList(data);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   return {
     ...res,
-    isLoadingCreateListBookmarks: res.isLoading,
+    isLoadingCreateListBookmarks: res.isPending,
     isErrorCreateListBookmarks: res.isError,
     createListBookmarks: res.mutate,
     createdListBookmarks: res.data,
@@ -123,12 +141,15 @@ export const useCreateListBookmarks = (options: QueryOptions, secondaryOptions?:
 export const useCreateBookmark = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((data: Record<string, any>) => {
-    return api.apis.Bookmark.createOne({ data });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (data: Record<string, any>) => {
+      return api.apis.Bookmark.createOne({ data });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingCreateBookmark: res.isLoading,
+    isLoadingCreateBookmark: res.isPending,
     isErrorCreateBookmark: res.isError,
     createBookmark: res.mutate,
     createdBookmark: res.data,
@@ -138,12 +159,15 @@ export const useCreateBookmark = (options: QueryOptions, secondaryOptions?: Quer
 export const useUpdateBookmarks = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.Bookmark.updateMany(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.Bookmark.updateMany(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateBookmarks: res.isLoading,
+    isLoadingUpdateBookmarks: res.isPending,
     isErrorUpdateBookmarks: res.isError,
     updateBookmarks: res.mutate,
     updatedBookmarks: res.data,
@@ -153,12 +177,15 @@ export const useUpdateBookmarks = (options: QueryOptions, secondaryOptions?: Que
 export const useUpdateListBookmarks = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.Bookmark.updateList(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.Bookmark.updateList(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateListBookmarks: res.isLoading,
+    isLoadingUpdateListBookmarks: res.isPending,
     isErrorUpdateListBookmarks: res.isError,
     updateListBookmarks: res.mutate,
     updatedListBookmarks: res.data,
@@ -168,12 +195,15 @@ export const useUpdateListBookmarks = (options: QueryOptions, secondaryOptions?:
 export const useUpdateBookmarksList = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.Bookmark.updateList(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.Bookmark.updateList(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateBookmarksList: res.isLoading,
+    isLoadingUpdateBookmarksList: res.isPending,
     isErrorUpdateBookmarksList: res.isError,
     updateBookmarksList: res.mutate,
     updatedBookmarksList: res.data,
@@ -183,12 +213,15 @@ export const useUpdateBookmarksList = (options: QueryOptions, secondaryOptions?:
 export const useUpdateBookmark = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((props: Record<string, any>) => {
-    return api.apis.Bookmark.updateOne(props);
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (props: Record<string, any>) => {
+      return api.apis.Bookmark.updateOne(props);
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingUpdateBookmark: res.isLoading,
+    isLoadingUpdateBookmark: res.isPending,
     isErrorUpdateBookmark: res.isError,
     updateBookmark: res.mutate,
     updatedBookmark: res.data,
@@ -198,12 +231,15 @@ export const useUpdateBookmark = (options: QueryOptions, secondaryOptions?: Quer
 export const useDeleteBookmarks = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((where: Record<string, any>) => {
-    return api.apis.Bookmark.deleteMany({ where });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (where: Record<string, any>) => {
+      return api.apis.Bookmark.deleteMany({ where });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingDeleteBookmarks: res.isLoading,
+    isLoadingDeleteBookmarks: res.isPending,
     isErrorDeleteBookmarks: res.isError,
     deleteBookmarks: res.mutate,
   };
@@ -212,12 +248,15 @@ export const useDeleteBookmarks = (options: QueryOptions, secondaryOptions?: Que
 export const useDeleteAllBookmarks = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation(() => {
-    return api.apis.Bookmark.deleteAll();
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: () => {
+      return api.apis.Bookmark.deleteAll();
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
   return {
     ...res,
-    isLoadingDeleteAllBookmarks: res.isLoading,
+    isLoadingDeleteAllBookmarks: res.isPending,
     isErrorDeleteAllBookmarks: res.isError,
     deleteAllBookmarks: res.mutate,
   };
@@ -226,9 +265,12 @@ export const useDeleteAllBookmarks = (options: QueryOptions, secondaryOptions?: 
 export const useDeleteBookmark = (options: QueryOptions, secondaryOptions?: QuerySecondaryOptions) => {
   const api = useApi();
   const queryClient = useQueryClient();
-  const res = useMutation((where: Record<string, any> | number | string) => {
-    return api.apis.Bookmark.deleteOne(typeof where === 'object' ? { where } : { where: { id: where } });
-  }, getQueryOptions(queryClient, options, secondaryOptions));
+  const res = useMutation({
+    mutationFn: (where: Record<string, any> | number | string) => {
+      return api.apis.Bookmark.deleteOne(typeof where === 'object' ? { where } : { where: { id: where } });
+    },
+    ...getQueryOptions(queryClient, options, secondaryOptions),
+  });
 
   const deleteBookmarkFromTable = useCallback(
     (data: Record<string, any>) => {
@@ -239,7 +281,7 @@ export const useDeleteBookmark = (options: QueryOptions, secondaryOptions?: Quer
 
   return {
     ...res,
-    isLoadingDeleteBookmark: res.isLoading,
+    isLoadingDeleteBookmark: res.isPending,
     isErrorDeleteBookmark: res.isError,
     deleteBookmark: res.mutate,
     deleteBookmarkFromTable,

@@ -17,9 +17,10 @@ import { observer } from 'mobx-react';
 import { useCourses } from '@src/queries/models/course';
 import { get } from 'lodash';
 import { NextPageWithLayout } from '@/types';
-import { DynamicProviders } from '@hocs/dynamic-providers';
+import { StudentDynamicProviders } from '@hocs/dynamic-providers';
 import { PrimaryButton, SecondaryButton, GhostButton } from '@/components/ui/button';
 import { GlassCard } from '@/components/ui/card';
+import { Course } from '@api/academy-types';
 
 const CoursesPage: NextPageWithLayout = observer(() => {
   const { isDarkMode } = useMyTheme();
@@ -43,7 +44,7 @@ const CoursesPage: NextPageWithLayout = observer(() => {
         createdAt: 'desc',
       },
     },
-    { enabled: true }
+    { enabled: true },
   );
 
   const courses = get(coursesResponse, 'data.data', []);
@@ -68,9 +69,12 @@ const CoursesPage: NextPageWithLayout = observer(() => {
   const getTotalDuration = (course: any) => {
     if (!course.modules) return 0;
     return course.modules.reduce((total: number, module: any) => {
-      return total + (module.lessons?.reduce((lessonTotal: number, lesson: any) => {
-        return lessonTotal + (lesson.duration || 0);
-      }, 0) || 0);
+      return (
+        total +
+        (module.lessons?.reduce((lessonTotal: number, lesson: any) => {
+          return lessonTotal + (lesson.duration || 0);
+        }, 0) || 0)
+      );
     }, 0);
   };
 
@@ -83,8 +87,8 @@ const CoursesPage: NextPageWithLayout = observer(() => {
 
   const levels = [
     { id: 'all', name: 'Barchasi' },
-    { id: 'beginner', name: 'Boshlang\'ich' },
-    { id: 'intermediate', name: 'O\'rtacha' },
+    { id: 'beginner', name: "Boshlang'ich" },
+    { id: 'intermediate', name: "O'rtacha" },
     { id: 'advanced', name: 'Murakkab' },
   ];
 
@@ -93,12 +97,8 @@ const CoursesPage: NextPageWithLayout = observer(() => {
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
-            Kurslar katalogi
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            O'zishingizga mos kursni tanlang va o'rganingni boshlang
-          </p>
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">Kurslar katalogi</h1>
+          <p className="text-gray-600 dark:text-gray-400">O'zishingizga mos kursni tanlang va o'rganingni boshlang</p>
         </div>
 
         {/* Search Bar */}
@@ -125,10 +125,10 @@ const CoursesPage: NextPageWithLayout = observer(() => {
           {categories.map((category) => (
             <button
               key={category.id}
-              className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 border-0 ${
+              className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl transition-all duration-300 shadow-sm hover:shadow-md ${
                 isDarkMode
-                  ? 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-                  : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200'
+                  ? 'bg-gray-800/80 backdrop-blur-sm border border-gray-700/50 text-gray-300 hover:bg-gray-700/80 hover:border-gray-600 hover:shadow-gray-900/20'
+                  : 'bg-white/80 backdrop-blur-sm border border-gray-200/60 text-gray-700 hover:bg-gray-50/80 hover:border-gray-300 hover:shadow-gray-200/50'
               }`}
             >
               {category.icon}
@@ -142,10 +142,10 @@ const CoursesPage: NextPageWithLayout = observer(() => {
           {levels.map((level) => (
             <button
               key={level.id}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 border-0 ${
+              className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 shadow-sm hover:shadow-md ${
                 isDarkMode
-                  ? 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-                  : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200'
+                  ? 'bg-gray-800/80 backdrop-blur-sm border border-gray-700/50 text-gray-300 hover:bg-gray-700/80 hover:border-gray-600 hover:shadow-gray-900/20'
+                  : 'bg-white/80 backdrop-blur-sm border border-gray-200/60 text-gray-700 hover:bg-gray-50/80 hover:border-gray-300 hover:shadow-gray-200/50'
               }`}
             >
               {level.name}
@@ -155,10 +155,10 @@ const CoursesPage: NextPageWithLayout = observer(() => {
 
         {/* Sort */}
         <select
-          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+          className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer ${
             isDarkMode
-              ? 'bg-gray-800 text-gray-300 border-gray-700'
-              : 'bg-white text-gray-700 border-gray-200'
+              ? 'bg-gray-800/80 backdrop-blur-sm border border-gray-700/50 text-gray-300 hover:bg-gray-700/80 hover:border-gray-600 hover:shadow-gray-900/20'
+              : 'bg-white/80 backdrop-blur-sm border border-gray-200/60 text-gray-700 hover:bg-gray-50/80 hover:border-gray-300 hover:shadow-gray-200/50'
           }`}
         >
           <option value="newest">Yangi</option>
@@ -172,24 +172,28 @@ const CoursesPage: NextPageWithLayout = observer(() => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <GlassCard className="!p-4">
           <div className="flex items-center gap-3">
-            <div className={`w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-primary/10 to-primary-600/10`}>
+            <div
+              className={`w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-primary/10 to-primary-600/10`}
+            >
               <BookOpen className="w-6 h-6 text-primary" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">{courses.length}</p>
-              <p className="text-xs text-gray-600 dark:text-gray-400">Jami kurslar</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white my-0">{courses.length}</p>
+              <p className="text-xs text-gray-600 dark:text-gray-400 my-0">Jami kurslar</p>
             </div>
           </div>
         </GlassCard>
 
         <GlassCard className="!p-4">
           <div className="flex items-center gap-3">
-            <div className={`w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-green-500/10 to-green-600/10`}>
+            <div
+              className={`w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-green-500/10 to-green-600/10`}
+            >
               <PlayCircle className="w-6 h-6 text-green-600" />
             </div>
             <div>
               <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                {courses.reduce((sum, course) => sum + getTotalDuration(course), 0)}
+                {courses.reduce((sum: number, course: Course) => sum + getTotalDuration(course), 0)}
               </p>
               <p className="text-xs text-gray-600 dark:text-gray-400">Daqiqa</p>
             </div>
@@ -198,12 +202,14 @@ const CoursesPage: NextPageWithLayout = observer(() => {
 
         <GlassCard className="!p-4">
           <div className="flex items-center gap-3">
-            <div className={`w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-orange-500/10 to-orange-600/10`}>
+            <div
+              className={`w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-orange-500/10 to-orange-600/10`}
+            >
               <Users className="w-6 h-6 text-orange-600" />
             </div>
             <div>
               <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                {courses.reduce((sum, course) => sum + (course.mentor?.totalStudents || 0), 0)}
+                {courses.reduce((sum: number, course: Course) => sum + (course.mentor?.totalStudents || 0), 0)}
               </p>
               <p className="text-xs text-gray-600 dark:text-gray-400">O'quvchilar</p>
             </div>
@@ -212,7 +218,9 @@ const CoursesPage: NextPageWithLayout = observer(() => {
 
         <GlassCard className="!p-4">
           <div className="flex items-center gap-3">
-            <div className={`w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-yellow-500/10 to-yellow-600/10`}>
+            <div
+              className={`w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-yellow-500/10 to-yellow-600/10`}
+            >
               <Star className="w-6 h-6 text-yellow-600" />
             </div>
             <div>
@@ -242,7 +250,8 @@ const CoursesPage: NextPageWithLayout = observer(() => {
           {courses.map((course: any) => {
             const title = course.titleUz || course.titleRu || course.titleEn || 'Kurs';
             const description = course.descriptionUz || course.descriptionRu || course.descriptionEn || '';
-            const categoryName = course.category?.nameUz || course.category?.nameRu || course.category?.nameEn || 'Trading';
+            const categoryName =
+              course.category?.nameUz || course.category?.nameRu || course.category?.nameEn || 'Trading';
             const mentorName = `${course.mentor?.firstName || ''} ${course.mentor?.lastName || ''}`.trim() || 'Mentor';
             const totalLessons = getTotalLessons(course);
             const publishedLessons = getPublishedLessons(course);
@@ -293,9 +302,7 @@ const CoursesPage: NextPageWithLayout = observer(() => {
                   </h3>
 
                   {/* Description */}
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
-                    {description}
-                  </p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">{description}</p>
 
                   {/* Meta Info */}
                   <div className="flex flex-wrap items-center gap-4 text-xs text-gray-600 dark:text-gray-400 mb-4">
@@ -309,7 +316,9 @@ const CoursesPage: NextPageWithLayout = observer(() => {
                     </div>
                     <div className="flex items-center gap-1">
                       <BookOpen className="w-3.5 h-3.5" />
-                      <span>{publishedLessons}/{totalLessons} dars</span>
+                      <span>
+                        {publishedLessons}/{totalLessons} dars
+                      </span>
                     </div>
                   </div>
 
@@ -320,7 +329,10 @@ const CoursesPage: NextPageWithLayout = observer(() => {
                       <span className="text-xs font-semibold text-primary">0%</span>
                     </div>
                     <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                      <div className="h-full bg-gradient-to-r from-primary to-primary-600 rounded-full transition-all duration-500" style={{ width: '0%' }}></div>
+                      <div
+                        className="h-full bg-gradient-to-r from-primary to-primary-600 rounded-full transition-all duration-500"
+                        style={{ width: '0%' }}
+                      ></div>
                     </div>
                   </div>
 
@@ -338,11 +350,13 @@ const CoursesPage: NextPageWithLayout = observer(() => {
                       </div>
                     </div>
 
-                    <button className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 border-0 ${
-                      isDarkMode
-                        ? 'bg-primary-600 text-white hover:bg-primary-700'
-                        : 'bg-primary-600 text-white hover:bg-primary-700'
-                    }`}>
+                    <button
+                      className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 border-0 ${
+                        isDarkMode
+                          ? 'bg-primary-600 text-white hover:bg-primary-700'
+                          : 'bg-primary-600 text-white hover:bg-primary-700'
+                      }`}
+                    >
                       <span>Kursga yozilish</span>
                       <ChevronRight className="w-4 h-4" />
                     </button>
@@ -359,9 +373,9 @@ const CoursesPage: NextPageWithLayout = observer(() => {
 
 CoursesPage.getLayout = function getLayout(page: ReactElement) {
   return (
-    <DynamicProviders>
+    <StudentDynamicProviders>
       <StudentLayout title="Kurslar">{page}</StudentLayout>
-    </DynamicProviders>
+    </StudentDynamicProviders>
   );
 };
 

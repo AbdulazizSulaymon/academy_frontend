@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import React, { ReactElement, useEffect } from 'react';
 
 import { AdminLayout } from '@src/widgets/dashboard-layout/layouts';
-import { AboutProject } from '@src/widgets/project/about-project';
+import { AboutProject } from '@/widgets/about-project';
 import { DynamicProviders } from '@hocs/dynamic-providers';
 
 const Page: NextPageWithLayout = observer(() => {

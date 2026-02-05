@@ -33,22 +33,20 @@ export const useTableFunctions = (
     [push],
   );
 
-  const { mutate: removeCallback, isLoading: isLoadingRemove } = useMutation(
-    (data: Record<string, any>) =>
+  const { mutate: removeCallback, isPending: isLoadingRemove } = useMutation({
+    mutationFn: (data: Record<string, any>) =>
       model
         ? model?.deleteOne({ where: { id: data.id } })
         : new Promise((resolve, reject) => {
             new Error('Model not found');
             reject();
           }),
-    {
-      onSuccess: () => {
-        notifySuccess(t(removeCallbackOptions?.successText || `Muvaffaqiyatli o'chirildi`) as string);
-        if (queryKey) queryClient.invalidateQueries({ queryKey: [queryKey] });
-      },
-      onError: () => notifyError(t(removeCallbackOptions?.errorText || 'Xatolik yuz berdi') as string),
+    onSuccess: () => {
+      notifySuccess(t(removeCallbackOptions?.successText || `Muvaffaqiyatli o'chirildi`) as string);
+      if (queryKey) queryClient.invalidateQueries({ queryKey: [queryKey] });
     },
-  );
+    onError: () => notifyError(t(removeCallbackOptions?.errorText || 'Xatolik yuz berdi') as string),
+  });
 
   return { addCallback, editCallback, viewCallback, removeCallback, isLoadingRemove };
 };

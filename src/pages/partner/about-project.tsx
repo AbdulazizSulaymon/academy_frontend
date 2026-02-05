@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 
 import { NextPageWithLayout } from '@/types';
 import { PartnersLayout } from '@src/widgets/dashboard-layout/layouts';
-import { AboutProject } from '@src/widgets/project/about-project';
+import { AboutProject } from '@/widgets/about-project';
 
 import { DynamicProviders } from '@hocs/dynamic-providers';
 
