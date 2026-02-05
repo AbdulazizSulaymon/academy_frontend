@@ -14,7 +14,6 @@ import { GlassCard } from '@/components/ui/card';
 import { Button } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { User, Camera, Mail, Phone, Edit3, X, Calendar, Award, BookOpen, Trophy } from 'lucide-react';
-import { Paragraph } from '@/components/ui/typography';
 
 const StudentProfile: NextPageWithLayout = observer(() => {
   const router = useRouter();
@@ -146,7 +145,7 @@ const StudentProfile: NextPageWithLayout = observer(() => {
   if (!user) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <GlassCard className="p-12 text-center">
+        <GlassCard className="text-center">
           <User className="w-16 h-16 mx-auto text-gray-400 mb-4" />
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
             {t('Foydalanuvchi topilmadi') || 'Foydalanuvchi topilmadi'}
@@ -166,9 +165,9 @@ const StudentProfile: NextPageWithLayout = observer(() => {
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
               {t('Profilni tahrirlash') || 'Profilni tahrirlash'}
             </h1>
-            <Paragraph className="text-gray-600 dark:text-gray-400">
+            <p className="text-gray-600 dark:text-gray-400">
               {t('Ma\'lumotlaringizni yangiling') || 'Ma\'lumotlaringizni yangiling'}
-            </Paragraph>
+            </p>
           </div>
           <button
             onClick={handleCancelEdit}
@@ -228,7 +227,7 @@ const StudentProfile: NextPageWithLayout = observer(() => {
 
               {/* Bio */}
               {currentUser?.bio && (
-                <Paragraph className="text-white/70 italic max-w-2xl">"{currentUser?.bio}"</Paragraph>
+                <p className="text-white/70 italic max-w-2xl">"{currentUser?.bio}"</p>
               )}
             </div>
 
@@ -236,7 +235,7 @@ const StudentProfile: NextPageWithLayout = observer(() => {
             <div className="flex items-center gap-4">
               {/* Stats */}
               <div className="text-center px-6 py-3 rounded-xl bg-white/10 backdrop-blur-sm">
-                <p className="text-3xl font-bold">{currentUser?.coins || 0}</p>
+                <p className="text-3xl font-bold mb-0">{currentUser?.coins || 0}</p>
                 <p className="text-sm text-white/80">Coins</p>
               </div>
 
@@ -256,7 +255,7 @@ const StudentProfile: NextPageWithLayout = observer(() => {
       {/* Profile Information Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Contact Info */}
-        <GlassCard className="p-6">
+        <GlassCard>
           <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-10 flex items-center justify-center rounded-xl bg-gradient-to-br from-blue-500/10 to-blue-600/10">
               <Mail className="w-5 h-5 text-blue-600" />
@@ -294,7 +293,7 @@ const StudentProfile: NextPageWithLayout = observer(() => {
         </GlassCard>
 
         {/* Account Info */}
-        <GlassCard className="p-6">
+        <GlassCard>
           <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-10 flex items-center justify-center rounded-xl bg-gradient-to-br from-purple-500/10 to-purple-600/10">
               <User className="w-5 h-5 text-purple-600" />
@@ -340,13 +339,13 @@ const StudentProfile: NextPageWithLayout = observer(() => {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <GlassCard className="p-6">
+        <GlassCard>
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500/10 to-green-600/10 flex items-center justify-center">
               <BookOpen className="w-6 h-6 text-green-600" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">
+              <p className="text-2xl font-bold mb-0 text-gray-900 dark:text-white">
                 {currentUser?.enrolledCourses || 0}
               </p>
               <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -356,13 +355,13 @@ const StudentProfile: NextPageWithLayout = observer(() => {
           </div>
         </GlassCard>
 
-        <GlassCard className="p-6">
+        <GlassCard>
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500/10 to-blue-600/10 flex items-center justify-center">
               <Award className="w-6 h-6 text-blue-600" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">
+              <p className="text-2xl font-bold mb-0 text-gray-900 dark:text-white">
                 {currentUser?.completedCourses || 0}
               </p>
               <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -372,13 +371,13 @@ const StudentProfile: NextPageWithLayout = observer(() => {
           </div>
         </GlassCard>
 
-        <GlassCard className="p-6">
+        <GlassCard>
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-yellow-500/10 to-yellow-600/10 flex items-center justify-center">
               <Trophy className="w-6 h-6 text-yellow-600" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">
+              <p className="text-2xl font-bold mb-0 text-gray-900 dark:text-white">
                 {currentUser?.certificates || 0}
               </p>
               <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -390,7 +389,7 @@ const StudentProfile: NextPageWithLayout = observer(() => {
       </div>
 
       {/* Quick Actions */}
-      <GlassCard className="p-6">
+      <GlassCard>
         <div className="flex items-center gap-3 mb-6">
           <div className="w-10 h-10 flex items-center justify-center rounded-xl bg-gradient-to-br from-orange-500/10 to-orange-600/10">
             <Edit3 className="w-5 h-5 text-orange-600" />

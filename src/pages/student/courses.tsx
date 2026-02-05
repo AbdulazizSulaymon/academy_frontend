@@ -21,7 +21,7 @@ import { StudentDynamicProviders } from '@hocs/dynamic-providers';
 import { PrimaryButton, SecondaryButton, GhostButton } from '@/components/ui/button';
 import { GlassCard } from '@/components/ui/card';
 import { Course } from '@api/academy-types';
-import { Paragraph } from '@/components/ui/typography';
+
 
 const CoursesPage: NextPageWithLayout = observer(() => {
   const { isDarkMode } = useMyTheme();
@@ -99,9 +99,9 @@ const CoursesPage: NextPageWithLayout = observer(() => {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">Kurslar katalogi</h1>
-          <Paragraph className="text-gray-600 dark:text-gray-400">
+          <p className="text-gray-600 dark:text-gray-400">
             O'zishingizga mos kursni tanlang va o'rganingni boshlang
-          </Paragraph>
+          </p>
         </div>
 
         {/* Search Bar */}
@@ -157,7 +157,7 @@ const CoursesPage: NextPageWithLayout = observer(() => {
 
       {/* Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <GlassCard className="!p-4">
+        <GlassCard className="className">
           <div className="flex items-center gap-3">
             <div
               className={`w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-primary/10 to-primary-600/10`}
@@ -165,15 +165,15 @@ const CoursesPage: NextPageWithLayout = observer(() => {
               <BookOpen className="w-6 h-6 text-primary" />
             </div>
             <div>
-              <Paragraph className="!text-2xl !font-bold !text-gray-900 dark:!text-white !mb-1">
+              <p className="!text-2xl !font-bold !text-gray-900 dark:!text-white !mb-1">
                 {courses.length}
-              </Paragraph>
-              <Paragraph className="!text-xs !text-gray-600 dark:!text-gray-400 !my-0">Jami kurslar</Paragraph>
+              </p>
+              <p className="!text-xs !text-gray-600 dark:!text-gray-400 !my-0">Jami kurslar</p>
             </div>
           </div>
         </GlassCard>
 
-        <GlassCard className="!p-4">
+        <GlassCard className="className">
           <div className="flex items-center gap-3">
             <div
               className={`w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-green-500/10 to-green-600/10`}
@@ -181,15 +181,15 @@ const CoursesPage: NextPageWithLayout = observer(() => {
               <PlayCircle className="w-6 h-6 text-green-600" />
             </div>
             <div>
-              <Paragraph className="!text-2xl !font-bold !text-gray-900 dark:!text-white !mb-0">
+              <p className="!text-2xl !font-bold !text-gray-900 dark:!text-white !mb-0">
                 {courses.reduce((sum: number, course: Course) => sum + getTotalDuration(course), 0)}
-              </Paragraph>
-              <Paragraph className="!text-xs !text-gray-600 dark:!text-gray-400 !py-0">Daqiqa</Paragraph>
+              </p>
+              <p className="!text-xs !text-gray-600 dark:!text-gray-400 !py-0">Daqiqa</p>
             </div>
           </div>
         </GlassCard>
 
-        <GlassCard className="!p-4">
+        <GlassCard className="className">
           <div className="flex items-center gap-3">
             <div
               className={`w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-orange-500/10 to-orange-600/10`}
@@ -197,15 +197,15 @@ const CoursesPage: NextPageWithLayout = observer(() => {
               <Users className="w-6 h-6 text-orange-600" />
             </div>
             <div>
-              <Paragraph className="!text-2xl !font-bold !text-gray-900 dark:!text-white !mb-1">
+              <p className="!text-2xl !font-bold !text-gray-900 dark:!text-white !mb-1">
                 {courses.reduce((sum: number, course: Course) => sum + (course.mentor?.totalStudents || 0), 0)}
-              </Paragraph>
-              <Paragraph className="!text-xs !text-gray-600 dark:!text-gray-400 !my-0">O'quvchilar</Paragraph>
+              </p>
+              <p className="!text-xs !text-gray-600 dark:!text-gray-400 !my-0">O'quvchilar</p>
             </div>
           </div>
         </GlassCard>
 
-        <GlassCard className="!p-4">
+        <GlassCard className="className">
           <div className="flex items-center gap-3">
             <div
               className={`w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-yellow-500/10 to-yellow-600/10`}
@@ -213,8 +213,8 @@ const CoursesPage: NextPageWithLayout = observer(() => {
               <Star className="w-6 h-6 text-yellow-600" />
             </div>
             <div>
-              <Paragraph className="!text-2xl !font-bold !text-gray-900 dark:!text-white !mb-1">4.8</Paragraph>
-              <Paragraph className="!text-xs !text-gray-600 dark:!text-gray-400 !my-0">Reyting</Paragraph>
+              <p className="!text-2xl !font-bold !text-gray-900 dark:!text-white !mb-1">4.8</p>
+              <p className="!text-xs !text-gray-600 dark:!text-gray-400 !my-0">Reyting</p>
             </div>
           </div>
         </GlassCard>
@@ -225,14 +225,14 @@ const CoursesPage: NextPageWithLayout = observer(() => {
         <div className="flex items-center justify-center py-12">
           <div className="text-center">
             <div className="w-16 h-16 border-4 border-primary-200 border-t-primary rounded-full animate-spin mb-4"></div>
-            <Paragraph className="text-gray-600 dark:text-gray-400">Kurslar yuklanmoqda...</Paragraph>
+            <p className="text-gray-600 dark:text-gray-400">Kurslar yuklanmoqda...</p>
           </div>
         </div>
       ) : courses.length === 0 ? (
-        <GlassCard className="!p-12 text-center">
+        <GlassCard className="p-8 text-center">
           <BookOpen className="w-16 h-16 mx-auto text-gray-400 mb-4" />
-          <Paragraph className="text-gray-600 dark:text-gray-400 text-lg mb-2">Kurslar topilmadi</Paragraph>
-          <Paragraph className="text-gray-500 dark:text-gray-500">Hozircha mavjud kurslar yo'q</Paragraph>
+          <p className="text-gray-600 dark:text-gray-400 text-lg mb-2">Kurslar topilmadi</p>
+          <p className="text-gray-500 dark:text-gray-500">Hozircha mavjud kurslar yo'q</p>
         </GlassCard>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -291,9 +291,9 @@ const CoursesPage: NextPageWithLayout = observer(() => {
                   </h3>
 
                   {/* Description */}
-                  <Paragraph className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
                     {description}
-                  </Paragraph>
+                  </p>
 
                   {/* Meta Info */}
                   <div className="flex flex-wrap items-center gap-4 text-xs text-gray-600 dark:text-gray-400 mb-4">
@@ -336,10 +336,10 @@ const CoursesPage: NextPageWithLayout = observer(() => {
                         </span>
                       </div>
                       <div>
-                        <Paragraph className="text-xs font-medium text-gray-900 dark:text-white">
+                        <p className="text-xs font-medium text-gray-900 dark:text-white">
                           {mentorName}
-                        </Paragraph>
-                        <Paragraph className="text-xs text-gray-500">Mentor</Paragraph>
+                        </p>
+                        <p className="text-xs text-gray-500">Mentor</p>
                       </div>
                     </div>
 

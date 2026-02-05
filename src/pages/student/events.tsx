@@ -9,7 +9,7 @@ import { NextPageWithLayout } from '@/types';
 import { StudentDynamicProviders } from '@hocs/dynamic-providers';
 import { PrimaryButton, SecondaryButton } from '@/components/ui/button';
 import { GlassCard } from '@/components/ui/card';
-import { Paragraph } from '@/components/ui/typography';
+
 import { AcademyEventStatus, getStatusColor } from '@api/academy-types';
 import { Badge, Tag } from 'antd';
 import dayjs from 'dayjs';
@@ -90,52 +90,46 @@ const EventsPage: NextPageWithLayout = observer(() => {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{t('Tadbirlar') || 'Tadbirlar'}</h1>
-          <Paragraph className="!text-gray-600 dark:!text-gray-400">
+          <p className="!text-gray-600 dark:!text-gray-400">
             {t('Barcha tadbirlar va voqealar') || 'Barcha tadbirlar va voqealar'}
-          </Paragraph>
+          </p>
         </div>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <GlassCard className="p-4">
+        <GlassCard>
           <div className="flex items-center gap-3">
             <div className="p-3 rounded-xl bg-blue-100 dark:bg-blue-900/30">
               <CalendarIcon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
             </div>
             <div>
-              <Paragraph className="!text-sm !text-gray-600 dark:!text-gray-400">
-                {t('Jami tadbirlar') || 'Jami'}
-              </Paragraph>
-              <Paragraph className="!text-2xl !font-bold !text-gray-900 dark:!text-white">{events.length}</Paragraph>
+              <p className="!text-sm !text-gray-600 dark:!text-gray-400">{t('Jami tadbirlar') || 'Jami'}</p>
+              <p className="!text-2xl !font-bold !text-gray-900 dark:!text-white mb-0">{events.length}</p>
             </div>
           </div>
         </GlassCard>
 
-        <GlassCard className="p-4">
+        <GlassCard>
           <div className="flex items-center gap-3">
             <div className="p-3 rounded-xl bg-green-100 dark:bg-green-900/30">
               <Clock className="w-6 h-6 text-green-600 dark:text-green-400" />
             </div>
             <div>
-              <Paragraph className="!text-sm !text-gray-600 dark:!text-gray-400">{t('Kelgusi') || 'Kelgusi'}</Paragraph>
-              <Paragraph className="!text-2xl !font-bold !text-gray-900 dark:!text-white">
-                {upcomingEvents.length}
-              </Paragraph>
+              <p className="!text-sm !text-gray-600 dark:!text-gray-400">{t('Kelgusi') || 'Kelgusi'}</p>
+              <p className="!text-2xl !font-bold !text-gray-900 dark:!text-white mb-0">{upcomingEvents.length}</p>
             </div>
           </div>
         </GlassCard>
 
-        <GlassCard className="p-4">
+        <GlassCard>
           <div className="flex items-center gap-3">
             <div className="p-3 rounded-xl bg-purple-100 dark:bg-purple-900/30">
               <Calendar className="w-6 h-6 text-purple-600 dark:text-purple-400" />
             </div>
             <div>
-              <Paragraph className="!text-sm !text-gray-600 dark:!text-gray-400">{t("O'tgan") || "O'tgan"}</Paragraph>
-              <Paragraph className="!text-2xl !font-bold !text-gray-900 dark:!text-white">
-                {pastEvents.length}
-              </Paragraph>
+              <p className="!text-sm !text-gray-600 dark:!text-gray-400">{t("O'tgan") || "O'tgan"}</p>
+              <p className="!text-2xl !font-bold !text-gray-900 dark:!text-white mb-0">{pastEvents.length}</p>
             </div>
           </div>
         </GlassCard>
@@ -173,9 +167,9 @@ const EventsPage: NextPageWithLayout = observer(() => {
                         {event.titleUz || event.titleRu || event.titleEn}
                       </h3>
 
-                      <Paragraph className="!text-gray-600 dark:!text-gray-400 !mb-4 line-clamp-2">
+                      <p className="!text-gray-600 dark:!text-gray-400 !mb-4 line-clamp-2">
                         {event.descriptionUz || event.descriptionRu || event.descriptionEn}
-                      </Paragraph>
+                      </p>
 
                       <div className="space-y-2 mb-4">
                         <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
@@ -237,7 +231,7 @@ const EventsPage: NextPageWithLayout = observer(() => {
               </h2>
               <div className="space-y-4">
                 {pastEvents.map((event: any) => (
-                  <GlassCard key={event.id} className="p-6">
+                  <GlassCard key={event.id}>
                     <div className="flex items-start gap-4">
                       {event.coverImage && (
                         <div className="flex-shrink-0 w-32 h-24 rounded-lg overflow-hidden">
@@ -285,14 +279,14 @@ const EventsPage: NextPageWithLayout = observer(() => {
 
           {/* Empty State */}
           {events.length === 0 && (
-            <GlassCard className="p-12 text-center">
+            <GlassCard className="text-center">
               <Calendar className="w-16 h-16 mx-auto text-gray-400 mb-4" />
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                 {t("Tadbirlar yo'q") || "Tadbirlar yo'q"}
               </h3>
-              <Paragraph className="!text-gray-600 dark:!text-gray-400">
+              <p className="!text-gray-600 dark:!text-gray-400">
                 {t('Hozircha tadbirlar mavjud emas') || 'Hozircha tadbirlar mavjud emas'}
-              </Paragraph>
+              </p>
             </GlassCard>
           )}
         </>

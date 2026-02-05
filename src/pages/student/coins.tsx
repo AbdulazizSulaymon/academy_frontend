@@ -21,7 +21,6 @@ import { get } from 'lodash';
 import { NextPageWithLayout } from '@/types';
 import { StudentDynamicProviders } from '@hocs/dynamic-providers';
 import { GlassCard } from '@/components/ui/card';
-import { Paragraph } from '@/components/ui/typography';
 import { Select, Tag } from 'antd';
 import { CoinTransactionType, getStatusColor } from '@api/academy-types';
 import { useTranslation } from 'react-i18next';
@@ -117,9 +116,9 @@ const CoinsPage: NextPageWithLayout = observer(() => {
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
             {t('Coin hamyoni') || 'Coin hamyoni'}
           </h1>
-          <Paragraph className="text-gray-600 dark:text-gray-400">
+          <p className="text-gray-600 dark:text-gray-400">
             {t('Coinlaringizni boshqaring') || 'Coinlaringizni boshqaring'}
-          </Paragraph>
+          </p>
         </div>
       </div>
 
@@ -143,69 +142,69 @@ const CoinsPage: NextPageWithLayout = observer(() => {
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <GlassCard className="p-6">
+        <GlassCard>
           <div className="flex items-center gap-4">
             <div className="p-4 rounded-xl bg-green-100 dark:bg-green-900/30">
               <TrendingUp className="w-8 h-8 text-green-600 dark:text-green-400" />
             </div>
             <div>
-              <Paragraph className="text-sm text-gray-600 dark:text-gray-400 mb-1">
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
                 {t('Jami yutuq') || 'Jami yutuq'}
-              </Paragraph>
-              <Paragraph className="text-2xl font-bold text-green-600 dark:text-green-400">
+              </p>
+              <p className="text-2xl font-bold text-green-600 dark:text-green-400 mb-0">
                 +{totalEarned.toLocaleString()}
-              </Paragraph>
+              </p>
             </div>
           </div>
         </GlassCard>
 
-        <GlassCard className="p-6">
+        <GlassCard>
           <div className="flex items-center gap-4">
             <div className="p-4 rounded-xl bg-red-100 dark:bg-red-900/30">
               <TrendingDown className="w-8 h-8 text-red-600 dark:text-red-400" />
             </div>
             <div>
-              <Paragraph className="text-sm text-gray-600 dark:text-gray-400 mb-1">
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
                 {t('Jami xaraj') || 'Jami xaraj'}
-              </Paragraph>
-              <Paragraph className="text-2xl font-bold text-red-600 dark:text-red-400">
+              </p>
+              <p className="text-2xl font-bold text-red-600 dark:text-red-400 mb-0">
                 -{totalSpent.toLocaleString()}
-              </Paragraph>
+              </p>
             </div>
           </div>
         </GlassCard>
 
-        <GlassCard className="p-6">
+        <GlassCard>
           <div className="flex items-center gap-4">
             <div className="p-4 rounded-xl bg-purple-100 dark:bg-purple-900/30">
               <Gift className="w-8 h-8 text-purple-600 dark:text-purple-400" />
             </div>
             <div>
-              <Paragraph className="text-sm text-gray-600 dark:text-gray-400 mb-1">
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
                 {t('Bonuslar') || 'Bonuslar'}
-              </Paragraph>
-              <Paragraph className="text-2xl font-bold text-purple-600 dark:text-purple-400">
+              </p>
+              <p className="text-2xl font-bold text-purple-600 dark:text-purple-400 mb-0">
                 +
                 {coinHistory
                   .filter((ch: any) => ch.type === CoinTransactionType.Bonus)
                   .reduce((sum: number, ch: any) => sum + Math.abs(ch.amount), 0)
                   .toLocaleString()}
-              </Paragraph>
+              </p>
             </div>
           </div>
         </GlassCard>
       </div>
 
       {/* Transaction History */}
-      <GlassCard className="p-6">
+      <GlassCard>
         <div className="flex items-center justify-between mb-6">
           <div>
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-1">
               {t('Operatsiyalar tarixi') || 'Operatsiyalar tarixi'}
             </h2>
-            <Paragraph className="text-sm text-gray-600 dark:text-gray-400">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
               {t('Barcha tranzaksiyalar') || 'Barcha tranzaksiyalar'}
-            </Paragraph>
+            </p>
           </div>
 
           <Select
@@ -229,9 +228,9 @@ const CoinsPage: NextPageWithLayout = observer(() => {
         ) : filteredHistory.length === 0 ? (
           <div className="text-center py-12">
             <Coins className="w-16 h-16 mx-auto text-gray-400 mb-4" />
-            <Paragraph className="text-gray-600 dark:text-gray-400">
+            <p className="text-gray-600 dark:text-gray-400">
               {t('Tranzaksiyalar topilmadi') || 'Tranzaksiyalar topilmadi'}
-            </Paragraph>
+            </p>
           </div>
         ) : (
           <div className="space-y-3">
@@ -274,14 +273,14 @@ const CoinsPage: NextPageWithLayout = observer(() => {
                   </div>
 
                   <div className="text-right flex-shrink-0">
-                    <Paragraph
-                      className={`text-xl font-bold ${
+                    <p
+                      className={`text-xl font-bold mb-0 ${
                         isPositive ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
                       }`}
                     >
                       {isPositive ? '+' : '-'}
                       {Math.abs(history.amount).toLocaleString()}
-                    </Paragraph>
+                    </p>
                     <Tag color={isPositive ? 'green' : 'red'} className="m-0 mt-1">
                       {typeInfo.label}
                     </Tag>
@@ -294,7 +293,7 @@ const CoinsPage: NextPageWithLayout = observer(() => {
       </GlassCard>
 
       {/* How to Earn */}
-      <GlassCard className="p-6">
+      <GlassCard>
         <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
           {t('Coin qanday ishlaydi?') || 'Coin qanday ishlaydi?'}
         </h2>
@@ -305,9 +304,9 @@ const CoinsPage: NextPageWithLayout = observer(() => {
               <h4 className="font-medium text-gray-900 dark:text-white mb-1">
                 {t('Topshiriqlarni bajarish') || 'Topshiriqlarni bajarish'}
               </h4>
-              <Paragraph className="text-sm text-gray-600 dark:text-gray-400">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
                 {t('Har bir topshiriq uchun coin yuting') || 'Har bir topshiriq uchun coin yuting'}
-              </Paragraph>
+              </p>
             </div>
           </div>
 
@@ -317,9 +316,9 @@ const CoinsPage: NextPageWithLayout = observer(() => {
               <h4 className="font-medium text-gray-900 dark:text-white mb-1">
                 {t('Kurslarni tugatish') || 'Kurslarni tugatish'}
               </h4>
-              <Paragraph className="text-sm text-gray-600 dark:text-gray-400">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
                 {t("Tayyor bo'lgan kurs uchun bonus oling") || "Tayor bo'lgan kurs uchun bonus oling"}
-              </Paragraph>
+              </p>
             </div>
           </div>
 
@@ -329,9 +328,9 @@ const CoinsPage: NextPageWithLayout = observer(() => {
               <h4 className="font-medium text-gray-900 dark:text-white mb-1">
                 {t("Do'kondan xarid qilish") || "Do'kondan xarid qilish"}
               </h4>
-              <Paragraph className="text-sm text-gray-600 dark:text-gray-400">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
                 {t('Coinlaringizni mahsulotlar uchun ishlatting') || 'Coinlaringizni mahsulotlar uchun ishlatting'}
-              </Paragraph>
+              </p>
             </div>
           </div>
 
@@ -341,9 +340,9 @@ const CoinsPage: NextPageWithLayout = observer(() => {
               <h4 className="font-medium text-gray-900 dark:text-white mb-1">
                 {t('Kunlik vazifalar') || 'Kunlik vazifalar'}
               </h4>
-              <Paragraph className="text-sm text-gray-600 dark:text-gray-400">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
                 {t('Har kuni vazifalarni bajaring va coin yuting') || 'Har kuni vazifalarni bajaring va coin yuting'}
-              </Paragraph>
+              </p>
             </div>
           </div>
         </div>

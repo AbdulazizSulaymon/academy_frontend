@@ -20,7 +20,6 @@ import { NextPageWithLayout } from '@/types';
 import { StudentDynamicProviders } from '@hocs/dynamic-providers';
 import { PrimaryButton, SecondaryButton } from '@/components/ui/button';
 import { GlassCard } from '@/components/ui/card';
-import { Paragraph } from '@/components/ui/typography';
 import { Badge } from 'antd';
 import { AssignmentStatus, getStatusColor } from '@api/academy-types';
 import { useTranslation } from 'react-i18next';
@@ -99,73 +98,73 @@ const AssignmentsPage: NextPageWithLayout = observer(() => {
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
             {t('Topshiriqlar') || 'Topshiriqlar'}
           </h1>
-          <Paragraph className="!text-gray-600 dark:!text-gray-400">
+          <p className="!text-gray-600 dark:!text-gray-400">
             {t('Barcha topshiriqlaringizni boshqaring') || 'Barcha topshiriqlaringizni boshqaring'}
-          </Paragraph>
+          </p>
         </div>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <GlassCard className="p-4">
+        <GlassCard>
           <div className="flex items-center gap-3">
             <div className="p-3 rounded-xl bg-blue-100 dark:bg-blue-900/30">
               <FileText className="w-6 h-6 text-blue-600 dark:text-blue-400" />
             </div>
             <div>
-              <Paragraph className="!text-sm !text-gray-600 dark:!text-gray-400">{t('Jami') || 'Jami'}</Paragraph>
-              <Paragraph className="!text-2xl !font-bold !text-gray-900 dark:!text-white">{assignments.length}</Paragraph>
+              <p className="!text-sm !text-gray-600 dark:!text-gray-400">{t('Jami') || 'Jami'}</p>
+              <p className="!text-2xl mb-0 !font-bold !text-gray-900 dark:!text-white">{assignments.length}</p>
             </div>
           </div>
         </GlassCard>
 
-        <GlassCard className="p-4">
+        <GlassCard>
           <div className="flex items-center gap-3">
             <div className="p-3 rounded-xl bg-yellow-100 dark:bg-yellow-900/30">
               <Clock className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
             </div>
             <div>
-              <Paragraph className="!text-sm !text-gray-600 dark:!text-gray-400">{t('Kutilmoqda') || 'Kutilmoqda'}</Paragraph>
-              <Paragraph className="!text-2xl !font-bold !text-gray-900 dark:!text-white">
+              <p className="!text-sm !text-gray-600 dark:!text-gray-400">{t('Kutilmoqda') || 'Kutilmoqda'}</p>
+              <p className="!text-2xl mb-0 !font-bold !text-gray-900 dark:!text-white">
                 {assignments.filter((a: any) => {
                   const ua = getUserAssignment(a);
                   return !ua || ua.status === AssignmentStatus.Available;
                 }).length}
-              </Paragraph>
+              </p>
             </div>
           </div>
         </GlassCard>
 
-        <GlassCard className="p-4">
+        <GlassCard>
           <div className="flex items-center gap-3">
             <div className="p-3 rounded-xl bg-blue-100 dark:bg-blue-900/30">
               <Upload className="w-6 h-6 text-blue-600 dark:text-blue-400" />
             </div>
             <div>
-              <Paragraph className="!text-sm !text-gray-600 dark:!text-gray-400">{t('Yuborilgan') || 'Yuborilgan'}</Paragraph>
-              <Paragraph className="!text-2xl !font-bold !text-gray-900 dark:!text-white">
+              <p className="!text-sm !text-gray-600 dark:!text-gray-400">{t('Yuborilgan') || 'Yuborilgan'}</p>
+              <p className="!text-2xl mb-0 !font-bold !text-gray-900 dark:!text-white">
                 {assignments.filter((a: any) => {
                   const ua = getUserAssignment(a);
                   return ua?.status === AssignmentStatus.Submitted;
                 }).length}
-              </Paragraph>
+              </p>
             </div>
           </div>
         </GlassCard>
 
-        <GlassCard className="p-4">
+        <GlassCard>
           <div className="flex items-center gap-3">
             <div className="p-3 rounded-xl bg-purple-100 dark:bg-purple-900/30">
               <Award className="w-6 h-6 text-purple-600 dark:text-purple-400" />
             </div>
             <div>
-              <Paragraph className="!text-sm !text-gray-600 dark:!text-gray-400">{t('Baholangan') || 'Baholangan'}</Paragraph>
-              <Paragraph className="!text-2xl !font-bold !text-gray-900 dark:!text-white">
+              <p className="!text-sm !text-gray-600 dark:!text-gray-400">{t('Baholangan') || 'Baholangan'}</p>
+              <p className="!text-2xl mb-0 !font-bold !text-gray-900 dark:!text-white">
                 {assignments.filter((a: any) => {
                   const ua = getUserAssignment(a);
                   return ua?.status === AssignmentStatus.Graded;
                 }).length}
-              </Paragraph>
+              </p>
             </div>
           </div>
         </GlassCard>
@@ -183,9 +182,9 @@ const AssignmentsPage: NextPageWithLayout = observer(() => {
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
               {t('Topshiriqlar yo\'q') || "Topshiriqlar yo'q"}
             </h3>
-            <Paragraph className="!text-gray-600 dark:!text-gray-400">
+            <p className="!text-gray-600 dark:!text-gray-400">
               {t('Hozircha topshiriqlar mavjud emas') || "Hozircha topshiriqlar mavjud emas"}
-            </Paragraph>
+            </p>
           </GlassCard>
         ) : (
           assignments.map((assignment: any) => {
@@ -214,9 +213,9 @@ const AssignmentsPage: NextPageWithLayout = observer(() => {
                       )}
                     </div>
 
-                    <Paragraph className="!text-gray-600 dark:!text-gray-400 !mb-4">
+                    <p className="!text-gray-600 dark:!text-gray-400 !mb-4">
                       {assignment.descriptionUz || assignment.descriptionRu || assignment.descriptionEn}
-                    </Paragraph>
+                    </p>
 
                     <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
                       <div className="flex items-center gap-2">
@@ -241,9 +240,9 @@ const AssignmentsPage: NextPageWithLayout = observer(() => {
 
                     {userAssignment?.feedback && (
                       <div className="mt-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                        <Paragraph className="!text-sm !text-blue-800 dark:!text-blue-200">
+                        <p className="!text-sm !text-blue-800 dark:!text-blue-200">
                           <strong>{t('Fikr-mulohaza')}:</strong> {userAssignment.feedback}
-                        </Paragraph>
+                        </p>
                       </div>
                     )}
                   </div>

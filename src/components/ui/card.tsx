@@ -5,6 +5,7 @@ import { LucideIcon } from 'lucide-react';
 interface BaseCardProps {
   children: React.ReactNode;
   className?: string;
+  margin?: string;
 }
 
 interface FeatureCardProps extends BaseCardProps {
@@ -22,12 +23,13 @@ interface BenefitCardProps {
   className?: string;
 }
 
-export const GlassCard: React.FC<BaseCardProps> = ({ children, className }) => {
+export const GlassCard: React.FC<BaseCardProps> = ({ children, className, margin }) => {
   return (
     <div
       className={clsx(
-        'shadow-md p-2 md:p-3 xl:px-5 py-0 rounded-2xl bg-gray-50/80 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200/60 dark:border-gray-700/50',
+        'shadow-md p-4 md:p-6 rounded-2xl bg-gray-50/80 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200/60 dark:border-gray-700/50',
         className,
+        margin,
       )}
     >
       {children}

@@ -26,7 +26,7 @@ import { PrimaryButton, SecondaryButton, GhostButton } from '@/components/ui/but
 import { GlassCard, BenefitCard } from '@/components/ui/card';
 import { AcademyEventStatus } from '@api/academy-types';
 import Link from 'next/link';
-import { Paragraph } from '@/components/ui/typography';
+
 import { useUserMe } from '@src/hooks/use-user-me';
 
 const StudentDashboard: NextPageWithLayout = observer(() => {
@@ -151,9 +151,9 @@ const StudentDashboard: NextPageWithLayout = observer(() => {
           <h1 className="text-3xl md:text-5xl font-bold mb-4 text-white leading-tight">
             Salom, {user?.firstName || 'Student'}! 👋
           </h1>
-          <Paragraph className="text-base md:text-lg mb-8 max-w-2xl text-white/80 leading-relaxed">
+          <p className="text-base md:text-lg mb-8 max-w-2xl text-white/80 leading-relaxed">
             Bugun qanday yangi bilim egallashni xohlaysiz? Keling, o&apos;rganishni davom ettiramiz!
-          </Paragraph>
+          </p>
           <div className="flex flex-wrap gap-3">
             <PrimaryButton className="!bg-white/10 !text-white !border-white/20 hover:!bg-white/20 !shadow-xl !shadow-white/10">
               <Rocket className="w-5 h-5 flex-shrink-0" />
@@ -185,11 +185,11 @@ const StudentDashboard: NextPageWithLayout = observer(() => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Active Courses */}
         <div className="lg:col-span-2">
-          <GlassCard className="!p-6">
+          <GlassCard>
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h2 className="text-xl font-bold mb-1 text-gray-900 dark:text-white">Aktiv kurslar</h2>
-                <Paragraph className="text-sm text-gray-600 dark:text-gray-400">Davom ettirish uchun bosing</Paragraph>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Davom ettirish uchun bosing</p>
               </div>
               <GhostButton>
                 Barchasini ko'rish <ArrowRight className="w-4 h-4 ml-1" />
@@ -199,11 +199,11 @@ const StudentDashboard: NextPageWithLayout = observer(() => {
             <div className="space-y-4">
               {isLoadingMe ? (
                 <div className="text-center py-8">
-                  <Paragraph className="text-gray-600 dark:text-gray-400">Kurslar yuklanmoqda...</Paragraph>
+                  <p className="text-gray-600 dark:text-gray-400">Kurslar yuklanmoqda...</p>
                 </div>
               ) : enrollments.length === 0 ? (
                 <div className="text-center py-8">
-                  <Paragraph className="text-gray-600 dark:text-gray-400">Hozircha kurslar yo&apos;q</Paragraph>
+                  <p className="text-gray-600 dark:text-gray-400">Hozircha kurslar yo&apos;q</p>
                 </div>
               ) : (
                 enrollments.map((enrollment: any) => {
@@ -252,7 +252,7 @@ const StudentDashboard: NextPageWithLayout = observer(() => {
                               <Bookmark className="w-5 h-5" />
                             </button>
                           </div>
-                          <Paragraph className="text-sm mb-3 text-gray-600 dark:text-gray-400">by {mentorName}</Paragraph>
+                          <p className="text-sm mb-3 text-gray-600 dark:text-gray-400">by {mentorName}</p>
 
                           <div className="flex items-center gap-4 text-sm mb-3">
                             <div className="flex items-center gap-1.5">
@@ -275,12 +275,12 @@ const StudentDashboard: NextPageWithLayout = observer(() => {
                           </div>
 
                           <div className="flex items-center justify-between mt-2">
-                            <Paragraph className="text-xs text-gray-500 dark:text-gray-500">
+                            <p className="text-xs text-gray-500 dark:text-gray-500">
                               {course.duration ? `${Math.floor(course.duration / 60)} soat` : ''}
-                            </Paragraph>
-                            <Paragraph className="text-xs font-semibold text-primary">
+                            </p>
+                            <p className="text-xs font-semibold text-primary">
                               {progress}%
-                            </Paragraph>
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -295,7 +295,7 @@ const StudentDashboard: NextPageWithLayout = observer(() => {
         {/* Right Sidebar */}
         <div className="space-y-6">
           {/* Upcoming Events */}
-          <GlassCard className="!p-6">
+          <GlassCard>
             <div className="flex items-center gap-3 mb-5">
               <div className="w-10 h-10 flex items-center justify-center rounded-xl flex-shrink-0 bg-gradient-to-br from-primary/10 to-primary-600/10">
                 <Calendar className="w-5 h-5 text-primary" />
@@ -306,11 +306,11 @@ const StudentDashboard: NextPageWithLayout = observer(() => {
             <div className="space-y-3">
               {isLoadingEvents ? (
                 <div className="text-center py-8">
-                  <Paragraph className="text-gray-600 dark:text-gray-400">Tadbirlar yuklanmoqda...</Paragraph>
+                  <p className="text-gray-600 dark:text-gray-400">Tadbirlar yuklanmoqda...</p>
                 </div>
               ) : events.length === 0 ? (
                 <div className="text-center py-8">
-                  <Paragraph className="text-gray-600 dark:text-gray-400">Hozircha tadbirlar yo&apos;q</Paragraph>
+                  <p className="text-gray-600 dark:text-gray-400">Hozircha tadbirlar yo&apos;q</p>
                 </div>
               ) : (
                 events.map((event: any) => {
@@ -332,9 +332,9 @@ const StudentDashboard: NextPageWithLayout = observer(() => {
                       className="p-4 rounded-xl transition-all duration-300 cursor-pointer hover:shadow-md hover:shadow-primary/5 hover:-translate-y-0.5 bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 hover:border-primary/20 dark:hover:border-primary/20"
                     >
                       <div className="flex items-start justify-between mb-2">
-                        <Paragraph className="font-semibold text-sm text-gray-900 dark:text-white">
+                        <p className="font-semibold text-sm text-gray-900 dark:text-white">
                           {event.titleUz || event.titleRu || event.titleEn || 'Tadbir'}
-                        </Paragraph>
+                        </p>
                         <span className="px-2.5 py-1 text-xs font-semibold rounded-md flex-shrink-0 bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400">
                           {event.isOnline ? 'Online' : 'Offline'}
                         </span>
@@ -369,7 +369,7 @@ const StudentDashboard: NextPageWithLayout = observer(() => {
           </GlassCard>
 
           {/* Recent Achievements */}
-          <GlassCard className="!p-6">
+          <GlassCard>
             <div className="flex items-center gap-3 mb-5">
               <div className="w-10 h-10 flex items-center justify-center rounded-xl flex-shrink-0 bg-gradient-to-br from-primary/10 to-primary-600/10">
                 <Trophy className="w-5 h-5 text-primary" />
@@ -390,8 +390,8 @@ const StudentDashboard: NextPageWithLayout = observer(() => {
                   </div>
 
                   <div className="flex-1 min-w-0">
-                    <Paragraph className="text-sm font-semibold mb-1 text-gray-900 dark:text-white">{achievement.title}</Paragraph>
-                    <Paragraph className="text-xs text-gray-500">{achievement.date}</Paragraph>
+                    <p className="text-sm font-semibold mb-1 text-gray-900 dark:text-white">{achievement.title}</p>
+                    <p className="text-xs text-gray-500">{achievement.date}</p>
                   </div>
                 </div>
               ))}

@@ -15,7 +15,7 @@ import { NextPageWithLayout } from '@/types';
 import { StudentDynamicProviders } from '@hocs/dynamic-providers';
 import { PrimaryButton, SecondaryButton, GhostButton } from '@/components/ui/button';
 import { GlassCard } from '@/components/ui/card';
-import { Paragraph } from '@/components/ui/typography';
+
 import { Input, Badge, Modal, message, Tag } from 'antd';
 import { ProductLevel, formatCoins } from '@api/academy-types';
 import { getImagePath } from '@utils/util';
@@ -201,20 +201,20 @@ const ShopPage: NextPageWithLayout = observer(() => {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{t("Do'kon") || "Do'kon"}</h1>
-          <Paragraph className="text-gray-600 dark:text-gray-400">
+          <p className="text-gray-600 dark:text-gray-400">
             {t('Coinlaringiz uchun mahsulotlar') || 'Coinlaringiz uchun mahsulotlar'}
-          </Paragraph>
+          </p>
         </div>
 
         <div className="flex items-center gap-4">
           <div className="text-right">
-            <Paragraph className="text-sm text-gray-600 dark:text-gray-400">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
               {t('Balansingiz') || 'Balansingiz'}
-            </Paragraph>
-            <Paragraph className="text-xl font-bold text-yellow-600 flex items-center gap-1">
+            </p>
+            <p className="text-xl font-bold mb-0 text-yellow-600 flex items-center gap-1">
               <Coins className="w-5 h-5" />
               {user?.coins?.toLocaleString() || 0}
-            </Paragraph>
+            </p>
           </div>
         </div>
       </div>
@@ -264,14 +264,14 @@ const ShopPage: NextPageWithLayout = observer(() => {
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
         </div>
       ) : filteredProducts.length === 0 ? (
-        <GlassCard className="p-12 text-center">
+        <GlassCard className="text-center">
           <Package className="w-16 h-16 mx-auto text-gray-400 mb-4" />
           <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
             {t('Mahsulotlar topilmadi') || 'Mahsulotlar topilmadi'}
           </h3>
-          <Paragraph className="text-gray-600 dark:text-gray-400">
+          <p className="text-gray-600 dark:text-gray-400">
             {t('Boshqa toifalarni tanlang yoki qidiring') || 'Boshqa toifalarni tanlang yoki qidiring'}
-          </Paragraph>
+          </p>
         </GlassCard>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -324,9 +324,9 @@ const ShopPage: NextPageWithLayout = observer(() => {
                   {product.nameUz || product.nameRu || product.nameEn}
                 </h3>
 
-                <Paragraph className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
                   {product.descriptionUz || product.descriptionRu || product.descriptionEn}
-                </Paragraph>
+                </p>
 
                 {/* Coins & Stock */}
                 <div className="flex items-center justify-between mb-3">
@@ -389,9 +389,9 @@ const ShopPage: NextPageWithLayout = observer(() => {
                   {selectedProduct.nameUz || selectedProduct.nameRu || selectedProduct.nameEn}
                 </h2>
 
-                <Paragraph className="text-gray-600 dark:text-gray-400 mb-4">
+                <p className="text-gray-600 dark:text-gray-400 mb-4">
                   {selectedProduct.descriptionUz || selectedProduct.descriptionRu || selectedProduct.descriptionEn}
-                </Paragraph>
+                </p>
 
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
@@ -428,12 +428,12 @@ const ShopPage: NextPageWithLayout = observer(() => {
               <div className="flex items-start gap-2">
                 <Info className="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
                 <div>
-                  <Paragraph className="text-sm font-medium text-blue-900 dark:text-blue-200">
+                  <p className="text-sm font-medium text-blue-900 dark:text-blue-200">
                     {t('Daraja talablari') || 'Daraja talablari'}
-                  </Paragraph>
-                  <Paragraph className="text-xs text-blue-700 dark:text-blue-300 mt-1">
+                  </p>
+                  <p className="text-xs text-blue-700 dark:text-blue-300 mt-1">
                     {t('Bu mahsulot uchun')} {selectedProduct.minCoinsRequired}+ {t('coin talab etiladi')}
-                  </Paragraph>
+                  </p>
                 </div>
               </div>
             </div>
