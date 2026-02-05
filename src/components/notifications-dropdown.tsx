@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Badge, Dropdown } from 'antd';
 import { useViewNotifications } from '@src/queries/models/view-notification';
-import { useUpdateViewNotification } from '@src/queries/models/view-notification';
 import { get } from 'lodash';
 import { useLayoutStore } from '@src/stores/layout-store';
 import {
@@ -28,12 +27,11 @@ export const NotificationsDropdown: React.FC<NotificationsDropdownProps> = ({ cl
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
 
-  // Fetch notifications
-  const { data: notificationsResponse, isLoading } = useViewNotifications(
+  // Fetch viewed notifications (ViewNotification jadvali o'qilgan bildirishnomalarni saqlaydi)
+  const { data: viewedNotificationsResponse, isLoading } = useViewNotifications(
     {
       where: {
         userId: user?.id,
-        isRead: false,
       },
       orderBy: {
         createdAt: 'desc',
@@ -43,16 +41,8 @@ export const NotificationsDropdown: React.FC<NotificationsDropdownProps> = ({ cl
     { enabled: !!user?.id },
   );
 
-  const notifications = get(notificationsResponse, 'data.data', []);
-  const unreadCount = notifications.length;
-
-  // Mark as read mutation
-  const { updateViewNotification } = useUpdateViewNotification(
-    {},
-    {
-      invalidateQueries: ['view-notifications'],
-    },
-  );
+  const viewedNotifications = get(viewedNotificationsResponse, 'data.data', []);
+  const unreadCount = 0; // ViewNotification o'qilgan bildirishnomalarni saqlaydi, shuning uchun unreadCount hozircha 0
 
   // Notification type icons
   const getNotificationIcon = (type: string) => {
@@ -103,24 +93,6 @@ export const NotificationsDropdown: React.FC<NotificationsDropdownProps> = ({ cl
     return notificationDate.toLocaleDateString('uz-UZ', { day: 'numeric', month: 'short' });
   };
 
-  // Mark all as read
-  const handleMarkAllAsRead = () => {
-    notifications.forEach((notification: any) => {
-      updateViewNotification({
-        where: { id: notification.id },
-        data: { isRead: true },
-      });
-    });
-  };
-
-  // Mark single as read
-  const handleMarkAsRead = (notificationId: string) => {
-    updateViewNotification({
-      where: { id: notificationId },
-      data: { isRead: true },
-    });
-  };
-
   const menuItems = [
     {
       key: 'header',
@@ -139,17 +111,6 @@ export const NotificationsDropdown: React.FC<NotificationsDropdownProps> = ({ cl
       ),
     },
     {
-      key: 'mark-all',
-      label: (
-        <button
-          onClick={handleMarkAllAsRead}
-          className="w-full text-left px-4 py-2 text-sm text-primary hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
-        >
-          {t('Barchasini o\'qilgan deb belgilash') || 'Barchasini o\'qilgan deb belgilash'}
-        </button>
-      ),
-    },
-    {
       type: 'divider' as const,
     },
     {
@@ -160,7 +121,7 @@ export const NotificationsDropdown: React.FC<NotificationsDropdownProps> = ({ cl
             <div className="flex items-center justify-center py-8">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
             </div>
-          ) : notifications.length === 0 ? (
+          ) : viewedNotifications.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12 px-4">
               <Bell className="w-12 h-12 text-gray-400 mb-3" />
               <p className="text-gray-500 dark:text-gray-400 text-sm">
@@ -168,14 +129,15 @@ export const NotificationsDropdown: React.FC<NotificationsDropdownProps> = ({ cl
               </p>
             </div>
           ) : (
-            notifications.map((notification: any) => (
-              <div
-                key={notification.id}
-                onClick={() => handleMarkAsRead(notification.id)}
-                className={clsx(
-                  'flex items-start gap-3 px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors cursor-pointer border-b border-gray-100 dark:border-gray-700 last:border-0',
-                )}
-              >
+            viewedNotifications.map((viewedNotification: any) => {
+              const notification = viewedNotification.notification;
+              return (
+                <div
+                  key={viewedNotification.id}
+                  className={clsx(
+                    'flex items-start gap-3 px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors cursor-pointer border-b border-gray-100 dark:border-gray-700 last:border-0',
+                  )}
+                >
                 {/* Icon */}
                 <div
                   className={clsx(
@@ -209,14 +171,10 @@ export const NotificationsDropdown: React.FC<NotificationsDropdownProps> = ({ cl
                     </span>
                   </div>
                 </div>
-
-                {/* Unread indicator */}
-                {!notification.isRead && (
-                  <div className="w-2 h-2 rounded-full bg-primary flex-shrink-0 mt-2"></div>
-                )}
               </div>
-            ))
-          )}
+            );
+          })
+        )}
         </div>
       ),
     },

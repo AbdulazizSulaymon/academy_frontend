@@ -49,7 +49,7 @@ const LessonDetailPage: NextPageWithLayout = observer(() => {
   const [testStarted, setTestStarted] = useState(false);
   const [userTestResultId, setUserTestResultId] = useState<string | null>(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [selectedAnswers, setSelectedAnswers] = useState<Record<string, string>>({});
+  const [selectedAnswers, setSelectedAnswers] = useState<Record<string, string[]>>({});
   const [testCompleted, setTestCompleted] = useState(false);
   const [testResult, setTestResult] = useState<any>(null);
 
@@ -193,11 +193,33 @@ const LessonDetailPage: NextPageWithLayout = observer(() => {
   };
 
   // Handle answer selection
-  const handleSelectAnswer = (questionId: string, optionId: string) => {
-    setSelectedAnswers((prev) => ({
-      ...prev,
-      [questionId]: optionId,
-    }));
+  const handleSelectAnswer = (questionId: string, optionId: string, questionType: string) => {
+    setSelectedAnswers((prev) => {
+      const currentAnswers = prev[questionId] || [];
+
+      if (questionType === 'MULTIPLE_CHOICE') {
+        // Toggle option for multiple choice
+        if (currentAnswers.includes(optionId)) {
+          // Remove if already selected
+          return {
+            ...prev,
+            [questionId]: currentAnswers.filter((id) => id !== optionId),
+          };
+        } else {
+          // Add if not selected
+          return {
+            ...prev,
+            [questionId]: [...currentAnswers, optionId],
+          };
+        }
+      } else {
+        // Single choice - replace with new selection
+        return {
+          ...prev,
+          [questionId]: [optionId],
+        };
+      }
+    });
   };
 
   // Handle next question
@@ -221,10 +243,15 @@ const LessonDetailPage: NextPageWithLayout = observer(() => {
       return;
     }
 
-    const answers = Object.entries(selectedAnswers).map(([questionId, selectedOptionId]) => ({
-      questionId,
-      selectedOptionId,
-    }));
+    // Flatten the answers object to create separate answer entries for each selected option
+    const answers = Object.entries(selectedAnswers)
+      .filter(([_, optionIds]) => optionIds && optionIds.length > 0)
+      .flatMap(([questionId, optionIds]) =>
+        optionIds.map((selectedOptionId) => ({
+          questionId,
+          selectedOptionId,
+        })),
+      );
 
     if (answers.length === 0) {
       message.warning(t('Iltimos, kamida bitta savolga javob bering') || 'Iltimos, kamida bitta savolga javob bering');
@@ -410,19 +437,33 @@ const LessonDetailPage: NextPageWithLayout = observer(() => {
                     {/* Options */}
                     <div className="space-y-3 ml-12">
                       {test.questions[currentQuestionIndex].options?.map((option: any) => {
-                        const isSelected = selectedAnswers[test.questions[currentQuestionIndex].id] === option.id;
+                        const currentQuestion = test.questions[currentQuestionIndex];
+                        const selectedOptions = selectedAnswers[currentQuestion.id] || [];
+                        const isSelected = selectedOptions.includes(option.id);
+                        const isMultipleChoice = currentQuestion.questionType === 'MULTIPLE_CHOICE';
+
                         return (
                           <button
                             key={option.id}
-                            onClick={() => handleSelectAnswer(test.questions[currentQuestionIndex].id, option.id)}
-                            className={`w-full text-left px-4 py-3 rounded-lg border-2 transition-all ${
+                            onClick={() =>
+                              handleSelectAnswer(currentQuestion.id, option.id, currentQuestion.questionType)
+                            }
+                            className={`w-full text-left px-4 py-3 rounded-lg border-2 transition-all flex items-start gap-3 ${
                               isSelected
                                 ? 'border-primary bg-primary/10'
                                 : 'border-gray-200 dark:border-gray-700 hover:border-primary hover:bg-primary/5'
                             }`}
                           >
+                            {/* Checkbox for multiple choice, Radio for single choice */}
+                            <div
+                              className={`flex-shrink-0 w-5 h-5 mt-0.5 border-2 flex items-center justify-center ${
+                                isMultipleChoice ? 'rounded' : 'rounded-full'
+                              } ${isSelected ? 'border-primary bg-primary' : 'border-gray-300 dark:border-gray-600'}`}
+                            >
+                              {isSelected && <span className="text-white text-xs">{isMultipleChoice ? '✓' : '●'}</span>}
+                            </div>
                             <span
-                              className={`font-medium ${
+                              className={`font-medium flex-1 ${
                                 isSelected ? 'text-primary' : 'text-gray-700 dark:text-gray-300'
                               }`}
                             >
