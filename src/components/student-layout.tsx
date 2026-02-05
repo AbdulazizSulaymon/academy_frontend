@@ -16,7 +16,6 @@ import {
   IoLogOutOutline,
   IoMenuOutline,
   IoCloseOutline,
-  IoNotificationsOutline,
   IoPersonOutline,
   IoMoonOutline,
   IoSunnyOutline,
@@ -29,6 +28,7 @@ import { useMyTheme } from '@hooks/use-my-theme';
 import { useCheckRoles } from '@hooks/use-check-roles';
 import { useApi } from '@src/api';
 import { useTranslation } from 'react-i18next';
+import { NotificationsDropdown } from '@components/notifications-dropdown';
 
 interface MenuItem {
   icon: React.ReactNode;
@@ -132,10 +132,8 @@ const StudentLayout: React.FC<StudentLayoutProps> = observer(({ children, title 
                     </p>
                     <div className="flex items-center gap-2 mt-1">
                       <div className="flex items-center gap-1.5">
-                        <IoWalletOutline
-                          className={`w-3.5 h-3.5 flex-shrink-0 ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}
-                        />
-                        <span className={`text-xs font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                        <IoWalletOutline className="w-3.5 h-3.5 flex-shrink-0 text-yellow-500" />
+                        <span className="text-xs font-medium text-yellow-600 dark:text-yellow-400 font-semibold">
                           {user?.coins ?? 0} coins
                         </span>
                       </div>
@@ -182,6 +180,8 @@ const StudentLayout: React.FC<StudentLayoutProps> = observer(({ children, title 
                           className={`px-2 py-0.5 text-xs font-medium rounded-md flex-shrink-0 ${
                             active
                               ? 'bg-white/20 text-white'
+                              : item.label === 'Coin'
+                              ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 font-semibold'
                               : isDarkMode
                               ? 'bg-gray-700 text-gray-300'
                               : 'bg-gray-200 text-gray-700'
@@ -290,14 +290,7 @@ const StudentLayout: React.FC<StudentLayoutProps> = observer(({ children, title 
               </button>
 
               {/* Notifications */}
-              <button
-                className={`relative inline-flex items-center justify-center w-10 h-10 rounded-lg transition-colors flex-shrink-0 border-0 ${
-                  isDarkMode ? 'hover:bg-gray-800 text-gray-400 hover:text-gray-200' : 'hover:bg-gray-100 text-gray-600'
-                }`}
-              >
-                <IoNotificationsOutline className="w-5 h-5" />
-                <div className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full"></div>
-              </button>
+              <NotificationsDropdown />
 
               {/* Profile */}
               <Dropdown

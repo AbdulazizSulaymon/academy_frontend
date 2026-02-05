@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import StudentLayout from '@src/components/student-layout';
 import { observer } from 'mobx-react';
@@ -13,7 +13,8 @@ import { StudentDynamicProviders } from '@hocs/dynamic-providers';
 import { GlassCard } from '@/components/ui/card';
 import { Button } from 'antd';
 import { useTranslation } from 'react-i18next';
-import { User, Camera } from 'lucide-react';
+import { User, Camera, Mail, Phone, Edit3, X, Calendar, Award, BookOpen, Trophy } from 'lucide-react';
+import { Paragraph } from '@/components/ui/typography';
 
 const StudentProfile: NextPageWithLayout = observer(() => {
   const router = useRouter();
@@ -21,6 +22,7 @@ const StudentProfile: NextPageWithLayout = observer(() => {
   const { isDarkMode } = useMyTheme();
   const { t } = useTranslation();
   const [form] = Form.useForm();
+  const [isEditing, setIsEditing] = useState(false);
 
   // Fetch current user data
   const { userData, isLoading: isLoadingUser } = useUser(
@@ -37,10 +39,7 @@ const StudentProfile: NextPageWithLayout = observer(() => {
   const { updateUser, isPending: isUpdating } = useUpdateUser(
     {
       onSuccess: () => {
-        // Refetch user data to update store
-        if (currentUser?.id) {
-          setUser({ ...user, ...currentUser });
-        }
+        setIsEditing(false);
       },
     },
     {
@@ -73,6 +72,20 @@ const StudentProfile: NextPageWithLayout = observer(() => {
         bio: values.bio,
       },
     });
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+    form.resetFields();
+    if (currentUser) {
+      form.setFieldsValue({
+        firstName: currentUser.firstName,
+        lastName: currentUser.lastName,
+        email: currentUser.email,
+        phone: currentUser.phone,
+        bio: currentUser.bio,
+      });
+    }
   };
 
   const formFields: FormField[] = [
@@ -118,13 +131,6 @@ const StudentProfile: NextPageWithLayout = observer(() => {
       rows: 4,
       span: 24,
     },
-    {
-      name: 'photo',
-      label: t('Profil rasmi') || 'Profil rasmi',
-      type: 'file',
-      accept: 'image/*',
-      span: 24,
-    },
   ];
 
   // Show loading only if no user in store and still loading
@@ -150,96 +156,299 @@ const StudentProfile: NextPageWithLayout = observer(() => {
     );
   }
 
+  // Edit Mode
+  if (isEditing) {
+    return (
+      <div className="max-w-4xl mx-auto space-y-6">
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+              {t('Profilni tahrirlash') || 'Profilni tahrirlash'}
+            </h1>
+            <Paragraph className="text-gray-600 dark:text-gray-400">
+              {t('Ma\'lumotlaringizni yangiling') || 'Ma\'lumotlaringizni yangiling'}
+            </Paragraph>
+          </div>
+          <button
+            onClick={handleCancelEdit}
+            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+          >
+            <X className="w-6 h-6 text-gray-600 dark:text-gray-400" />
+          </button>
+        </div>
+
+        {/* Edit Form */}
+        <GlassCard>
+          <AutoForm
+            form={form}
+            fields={formFields}
+            onFinish={handleFinish}
+            isSaveLoading={isUpdating}
+            saveTitle={t('Saqlash') || 'Saqlash'}
+            cancelTitle={t('Bekor qilish') || 'Bekor qilish'}
+            onCancel={handleCancelEdit}
+            columnSize={2}
+          />
+        </GlassCard>
+      </div>
+    );
+  }
+
+  // View Mode
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="max-w-5xl mx-auto space-y-6">
       {/* Profile Header */}
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary to-primary-600 p-8 text-white">
         <div className="absolute top-0 right-0 -mt-20 -mr-20 h-80 w-80 rounded-full bg-white/10 blur-3xl"></div>
 
-        <div className="relative flex items-center gap-6">
-          {/* Avatar */}
-          <div className="relative flex-shrink-0">
-            <div className="w-24 h-24 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
-              {currentUser?.photo ? (
-                <img
-                  src={currentUser.photo}
-                  alt={currentUser.firstName || 'User'}
-                  className="w-full h-full rounded-2xl object-cover"
-                />
-              ) : (
-                <User className="w-12 h-12 text-white" />
+        <div className="relative">
+          <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
+            {/* Avatar */}
+            <div className="relative flex-shrink-0">
+              <div className="w-32 h-32 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center overflow-hidden">
+                {currentUser?.photo ? (
+                  <img
+                    src={currentUser.photo}
+                    alt={currentUser.firstName || 'User'}
+                    className="w-full h-full rounded-2xl object-cover"
+                  />
+                ) : (
+                  <User className="w-16 h-16 text-white" />
+                )}
+              </div>
+            </div>
+
+            {/* User Info */}
+            <div className="flex-1">
+              <h1 className="text-4xl font-bold mb-2">
+                {currentUser?.firstName} {currentUser?.lastName}
+              </h1>
+              <p className="text-white/80 mb-4">{currentUser?.email}</p>
+
+              {/* Bio */}
+              {currentUser?.bio && (
+                <Paragraph className="text-white/70 italic max-w-2xl">"{currentUser?.bio}"</Paragraph>
               )}
             </div>
-            <button className="absolute -bottom-2 -right-2 w-8 h-8 bg-white text-primary rounded-full flex items-center justify-center shadow-lg hover:bg-gray-100 transition-colors">
-              <Camera className="w-4 h-4" />
-            </button>
-          </div>
 
-          {/* User Info */}
-          <div className="flex-1">
-            <h1 className="text-3xl font-bold mb-2">
-              {currentUser?.firstName} {currentUser?.lastName}
-            </h1>
-            <p className="text-white/80">{currentUser?.email}</p>
-          </div>
+            {/* Actions */}
+            <div className="flex items-center gap-4">
+              {/* Stats */}
+              <div className="text-center px-6 py-3 rounded-xl bg-white/10 backdrop-blur-sm">
+                <p className="text-3xl font-bold">{currentUser?.coins || 0}</p>
+                <p className="text-sm text-white/80">Coins</p>
+              </div>
 
-          {/* Stats */}
-          <div className="flex gap-6">
-            <div className="text-center">
-              <p className="text-2xl font-bold">{currentUser?.coins || 0}</p>
-              <p className="text-sm text-white/80">Coins</p>
+              {/* Edit Button */}
+              <button
+                onClick={() => setIsEditing(true)}
+                className="flex items-center gap-2 px-6 py-3 bg-white text-primary rounded-xl font-semibold hover:bg-gray-100 transition-colors shadow-lg"
+              >
+                <Edit3 className="w-5 h-5" />
+                {t('Tahrirlash') || 'Tahrirlash'}
+              </button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Profile Form */}
-      <GlassCard>
-        <div className="mb-6">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-            {t('Profil ma lumotlari') || 'Profil ma\'lumotlari'}
-          </h2>
-          <p className="text-gray-600 dark:text-gray-400">
-            {t('Profil ma lumotlaringizni yangilang') || 'Profil ma\'lumotlaringizni yangilang'}
-          </p>
-        </div>
+      {/* Profile Information Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Contact Info */}
+        <GlassCard className="p-6">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 flex items-center justify-center rounded-xl bg-gradient-to-br from-blue-500/10 to-blue-600/10">
+              <Mail className="w-5 h-5 text-blue-600" />
+            </div>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+              {t('Aloqa ma\'lumotlari') || 'Aloqa ma\'lumotlari'}
+            </h2>
+          </div>
 
-        <AutoForm
-          form={form}
-          fields={formFields}
-          onFinish={handleFinish}
-          isSaveLoading={isUpdating}
-          saveTitle={t('Saqlash') || 'Saqlash'}
-          columnSize={2}
-          hideButtons={false}
-        />
-      </GlassCard>
-
-      {/* Account Settings */}
-      <GlassCard>
-        <div className="mb-6">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-            {t('Hisob sozlamalari') || 'Hisob sozlamalari'}
-          </h2>
-          <p className="text-gray-600 dark:text-gray-400">
-            {t('Hisob sozlamalaringizni boshqaring') || 'Hisob sozlamalaringizni boshqaring'}
-          </p>
-        </div>
-
-        <div className="space-y-4">
-          <button className="w-full flex items-center justify-between p-4 rounded-xl bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-            <div className="flex items-center gap-4">
-              <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                <User className="w-5 h-5 text-primary" />
+          <div className="space-y-4">
+            {/* Email */}
+            <div className="flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800">
+              <div className="w-10 h-10 rounded-lg bg-white dark:bg-gray-700 flex items-center justify-center">
+                <Mail className="w-5 h-5 text-gray-600 dark:text-gray-400" />
               </div>
-              <div className="text-left">
+              <div className="flex-1">
+                <p className="text-xs text-gray-500 dark:text-gray-500 mb-1">Email</p>
+                <p className="font-medium text-gray-900 dark:text-white">{currentUser?.email}</p>
+              </div>
+            </div>
+
+            {/* Phone */}
+            <div className="flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800">
+              <div className="w-10 h-10 rounded-lg bg-white dark:bg-gray-700 flex items-center justify-center">
+                <Phone className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+              </div>
+              <div className="flex-1">
+                <p className="text-xs text-gray-500 dark:text-gray-500 mb-1">{t('Telefon') || 'Telefon'}</p>
                 <p className="font-medium text-gray-900 dark:text-white">
-                  {t('Shaxsiy ma lumotlar') || 'Shaxsiy ma\'lumotlar'}
-                </p>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  {t('Ism familiya va boshqalar') || 'Ism, familiya va boshqalar'}
+                  {currentUser?.phone || t('Ko\'rsatilmagan') || "Ko'rsatilmagan"}
                 </p>
               </div>
+            </div>
+          </div>
+        </GlassCard>
+
+        {/* Account Info */}
+        <GlassCard className="p-6">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 flex items-center justify-center rounded-xl bg-gradient-to-br from-purple-500/10 to-purple-600/10">
+              <User className="w-5 h-5 text-purple-600" />
+            </div>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+              {t('Hisob ma\'lumotlari') || 'Hisob ma\'lumotlari'}
+            </h2>
+          </div>
+
+          <div className="space-y-4">
+            {/* Member Since */}
+            <div className="flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800">
+              <div className="w-10 h-10 rounded-lg bg-white dark:bg-gray-700 flex items-center justify-center">
+                <Calendar className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+              </div>
+              <div className="flex-1">
+                <p className="text-xs text-gray-500 dark:text-gray-500 mb-1">{t('A\'zo bo\'lgan') || 'A\'zo bo\'lgan'}</p>
+                <p className="font-medium text-gray-900 dark:text-white">
+                  {currentUser?.createdAt
+                    ? new Date(currentUser.createdAt).toLocaleDateString('uz-UZ', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })
+                    : '-'}
+                </p>
+              </div>
+            </div>
+
+            {/* Coins */}
+            <div className="flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800">
+              <div className="w-10 h-10 rounded-lg bg-white dark:bg-gray-700 flex items-center justify-center">
+                <Trophy className="w-5 h-5 text-yellow-600" />
+              </div>
+              <div className="flex-1">
+                <p className="text-xs text-gray-500 dark:text-gray-500 mb-1">Coins</p>
+                <p className="font-medium text-gray-900 dark:text-white">{currentUser?.coins || 0}</p>
+              </div>
+            </div>
+          </div>
+        </GlassCard>
+      </div>
+
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <GlassCard className="p-6">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500/10 to-green-600/10 flex items-center justify-center">
+              <BookOpen className="w-6 h-6 text-green-600" />
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                {currentUser?.enrolledCourses || 0}
+              </p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                {t('Faol kurslar') || 'Faol kurslar'}
+              </p>
+            </div>
+          </div>
+        </GlassCard>
+
+        <GlassCard className="p-6">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500/10 to-blue-600/10 flex items-center justify-center">
+              <Award className="w-6 h-6 text-blue-600" />
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                {currentUser?.completedCourses || 0}
+              </p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                {t('Tugatilgan kurslar') || 'Tugatilgan kurslar'}
+              </p>
+            </div>
+          </div>
+        </GlassCard>
+
+        <GlassCard className="p-6">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-yellow-500/10 to-yellow-600/10 flex items-center justify-center">
+              <Trophy className="w-6 h-6 text-yellow-600" />
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                {currentUser?.certificates || 0}
+              </p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                {t('Sertifikatlar') || 'Sertifikatlar'}
+              </p>
+            </div>
+          </div>
+        </GlassCard>
+      </div>
+
+      {/* Quick Actions */}
+      <GlassCard className="p-6">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-10 h-10 flex items-center justify-center rounded-xl bg-gradient-to-br from-orange-500/10 to-orange-600/10">
+            <Edit3 className="w-5 h-5 text-orange-600" />
+          </div>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+            {t('Tezk harakatlar') || 'Tezk harakatlar'}
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <button
+            onClick={() => router.push('/student/settings')}
+            className="flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-left"
+          >
+            <div className="w-10 h-10 rounded-lg bg-white dark:bg-gray-700 flex items-center justify-center">
+              <Edit3 className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+            </div>
+            <div>
+              <p className="font-medium text-gray-900 dark:text-white">
+                {t('Sozlamalar') || 'Sozlamalar'}
+              </p>
+              <p className="text-xs text-gray-600 dark:text-gray-400">
+                {t('Til, tema va boshqalar') || 'Til, tema va boshqalar'}
+              </p>
+            </div>
+          </button>
+
+          <button
+            onClick={() => router.push('/student/courses')}
+            className="flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-left"
+          >
+            <div className="w-10 h-10 rounded-lg bg-white dark:bg-gray-700 flex items-center justify-center">
+              <BookOpen className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+            </div>
+            <div>
+              <p className="font-medium text-gray-900 dark:text-white">
+                {t('Mening kurslarim') || 'Mening kurslarim'}
+              </p>
+              <p className="text-xs text-gray-600 dark:text-gray-400">
+                {t('Barcha kurslar') || 'Barcha kurslar'}
+              </p>
+            </div>
+          </button>
+
+          <button
+            onClick={() => router.push('/student/progress')}
+            className="flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-left"
+          >
+            <div className="w-10 h-10 rounded-lg bg-white dark:bg-gray-700 flex items-center justify-center">
+              <Trophy className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+            </div>
+            <div>
+              <p className="font-medium text-gray-900 dark:text-white">
+                {t('Progress') || 'Progress'}
+              </p>
+              <p className="text-xs text-gray-600 dark:text-gray-400">
+                {t('Statistika va yutuqlar') || 'Statistika va yutuqlar'}
+              </p>
             </div>
           </button>
         </div>
