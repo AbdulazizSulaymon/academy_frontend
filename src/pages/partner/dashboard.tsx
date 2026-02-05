@@ -32,27 +32,27 @@ const Page: NextPageWithLayout = observer(() => {
 
   const dashboardItems = useMemo<DashboardCardProps[]>(
     () => [
-      {
-        title: data?.data?.totalClicks,
-        description: t('Tashriflar') || '',
-        icon: <LuMousePointerClick className={'dashboard-card-icon'} />,
-        gradient: 'from-cyan-500 to-blue-500',
-        delay: 0,
-      },
-      {
-        title: data?.data?.totalSignups,
-        description: t(`Ro'yxatdan o'tganlar`) || '',
-        icon: <MdLogin className={'dashboard-card-icon'} />,
-        gradient: 'from-sky-500 to-indigo-500',
-        delay: 200,
-      },
-      {
-        title: data?.data?.totalRevenue,
-        description: t('Sotib olganlar') || '',
-        icon: <MdAddShoppingCart className={'dashboard-card-icon'} />,
-        gradient: 'from-violet-500 to-fuchsia-500',
-        delay: 400,
-      },
+      // {
+      //   title: data?.data?.totalClicks,
+      //   description: t('Tashriflar') || '',
+      //   icon: <LuMousePointerClick className={'dashboard-card-icon'} />,
+      //   gradient: 'from-cyan-500 to-blue-500',
+      //   delay: 0,
+      // },
+      // {
+      //   title: data?.data?.totalSignups,
+      //   description: t(`Ro'yxatdan o'tganlar`) || '',
+      //   icon: <MdLogin className={'dashboard-card-icon'} />,
+      //   gradient: 'from-sky-500 to-indigo-500',
+      //   delay: 200,
+      // },
+      // {
+      //   title: data?.data?.totalRevenue,
+      //   description: t('Sotib olganlar') || '',
+      //   icon: <MdAddShoppingCart className={'dashboard-card-icon'} />,
+      //   gradient: 'from-violet-500 to-fuchsia-500',
+      //   delay: 400,
+      // },
     ],
     [data, t],
   );
