@@ -5,13 +5,13 @@ import { LoadingWrapper } from '@hocs/loading-wrapper';
 import { ReactQueryProvider } from '@hocs/react-query';
 import createCache from '@emotion/cache';
 import { ProtectedLayout } from '@/widgets/dashboard-layout/layouts';
-import AntdProvider from '@hocs/antd-provider';
+import StudentAntdProvider from '@hocs/student-antd-provider';
 
 const cache = createCache({ key: 'next' });
 
 const StudentProvidersWrapper = ({ children }: { children: React.ReactNode }) => {
   return (
-    <AntdProvider>
+    <StudentAntdProvider>
       <ProtectedLayout>
         {/*<LoadingWrapper>*/}
         <CacheProvider value={cache}>
@@ -19,7 +19,7 @@ const StudentProvidersWrapper = ({ children }: { children: React.ReactNode }) =>
         </CacheProvider>
         {/*</LoadingWrapper>*/}
       </ProtectedLayout>
-    </AntdProvider>
+    </StudentAntdProvider>
   );
 };
 

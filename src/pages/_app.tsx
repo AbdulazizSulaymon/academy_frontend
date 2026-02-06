@@ -34,8 +34,12 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
         <GlobalStyles />
         <Head>
           <link rel="shortcut icon" href="/icon.png" />
-          <title>{projectName}</title>
+          <title>{projectName} - Online Trading Akademiyasi</title>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <meta
+            name="description"
+            content="HBS Academy - Professional treyderlarni tayorlaydigan online akademiya. Kripto, birja va investitsiya bo'yicha kurslar."
+          />
         </Head>
         <LoadingWrapper>
           <ErrorBoundaryContainer>{getLayout(<Component {...pageProps} />)}</ErrorBoundaryContainer>

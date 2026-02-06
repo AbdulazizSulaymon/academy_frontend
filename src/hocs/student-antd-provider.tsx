@@ -12,7 +12,7 @@ export const globalFontFamily = "'Rubik', 'Montserrat', sans-serif";
 export const darkPrimaryColor = '#16CC53';
 export const lightPrimaryColor = '#16CC53';
 
-const AntdProvider = observer(({ children }: Props) => {
+const StudentAntdProvider = observer(({ children }: Props) => {
   const { isDarkMode } = useMyTheme();
   const { user } = useLayoutStore();
 
@@ -38,15 +38,15 @@ const AntdProvider = observer(({ children }: Props) => {
         borderRadiusLG: 16,
         borderRadiusSM: 8,
         borderRadiusXS: 6,
-        controlHeight: 38,
-        controlHeightLG: 42,
-        controlHeightSM: 26,
-        // fontSize: 14,
-        // fontSizeHeading1: 32,
-        // fontSizeHeading2: 24,
-        // fontSizeHeading3: 20,
-        // fontSizeHeading4: 18,
-        // fontSizeHeading5: 16,
+        controlHeight: 48,
+        controlHeightLG: 56,
+        controlHeightSM: 36,
+        fontSize: 14,
+        fontSizeHeading1: 32,
+        fontSizeHeading2: 24,
+        fontSizeHeading3: 20,
+        fontSizeHeading4: 18,
+        fontSizeHeading5: 16,
       },
       algorithm: isDarkMode ? [theme.darkAlgorithm] : [],
       components: {
@@ -61,25 +61,28 @@ const AntdProvider = observer(({ children }: Props) => {
         },
         Input: {
           borderRadius: 12,
-          // colorBorder: isDarkMode ? '#27272A' : '#E4E4E7',
-          // colorBorderHover: isDarkMode ? '#3F3F46' : '#16CC53',
-          // activeBorderColor: isDarkMode ? '#16CC53' : '#16CC53',
-          // colorBgContainer: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.8)',
-          // colorBgContainerHover: isDarkMode ? 'rgba(255, 255, 255, 0.08)' : 'rgba(255, 255, 255, 0.9)',
+          controlHeight: 48,
+          controlHeightLG: 56,
+          controlHeightSM: 36,
+          colorBorder: isDarkMode ? '#27272A' : '#E4E4E7',
+          colorBorderHover: isDarkMode ? '#3F3F46' : '#16CC53',
+          activeBorderColor: isDarkMode ? '#16CC53' : '#16CC53',
+          colorBgContainer: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.8)',
+          colorBgContainerHover: isDarkMode ? 'rgba(255, 255, 255, 0.08)' : 'rgba(255, 255, 255, 0.9)',
         },
         InputNumber: {
           borderRadius: 12,
-          // controlHeight: 48,
-          // colorBorder: isDarkMode ? '#27272A' : '#E4E4E7',
-          // colorBgContainer: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.8)',
+          controlHeight: 48,
+          colorBorder: isDarkMode ? '#27272A' : '#E4E4E7',
+          colorBgContainer: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.8)',
         },
         Select: {
           borderRadius: 12,
-          // controlHeight: 48,
-          // controlHeightLG: 56,
-          // controlHeightSM: 36,
-          // optionSelectedBg: isDarkMode ? 'rgba(22, 204, 83, 0.15)' : 'rgba(22, 204, 83, 0.1)',
-          // colorBgContainer: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.8)',
+          controlHeight: 48,
+          controlHeightLG: 56,
+          controlHeightSM: 36,
+          optionSelectedBg: isDarkMode ? 'rgba(22, 204, 83, 0.15)' : 'rgba(22, 204, 83, 0.1)',
+          colorBgContainer: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.8)',
         },
         Modal: {
           borderRadiusLG: 16,
@@ -91,16 +94,16 @@ const AntdProvider = observer(({ children }: Props) => {
         },
         Table: {
           borderRadiusLG: 12,
-          // headerColor: isDarkMode ? '#FAFAFA' : '#18181B',
-          // headerBg: isDarkMode ? '#18181B' : '#F4F4F5',
-          // rowSelectedBg: isDarkMode ? 'rgba(22, 204, 83, 0.15)' : 'rgba(22, 204, 83, 0.1)',
-          // rowSelectedHoverBg: isDarkMode ? 'rgba(22, 204, 83, 0.2)' : 'rgba(22, 204, 83, 0.15)',
-          // headerSplitColor: 'transparent',
+          headerColor: isDarkMode ? '#FAFAFA' : '#18181B',
+          headerBg: isDarkMode ? '#18181B' : '#F4F4F5',
+          rowSelectedBg: isDarkMode ? 'rgba(22, 204, 83, 0.15)' : 'rgba(22, 204, 83, 0.1)',
+          rowSelectedHoverBg: isDarkMode ? 'rgba(22, 204, 83, 0.2)' : 'rgba(22, 204, 83, 0.15)',
+          headerSplitColor: 'transparent',
         },
         Tabs: {
-          // itemActiveColor: isDarkMode ? '#16CC53' : '#16CC53',
-          // itemSelectedColor: isDarkMode ? '#16CC53' : '#16CC53',
-          // inkBarColor: isDarkMode ? '#16CC53' : '#16CC53',
+          itemActiveColor: isDarkMode ? '#16CC53' : '#16CC53',
+          itemSelectedColor: isDarkMode ? '#16CC53' : '#16CC53',
+          inkBarColor: isDarkMode ? '#16CC53' : '#16CC53',
         },
         Tag: {
           borderRadiusSM: 8,
@@ -127,4 +130,4 @@ const AntdProvider = observer(({ children }: Props) => {
   );
 });
 
-export default React.memo(AntdProvider);
+export default React.memo(StudentAntdProvider);

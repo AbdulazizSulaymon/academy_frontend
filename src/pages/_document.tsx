@@ -10,11 +10,11 @@ export default function Document() {
         <meta charSet="UTF-8" />
         <meta
           name="description"
-          content="OsonSotuv.uz - Telegram orqali tez va oson internet do'kon oching. Biznesingizni onlayn olamga olib chiqing. Oddiy interfeys, kuchli funksiyalar, 24/7 qo'llab-quvvatlash."
+          content="HBS Academy - Online trading akademiyasi. Kripto valyuta, birja va investitsiya bo'yicha professional kurslar. Amaliyot asosida o'rganing, treyder bo'ling."
         />
         <meta
           name="keywords"
-          content="internet do'kon, telegram bot, e-commerce, onlayn savdo, osonsotuv, telegram do'kon, online store, uzbekistan e-commerce"
+          content="trading kurslari, kripto valyuta, birja, investitsiya, forex, online education, treyder kurslari, moliyaviy savodxonlik, O'zbekistonda trading"
         />
         <meta name="author" content={projectName} />
         <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
@@ -30,10 +30,10 @@ export default function Document() {
         {/* Open Graph */}
         <meta property="og:type" content="website" />
         <meta property="og:url" content={SITE_URL} />
-        <meta property="og:title" content={`${projectName} - Telegram orqali internet do'kon oching`} />
+        <meta property="og:title" content={`${projectName} - Online Trading Akademiyasi`} />
         <meta
           property="og:description"
-          content="OsonSotuv.uz bilan atigi bir necha daqiqada o'z biznesingizni onlayn olamga olib chiqing. Telegram orqali tez va oson internet do'kon yarating."
+          content="Professional treyder bo'lishni xohlaysizmi? HBS Academy sizga kripto, birja va investitsiya bo'yicha eng yaxshi kurslarni taklif etadi."
         />
         <meta property="og:image" content={`${SITE_URL}/logo/light/logo.svg`} />
         <meta property="og:image:width" content="1200" />
@@ -43,13 +43,13 @@ export default function Document() {
 
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={`${projectName} - Telegram orqali internet do'kon`} />
+        <meta name="twitter:title" content={`${projectName} - Online Trading Akademiyasi`} />
         <meta
           name="twitter:description"
-          content="Telegram orqali tez va oson internet do'kon oching. OsonSotuv.uz bilan biznesingizni onlayn olamga olib chiqing."
+          content="Professional treyder bo'ling. Kripto, birja va investitsiya bo'yicha online kurslar."
         />
         <meta name="twitter:image" content={`${SITE_URL}/logo/light/logo.svg`} />
-        <meta name="twitter:creator" content="@AbdulazizOchilov" />
+        <meta name="twitter:creator" content="@hbsacademy" />
 
         {/* Mobile */}
         <meta name="theme-color" content="#000000" />
@@ -89,11 +89,11 @@ export default function Document() {
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               '@context': 'https://schema.org',
-              '@type': 'Organization',
+              '@type': 'EducationalOrganization',
               name: projectName,
               url: SITE_URL,
               logo: `${SITE_URL}/logo/light/logo.svg`,
-              description: "Telegram orqali internet do'kon ochish va boshqarish uchun eng qulay platforma.",
+              description: "Online trading akademiyasi. Kripto valyuta, birja va investitsiya bo'yicha professional kurslar.",
               telephone: phoneNumber,
               email: email,
               address: {
@@ -101,39 +101,44 @@ export default function Document() {
                 addressLocality: 'Toshkent',
                 addressCountry: 'UZ',
               },
-              sameAs: ['https://t.me/osonsotuv'],
+              sameAs: ['https://t.me/hbsacademy'],
               contactPoint: {
                 '@type': 'ContactPoint',
                 telephone: phoneNumber,
                 contactType: 'customer service',
                 email: email,
                 areaServed: 'UZ',
-                availableLanguage: ['uz', 'ru'],
+                availableLanguage: ['uz', 'ru', 'en'],
               },
             }),
           }}
         />
 
-        {/* Structured Data - SoftwareApplication */}
+        {/* Structured Data - Course */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               '@context': 'https://schema.org',
-              '@type': 'SoftwareApplication',
-              name: projectName,
-              applicationCategory: 'BusinessApplication',
-              operatingSystem: 'Web, Telegram',
+              '@type': 'Course',
+              name: 'Professional Trading Kurslari',
+              description: 'Kripto valyuta, birja va investitsiya bo\'yicha professional kurslar. Amaliyot asosida o\'rganing.',
+              provider: {
+                '@type': 'Organization',
+                name: projectName,
+                url: SITE_URL,
+              },
+              educationalLevel: 'Beginner to Advanced',
+              inLanguage: ['uz', 'ru', 'en'],
               offers: {
                 '@type': 'Offer',
-                price: '0',
+                category: 'Paid',
                 priceCurrency: 'UZS',
               },
-              description: "Telegram orqali internet do'kon ochish va boshqarish platformasi.",
               aggregateRating: {
                 '@type': 'AggregateRating',
-                ratingValue: '4.8',
-                reviewCount: '500',
+                ratingValue: '4.9',
+                reviewCount: '1500',
               },
             }),
           }}
@@ -148,12 +153,12 @@ export default function Document() {
               '@type': 'WebSite',
               name: projectName,
               url: SITE_URL,
-              description: "Telegram orqali internet do'kon ochish va boshqarish platformasi.",
+              description: "Online trading akademiyasi. Professional treyderlar tayorlash markazi.",
               potentialAction: {
                 '@type': 'SearchAction',
                 target: {
                   '@type': 'EntryPoint',
-                  urlTemplate: `${SITE_URL}/search?q={search_term_string}`,
+                  urlTemplate: `${SITE_URL}/courses?search={search_term_string}`,
                 },
                 'query-input': 'required name=search_term_string',
               },

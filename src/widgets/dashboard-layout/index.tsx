@@ -370,7 +370,7 @@ const DashboardLayout = observer(
                       />
                     ) : (
                       <img
-                        src={`/logo/${!isDarkMode ? 'light' : 'dark'}/logo.svg`}
+                        src={`/logo/${!isDarkMode ? 'light' : 'dark'}/logo.png`}
                         alt={''}
                         height={42}
                         className={'block'}

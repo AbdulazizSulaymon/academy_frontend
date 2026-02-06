@@ -128,22 +128,31 @@ const Home: NextPage = () => {
   return (
     <AntdProvider>
       <Head>
-        <title>HBS Academy - Professional Treyderlarni Tayyorlaymiz</title>
+        <title>HBS Academy - Online Trading Akademiyasi | Professional Treyder Kurslari</title>
         <meta
           name="description"
-          content="HBS Academy - moliyaviy bozorlarda muvaffaqiyatli treyder bo'lish uchun professional ta'lim. Amaliy darslar, mentor yordami va real trading tajribasi."
+          content="HBS Academy - O'zbekistondagi eng yaxshi online trading akademiyasi. Kripto valyuta, birja va investitsiya bo'yicha professional kurslar. Boshlang'ichdan professionalgacha. Amaliyot asosida o'rganing."
         />
         <meta
           name="keywords"
-          content="trading academy, treyder, crypto, cryptocurrency, aksiyalar, investment, moliyaviy bozorlar, trading kurslari, HBS Academy"
+          content="trading kurslari, kripto valyuta, bitcoin, ethereum, birja, aksiyalar, investitsiya, forex, moliyaviy savodxonlik, treyder bo'lish, online ta'lim, HBS Academy, O'zbekistonda trading"
         />
-        <meta property="og:title" content="HBS Academy - Professional Treyderlarni Tayyorlaymiz" />
+        <link rel="alternate" hrefLang="uz" href="https://hbsacademy.uz" />
+        <link rel="alternate" hrefLang="ru" href="https://hbsacademy.uz/ru" />
+        <link rel="alternate" hrefLang="en" href="https://hbsacademy.uz/en" />
+        <meta property="og:title" content="HBS Academy - Online Trading Akademiyasi" />
         <meta
           property="og:description"
-          content="Moliyaviy bozorlarda professional treyder bo'ling. HBS Academy bilan amaliy ta'lim va real trading tajribasi."
+          content="Professional treyder bo'lishni xohlaysizmi? HBS Academy sizga kripto, birja va investitsiya bo'yicha eng yaxshi kurslarni taklif etadi. Boshlang'ichdan professionalgacha."
         />
         <meta property="og:type" content="website" />
+        <meta property="og:locale" content="uz_UZ" />
         <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="HBS Academy - Online Trading Akademiyasi" />
+        <meta
+          name="twitter:description"
+          content="Professional treyder bo'ling. Kripto, birja va investitsiya bo'yicha online kurslar. Amaliyot asosida o'rganing."
+        />
       </Head>
 
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">

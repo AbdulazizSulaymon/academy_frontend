@@ -1,15 +1,15 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AiFillShop, AiOutlineComment, AiOutlineFileZip, AiOutlineShop } from 'react-icons/ai';
-import { BiHome } from 'react-icons/bi';
+import { BiHome, BiCategory } from 'react-icons/bi';
 import { BsFillChatSquareTextFill } from 'react-icons/bs';
-import { FaRegNewspaper } from 'react-icons/fa';
+import { FaCalendarAlt, FaChalkboardTeacher, FaRegNewspaper } from 'react-icons/fa';
 import { GoServer } from 'react-icons/go';
 import { HiOutlineNewspaper, HiUsers } from 'react-icons/hi';
 import { HiOutlineUsers } from 'react-icons/hi2';
 import { IoNotificationsOutline } from 'react-icons/io5';
-import { MdOutlineChat, MdOutlineMonitor } from 'react-icons/md';
-import { PiMonitorFill, PiNotebookBold, PiPlugs } from 'react-icons/pi';
+import { MdOutlineChat, MdOutlineMonitor, MdVideoLibrary } from 'react-icons/md';
+import { PiMonitorFill, PiNotebookBold, PiPlugs, PiShoppingBag } from 'react-icons/pi';
 import { TbUserPentagon } from 'react-icons/tb';
 
 import { Menus } from '@src/widgets/dashboard-layout/index';
@@ -45,6 +45,33 @@ export const useAdminMenus = () => {
         key: 'leads',
         icon: <HiUsers />,
         label: t('Leads') || '',
+      },
+      {
+        key: 'events',
+        icon: <FaCalendarAlt />,
+        label: t('Events') || '',
+      },
+      {
+        key: 'courses',
+        icon: <BiCategory />,
+        label: t('Kurslar') || '',
+        children: [
+          { key: 'course-categories', label: t('Kurs Toifalari') || 'Course Categories' },
+          { key: 'courses', label: t('Kurslar') || 'Courses' },
+          { key: 'mentors', label: t('Mentorlar') || 'Mentors' },
+          { key: 'modules', label: t('Modullar') || 'Modules' },
+          { key: 'lessons', label: t('Darslar') || 'Lessons' },
+          { key: 'tests', label: t('Testlar') || 'Tests' },
+        ],
+      },
+      {
+        key: 'shop',
+        icon: <PiShoppingBag />,
+        label: t('Do' + 'kon') || '',
+        children: [
+          { key: 'shop-categories', label: t('Toifalar') || 'Shop Categories' },
+          { key: 'products', label: t('Mahsulotlar') || 'Products' },
+        ],
       },
       {
         key: 'integration',
