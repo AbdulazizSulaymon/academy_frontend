@@ -4,8 +4,8 @@
   "display": "standalone",
   "scope": "/",
   "start_url": "/",
-  "name": "OsonSotuv",
-  "short_name": "OsonSotuv",
+  "name": "HBS Akademiyasi",
+  "short_name": "HBS Akademiyasi",
   "icons": [
     {
       "src": "/icon-192x192.png",

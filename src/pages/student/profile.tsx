@@ -219,33 +219,35 @@ const StudentProfile: NextPageWithLayout = observer(() => {
             </div>
 
             {/* User Info */}
-            <div className="flex-1">
-              <h1 className="text-4xl font-bold mb-2">
+            <div className="flex-1 min-w-0">
+              <h1 className="text-2xl md:text-3xl lg:text-2xl md:text-3xl lg:text-4xl font-bold mb-2">
                 {currentUser?.firstName} {currentUser?.lastName}
               </h1>
-              <p className="text-white/80 mb-4">{currentUser?.email}</p>
+              <p className="text-white/80 mb-4 text-sm md:text-base truncate">{currentUser?.email}</p>
 
               {/* Bio */}
               {currentUser?.bio && (
-                <p className="text-white/70 italic max-w-2xl">"{currentUser?.bio}"</p>
+                <p className="text-white/70 italic max-w-2xl text-sm md:text-base hidden md:block">
+                  "{currentUser?.bio}"
+                </p>
               )}
             </div>
 
             {/* Actions */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
               {/* Stats */}
-              <div className="text-center px-6 py-3 rounded-xl bg-white/10 backdrop-blur-sm">
-                <p className="text-3xl font-bold mb-0">{currentUser?.coins || 0}</p>
-                <p className="text-sm text-white/80">Coins</p>
+              <div className="text-center px-3 md:px-6 py-2 md:py-3 rounded-xl bg-white/10 backdrop-blur-sm">
+                <p className="text-2xl md:text-3xl font-bold mb-0">{currentUser?.coins || 0}</p>
+                <p className="text-xs md:text-sm text-white/80">Coins</p>
               </div>
 
               {/* Edit Button */}
               <button
                 onClick={() => setIsEditing(true)}
-                className="flex items-center gap-2 px-6 py-3 bg-white text-primary rounded-xl font-semibold hover:bg-gray-100 transition-colors shadow-lg"
+                className="flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 bg-white text-primary rounded-xl font-semibold hover:bg-gray-100 transition-colors shadow-lg text-sm"
               >
-                <Edit3 className="w-5 h-5" />
-                {t('Tahrirlash') || 'Tahrirlash'}
+                <Edit3 className="w-4 h-4 md:w-5 md:h-5" />
+                <span className="hidden sm:inline">{t('Tahrirlash') || 'Tahrirlash'}</span>
               </button>
             </div>
           </div>

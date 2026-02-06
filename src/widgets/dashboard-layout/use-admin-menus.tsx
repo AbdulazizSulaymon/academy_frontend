@@ -3,12 +3,12 @@ import { useTranslation } from 'react-i18next';
 import { AiFillShop, AiOutlineComment, AiOutlineFileZip, AiOutlineShop } from 'react-icons/ai';
 import { BiHome, BiCategory } from 'react-icons/bi';
 import { BsFillChatSquareTextFill } from 'react-icons/bs';
-import { FaCalendarAlt, FaChalkboardTeacher, FaRegNewspaper } from 'react-icons/fa';
+import { FaCalendarAlt, FaChalkboardTeacher, FaClipboardCheck, FaRegNewspaper } from 'react-icons/fa';
 import { GoServer } from 'react-icons/go';
 import { HiOutlineNewspaper, HiUsers } from 'react-icons/hi';
 import { HiOutlineUsers } from 'react-icons/hi2';
 import { IoNotificationsOutline } from 'react-icons/io5';
-import { MdOutlineChat, MdOutlineMonitor, MdVideoLibrary } from 'react-icons/md';
+import { MdOutlineChat, MdOutlineMonitor, MdShoppingBag, MdVideoLibrary } from 'react-icons/md';
 import { PiMonitorFill, PiNotebookBold, PiPlugs, PiShoppingBag } from 'react-icons/pi';
 import { TbUserPentagon } from 'react-icons/tb';
 
@@ -31,6 +31,7 @@ export const useAdminMenus = () => {
         label: t('Foydalanuvchilar') || '',
         children: [
           { key: 'users', label: t('Foydalanuvchilar') || '' },
+          { key: 'students', label: t('Talabalar') || 'Students' },
           { key: 'roles', label: t('Roles') || '' },
           { key: 'roles-tree', label: t('Roles Tree') || 'Roles Tree' },
         ],
@@ -52,6 +53,16 @@ export const useAdminMenus = () => {
         label: t('Events') || '',
       },
       {
+        key: 'assignments',
+        icon: <FaClipboardCheck />,
+        label: t('Assignments') || '',
+        children: [
+          { key: 'assignments-list', label: t('Topshiriqlar') || 'Assignments' },
+          { key: 'user-assignments', label: t('Talaba topshiriqlari') || 'User Assignments' },
+          { key: 'tasks-list', label: t('Vazifalar') || 'Tasks' },
+        ],
+      },
+      {
         key: 'courses',
         icon: <BiCategory />,
         label: t('Kurslar') || '',
@@ -62,6 +73,8 @@ export const useAdminMenus = () => {
           { key: 'modules', label: t('Modullar') || 'Modules' },
           { key: 'lessons', label: t('Darslar') || 'Lessons' },
           { key: 'tests', label: t('Testlar') || 'Tests' },
+          { key: 'questions', label: t('Savollar') || 'Questions' },
+          { key: 'course-enrollments', label: t('Kursga yozilganlar') || 'Course Enrollments' },
         ],
       },
       {
@@ -71,13 +84,8 @@ export const useAdminMenus = () => {
         children: [
           { key: 'shop-categories', label: t('Toifalar') || 'Shop Categories' },
           { key: 'products', label: t('Mahsulotlar') || 'Products' },
+          { key: 'orders-list', label: t('Buyurtmalar') || 'Orders' },
         ],
-      },
-      {
-        key: 'integration',
-        icon: <PiPlugs />,
-        label: t('Integratsiya') || '',
-        children: [{ key: 'smartup', label: t('Smartup') || '' }],
       },
       // {
       //   key: 'chat',

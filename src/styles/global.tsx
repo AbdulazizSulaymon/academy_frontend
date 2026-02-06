@@ -178,6 +178,8 @@ export const GlobalStyles = () => (
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center;
+        border-style: solid;
+        cursor: pointer;
       }
 
       body, .ant-layout, .ant-typography, a, li, span, div {

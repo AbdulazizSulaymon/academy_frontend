@@ -23,7 +23,8 @@ import { observer } from 'mobx-react';
 import { useLessons } from '@src/queries/models/lesson';
 import { useBookmarks } from '@src/queries/models/bookmark';
 import { useCreateBookmark, useDeleteBookmark } from '@src/queries/models/bookmark';
-import { useGetTestForTaking, useStartTest, useSubmitTest } from '@src/queries/models/test';
+import { useTest } from '@src/queries/models/test';
+import { useStartTest, useSubmitTest } from '@src/hooks/use-test-system';
 import { get } from 'lodash';
 import { NextPageWithLayout } from '@/types';
 import { StudentDynamicProviders } from '@hocs/dynamic-providers';
@@ -136,43 +137,46 @@ const LessonDetailPage: NextPageWithLayout = observer(() => {
   };
 
   // Get test data for taking (without correct answers)
-  const { data: testData, isLoading: isLoadingTest } = useGetTestForTaking(lesson?.testId || '', {
-    enabled: !!lesson?.testId && testStarted,
-  });
+  const { data: testData, isLoading: isLoadingTest } = useTest(
+    { where: { id: lesson?.testId } },
+    { enabled: !!lesson?.testId && testStarted },
+  );
 
-  const test = get(testData, 'data', null);
+  const test = get(testData, 'data', null) as any;
 
   // Start test mutation
-  const { startTest, isLoading: isStartingTest } = useStartTest(
-    {
-      successToast: t('Test boshlandi') || 'Test boshlandi',
-      errorToast: t('Testni boshlashda xatolik') || 'Testni boshlashda xatolik',
-      onSuccess: (data: any) => {
-        const result = data?.data;
-        if (result) {
-          setUserTestResultId(result.id);
-          setTestStarted(true);
-        }
-      },
+  const startTestMutation = useStartTest({
+    onSuccess: (data: any) => {
+      const result = data?.data || data;
+      if (result) {
+        setUserTestResultId(result.id);
+        setTestStarted(true);
+        message.success(t('Test boshlandi') || 'Test boshlandi');
+      }
     },
-    {},
-  );
+    onError: () => {
+      message.error(t('Testni boshlashda xatolik') || 'Testni boshlashda xatolik');
+    },
+  });
+
+  const { mutate: startTest, isPending: isStartingTest } = startTestMutation;
 
   // Submit test mutation
-  const { submitTest, isLoading: isSubmittingTest } = useSubmitTest(
-    {
-      successToast: t('Test yakunlandi!') || 'Test yakunlandi!',
-      errorToast: t('Testni topshirishda xatolik') || 'Testni topshirishda xatolik',
-      onSuccess: (data: any) => {
-        const result = data?.data;
-        if (result) {
-          setTestResult(result);
-          setTestCompleted(true);
-        }
-      },
+  const submitTestMutation = useSubmitTest({
+    onSuccess: (data: any) => {
+      const result = data?.data || data;
+      if (result) {
+        setTestResult(result);
+        setTestCompleted(true);
+        message.success(t('Test yakunlandi!') || 'Test yakunlandi!');
+      }
     },
-    {},
-  );
+    onError: () => {
+      message.error(t('Testni topshirishda xatolik') || 'Testni topshirishda xatolik');
+    },
+  });
+
+  const { mutate: submitTest, isPending: isSubmittingTest } = submitTestMutation;
 
   // Handle starting test
   const handleStartTest = () => {
@@ -260,7 +264,6 @@ const LessonDetailPage: NextPageWithLayout = observer(() => {
 
     submitTest({
       userTestResultId,
-      answers,
     });
   };
 
@@ -353,16 +356,16 @@ const LessonDetailPage: NextPageWithLayout = observer(() => {
                       ? t("Tabriklaymiz! Testni o'tdingiz") || "Tabriklaymiz! Testni o'tdingiz"
                       : t("Testni o'ta olmadingiz") || "Testni o'ta olmadingiz"}
                   </h2>
-                  <div className="flex items-center justify-center gap-8 mt-6">
+                  <div className="flex items-center justify-center gap-4 md:gap-8 mt-6">
                     <div className="text-center">
-                      <div className="text-4xl font-bold text-primary">{testResult?.score?.toFixed(1) || 0}%</div>
-                      <div className="text-sm text-gray-600 dark:text-gray-400">{t('Ball') || 'Ball'}</div>
+                      <div className="text-3xl md:text-4xl font-bold text-primary">{testResult?.score?.toFixed(1) || 0}%</div>
+                      <div className="text-xs md:text-sm text-gray-600 dark:text-gray-400">{t('Ball') || 'Ball'}</div>
                     </div>
                     <div className="text-center">
-                      <div className="text-4xl font-bold text-green-500">
+                      <div className="text-3xl md:text-4xl font-bold text-green-500">
                         {testResult?.correctAnswers || 0}/{testResult?.totalQuestions || 0}
                       </div>
-                      <div className="text-sm text-gray-600 dark:text-gray-400">
+                      <div className="text-xs md:text-sm text-gray-600 dark:text-gray-400">
                         {t("To'g'ri javoblar") || "To'g'ri javoblar"}
                       </div>
                     </div>

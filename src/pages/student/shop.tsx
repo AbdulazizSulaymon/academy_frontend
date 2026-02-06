@@ -1,6 +1,6 @@
 import React, { ReactElement, useState } from 'react';
 import StudentLayout from '@src/components/student-layout';
-import { ShoppingCart, Package, Search, Filter, Heart, Star, Coins, ShoppingBag, Info } from 'lucide-react';
+import { ShoppingCart, Package, Search, Filter, Heart, Star, Coins, ShoppingBag, Info, Receipt } from 'lucide-react';
 import { useLayoutStore } from '@src/stores/layout-store';
 import { useMyTheme } from '@hooks/use-my-theme';
 import { observer } from 'mobx-react';
@@ -17,9 +17,10 @@ import { PrimaryButton, SecondaryButton, GhostButton } from '@/components/ui/but
 import { GlassCard } from '@/components/ui/card';
 
 import { Input, Badge, Modal, message, Tag } from 'antd';
-import { ProductLevel, formatCoins } from '@api/academy-types';
+import { ProductLevel, formatCoins, OrderStatus } from '@api/academy-types';
 import { getImagePath } from '@utils/util';
 import { useTranslation } from 'react-i18next';
+import dayjs from 'dayjs';
 
 const ShopPage: NextPageWithLayout = observer(() => {
   const { user, setUser } = useLayoutStore();
@@ -46,6 +47,7 @@ const ShopPage: NextPageWithLayout = observer(() => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [detailModalOpen, setDetailModalOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<'shop' | 'orders'>('shop');
 
   // Fetch products
   const { data: productsResponse, isLoading: isLoadingProducts } = useProducts(
@@ -101,6 +103,13 @@ const ShopPage: NextPageWithLayout = observer(() => {
     {
       where: {
         userId: user?.id,
+      },
+      include: {
+        items: {
+          include: {
+            product: true,
+          },
+        },
       },
       orderBy: {
         createdAt: 'desc',
@@ -219,6 +228,38 @@ const ShopPage: NextPageWithLayout = observer(() => {
         </div>
       </div>
 
+      {/* Tab Navigation */}
+      <div className="flex gap-3">
+        <button
+          onClick={() => setActiveTab('shop')}
+          className={`px-6 py-3 rounded-xl font-medium transition-all border ${
+            activeTab === 'shop'
+              ? 'bg-primary text-white border-primary shadow-md'
+              : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700'
+          }`}
+        >
+          <ShoppingBag className="w-4 h-4 inline mr-2" />
+          {t('Mahsulotlar') || 'Mahsulotlar'}
+        </button>
+        <button
+          onClick={() => setActiveTab('orders')}
+          className={`px-6 py-3 rounded-xl font-medium transition-all border relative ${
+            activeTab === 'orders'
+              ? 'bg-primary text-white border-primary shadow-md'
+              : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700'
+          }`}
+        >
+          <Receipt className="w-4 h-4 inline mr-2" />
+          {t('Buyurtmalarim') || 'Buyurtmalarim'}
+          {orders.length > 0 && (
+            <Badge count={orders.length} className="ml-2" style={{ backgroundColor: '#f59e0b' }} />
+          )}
+        </button>
+      </div>
+
+      {/* Shop Tab Content */}
+      {activeTab === 'shop' && (
+        <>
       {/* Categories */}
       <div className="flex gap-2 overflow-x-auto pb-2">
         <button
@@ -357,6 +398,8 @@ const ShopPage: NextPageWithLayout = observer(() => {
           ))}
         </div>
       )}
+      </>
+      )}
 
       {/* Product Detail Modal */}
       <Modal
@@ -462,6 +505,137 @@ const ShopPage: NextPageWithLayout = observer(() => {
           </div>
         )}
       </Modal>
+
+      {/* Orders Tab Content */}
+      {activeTab === 'orders' && (
+        <>
+          {orders.length === 0 ? (
+            <GlassCard className="text-center py-12">
+              <Receipt className="w-16 h-16 mx-auto text-gray-400 mb-4" />
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                {t('Buyurtmalar yo\'q') || 'Buyurtmalar yo\'q'}
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400">
+                {t('Siz hali mahsulot sotib olmadingiz') || 'Siz hali mahsulot sotib olmadingiz'}
+              </p>
+            </GlassCard>
+          ) : (
+            <div className="space-y-4">
+              {orders.map((order: any) => {
+                const getStatusColor = (status: OrderStatus) => {
+                  const colors = {
+                    [OrderStatus.Pending]: 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400',
+                    [OrderStatus.Processing]: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
+                    [OrderStatus.Completed]: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
+                    [OrderStatus.Canceled]: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400',
+                  };
+                  return colors[status] || 'bg-gray-100 text-gray-800';
+                };
+
+                return (
+                  <GlassCard key={order.id} className="p-6">
+                    {/* Order Header */}
+                    <div className="flex justify-between items-start mb-4">
+                      <div>
+                        <div className="flex items-center gap-3 mb-2">
+                          <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+                            #{order.orderNumber}
+                          </h3>
+                          <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(order.status)}`}>
+                            {order.status}
+                          </span>
+                        </div>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                          {dayjs(order.createdAt).format('DD.MM.YYYY HH:mm')}
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-2xl font-bold text-yellow-600 dark:text-yellow-400">
+                          {formatCoins(order.totalCoins)}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Order Items */}
+                    <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
+                      <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                        {t('Mahsulotlar') || 'Mahsulotlar'}:
+                      </p>
+                      <div className="space-y-3">
+                        {order.items?.map((item: any) => (
+                          <div key={item.id} className="flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                              {item.product?.image ? (
+                                <img
+                                  src={getImagePath(item.product.image)}
+                                  alt={item.product.name}
+                                  className="w-12 h-12 object-cover rounded-lg"
+                                />
+                              ) : (
+                                <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-primary-600/20 rounded-lg flex items-center justify-center">
+                                  <Package className="w-6 h-6 text-primary/50" />
+                                </div>
+                              )}
+                              <div>
+                                <p className="font-medium text-gray-900 dark:text-white">
+                                  {item.product?.nameUz || item.product?.nameRu || item.product?.nameEn}
+                                </p>
+                                <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                                  <span>{item.product?.level}</span>
+                                  <span>×</span>
+                                  <span>{item.quantity}</span>
+                                </div>
+                              </div>
+                            </div>
+                            <p className="font-medium text-yellow-600 dark:text-yellow-400">
+                              {formatCoins(item.priceCoins * item.quantity)}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Delivery Info (if exists) */}
+                    {(order.deliveryAddress || order.deliveryPhone) && (
+                      <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                        <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                          {t('Yetkazib berish ma\'lumotlari') || 'Yetkazib berish ma\'lumotlari'}:
+                        </p>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                          {order.deliveryPhone && (
+                            <div>
+                              <span className="text-gray-500 dark:text-gray-400">{t('Telefon') || 'Telefon'}:</span>
+                              <span className="ml-2 font-medium text-gray-900 dark:text-white">{order.deliveryPhone}</span>
+                            </div>
+                          )}
+                          {order.deliveryAddress && (
+                            <div className="md:col-span-2">
+                              <span className="text-gray-500 dark:text-gray-400">{t('Manzil') || 'Manzil'}:</span>
+                              <span className="ml-2 font-medium text-gray-900 dark:text-white">{order.deliveryAddress}</span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Completed At */}
+                    {order.completedAt && (
+                      <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700 text-sm">
+                        <span className="text-gray-500 dark:text-gray-400">
+                          {t('Tugagan vaqti') || 'Tugagan vaqti'}:
+                        </span>
+                        <span className="ml-2 font-medium text-gray-900 dark:text-white">
+                          {dayjs(order.completedAt).format('DD.MM.YYYY HH:mm')}
+                        </span>
+                      </div>
+                    )}
+                  </GlassCard>
+                );
+              })}
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 });

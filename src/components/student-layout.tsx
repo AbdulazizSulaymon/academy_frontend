@@ -204,7 +204,7 @@ const StudentLayout: React.FC<StudentLayoutProps> = observer(({ children, title 
           <div className="p-3 border-t border-gray-200 dark:border-gray-800 space-y-1">
             <Link
               href="/student/settings"
-              className="group relative flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 overflow-hidden"
+              className="group relative flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 overflow-hidden cursor-pointer hover:shadow-md"
             >
               <div className="w-5 h-5 flex items-center justify-center flex-shrink-0 text-base text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-gray-200">
                 <IoSettingsOutline />
@@ -223,7 +223,14 @@ const StudentLayout: React.FC<StudentLayoutProps> = observer(({ children, title 
               danger
               block
               icon={<IoLogOutOutline className="text-base" />}
-              className={`!rounded-xl !font-medium ${sidebarOpen ? '!flex !items-center !gap-3' : '!w-10 !h-10'}`}
+              className={`!rounded-xl !font-medium !cursor-pointer ${sidebarOpen ? '!flex !items-center !gap-3' : '!w-10 !h-10'}`}
+              style={{ transition: 'all 0.2s' }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.boxShadow = '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.boxShadow = 'none';
+              }}
             >
               {sidebarOpen && 'Chiqish'}
             </Button>
@@ -257,8 +264,8 @@ const StudentLayout: React.FC<StudentLayoutProps> = observer(({ children, title 
                     setSidebarOpen(!sidebarOpen);
                   }
                 }}
-                className={`inline-flex items-center justify-center p-2 rounded-lg transition-colors border-0 ${
-                  isDarkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'
+                className={`inline-flex items-center justify-center p-2 rounded-lg transition-all duration-200 border-0 cursor-pointer ${
+                  isDarkMode ? 'hover:bg-gray-800 hover:shadow-md' : 'hover:bg-gray-100 hover:shadow-md'
                 }`}
               >
                 {(window.innerWidth < 1024 ? mobileMenuOpen : !sidebarOpen) ? (
@@ -282,8 +289,8 @@ const StudentLayout: React.FC<StudentLayoutProps> = observer(({ children, title 
               {/* Theme Toggle */}
               <button
                 onClick={toggleTheme}
-                className={`inline-flex items-center justify-center w-10 h-10 rounded-lg transition-colors flex-shrink-0 border-0 ${
-                  isDarkMode ? 'hover:bg-gray-800 text-gray-400 hover:text-gray-200' : 'hover:bg-gray-100 text-gray-600'
+                className={`inline-flex items-center justify-center w-10 h-10 rounded-lg transition-all duration-200 flex-shrink-0 border-0 cursor-pointer ${
+                  isDarkMode ? 'hover:bg-gray-800 hover:shadow-md text-gray-400 hover:text-gray-200' : 'hover:bg-gray-100 hover:shadow-md text-gray-600'
                 }`}
               >
                 {isDarkMode ? <IoSunnyOutline className="w-5 h-5" /> : <IoMoonOutline className="w-5 h-5" />}
@@ -335,8 +342,8 @@ const StudentLayout: React.FC<StudentLayoutProps> = observer(({ children, title 
               >
                 <button
                   onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
-                  className={`inline-flex items-center justify-center w-10 h-10 rounded-lg transition-colors flex-shrink-0 border-0 ${
-                    isDarkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'
+                  className={`inline-flex items-center justify-center w-10 h-10 rounded-lg transition-all duration-200 flex-shrink-0 border-0 cursor-pointer ${
+                    isDarkMode ? 'hover:bg-gray-800 hover:shadow-md' : 'hover:bg-gray-100 hover:shadow-md'
                   }`}
                 >
                   <span className={`font-medium ${isDarkMode ? 'text-white' : 'text-gray-700'}`}>
