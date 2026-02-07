@@ -1,15 +1,6 @@
 import React, { ReactElement } from 'react';
 import StudentLayout from '@src/components/student-layout';
-import {
-  FileText,
-  Calendar,
-  Clock,
-  Award,
-  CheckCircle2,
-  AlertCircle,
-  Upload,
-  Eye,
-} from 'lucide-react';
+import { FileText, Calendar, Clock, Award, CheckCircle2, AlertCircle, Upload, Eye } from 'lucide-react';
 import { useLayoutStore } from '@src/stores/layout-store';
 import { useMyTheme } from '@hooks/use-my-theme';
 import { observer } from 'mobx-react';
@@ -105,7 +96,7 @@ const AssignmentsPage: NextPageWithLayout = observer(() => {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
         <GlassCard>
           <div className="flex items-center gap-3">
             <div className="p-3 rounded-xl bg-blue-100 dark:bg-blue-900/30">
@@ -126,10 +117,12 @@ const AssignmentsPage: NextPageWithLayout = observer(() => {
             <div>
               <p className="!text-sm !text-gray-600 dark:!text-gray-400">{t('Kutilmoqda') || 'Kutilmoqda'}</p>
               <p className="!text-2xl mb-0 !font-bold !text-gray-900 dark:!text-white">
-                {assignments.filter((a: any) => {
-                  const ua = getUserAssignment(a);
-                  return !ua || ua.status === AssignmentStatus.Available;
-                }).length}
+                {
+                  assignments.filter((a: any) => {
+                    const ua = getUserAssignment(a);
+                    return !ua || ua.status === AssignmentStatus.Available;
+                  }).length
+                }
               </p>
             </div>
           </div>
@@ -143,10 +136,12 @@ const AssignmentsPage: NextPageWithLayout = observer(() => {
             <div>
               <p className="!text-sm !text-gray-600 dark:!text-gray-400">{t('Yuborilgan') || 'Yuborilgan'}</p>
               <p className="!text-2xl mb-0 !font-bold !text-gray-900 dark:!text-white">
-                {assignments.filter((a: any) => {
-                  const ua = getUserAssignment(a);
-                  return ua?.status === AssignmentStatus.Submitted;
-                }).length}
+                {
+                  assignments.filter((a: any) => {
+                    const ua = getUserAssignment(a);
+                    return ua?.status === AssignmentStatus.Submitted;
+                  }).length
+                }
               </p>
             </div>
           </div>
@@ -160,10 +155,12 @@ const AssignmentsPage: NextPageWithLayout = observer(() => {
             <div>
               <p className="!text-sm !text-gray-600 dark:!text-gray-400">{t('Baholangan') || 'Baholangan'}</p>
               <p className="!text-2xl mb-0 !font-bold !text-gray-900 dark:!text-white">
-                {assignments.filter((a: any) => {
-                  const ua = getUserAssignment(a);
-                  return ua?.status === AssignmentStatus.Graded;
-                }).length}
+                {
+                  assignments.filter((a: any) => {
+                    const ua = getUserAssignment(a);
+                    return ua?.status === AssignmentStatus.Graded;
+                  }).length
+                }
               </p>
             </div>
           </div>
@@ -180,10 +177,10 @@ const AssignmentsPage: NextPageWithLayout = observer(() => {
           <GlassCard className="p-12 text-center">
             <FileText className="w-16 h-16 mx-auto text-gray-400 mb-4" />
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-              {t('Topshiriqlar yo\'q') || "Topshiriqlar yo'q"}
+              {t("Topshiriqlar yo'q") || "Topshiriqlar yo'q"}
             </h3>
             <p className="!text-gray-600 dark:!text-gray-400">
-              {t('Hozircha topshiriqlar mavjud emas') || "Hozircha topshiriqlar mavjud emas"}
+              {t('Hozircha topshiriqlar mavjud emas') || 'Hozircha topshiriqlar mavjud emas'}
             </p>
           </GlassCard>
         ) : (
@@ -208,7 +205,7 @@ const AssignmentsPage: NextPageWithLayout = observer(() => {
                       </span>
                       {overdue && (
                         <span className="px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                          {t('Muddati o\'tgan') || "Muddati o'tgan"}
+                          {t("Muddati o'tgan") || "Muddati o'tgan"}
                         </span>
                       )}
                     </div>
@@ -220,7 +217,7 @@ const AssignmentsPage: NextPageWithLayout = observer(() => {
                     <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
                       <div className="flex items-center gap-2">
                         <Calendar className="w-4 h-4" />
-                        {assignment.dueDate ? formatDate(assignment.dueDate) : t('Muddati yo\'q')}
+                        {assignment.dueDate ? formatDate(assignment.dueDate) : t("Muddati yo'q")}
                       </div>
                       <div className="flex items-center gap-2">
                         <Award className="w-4 h-4" />
@@ -248,9 +245,7 @@ const AssignmentsPage: NextPageWithLayout = observer(() => {
                   </div>
 
                   <div className="flex flex-col gap-2">
-                    <SecondaryButton>
-                      {t('Batafsil') || 'Batafsil'}
-                    </SecondaryButton>
+                    <SecondaryButton>{t('Batafsil') || 'Batafsil'}</SecondaryButton>
                     {(!userAssignment || userAssignment.status === AssignmentStatus.Available) && (
                       <PrimaryButton>{t('Topshirish') || 'Topshirish'}</PrimaryButton>
                     )}

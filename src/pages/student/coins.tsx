@@ -123,7 +123,7 @@ const CoinsPage: NextPageWithLayout = observer(() => {
       </div>
 
       {/* Balance Card */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-yellow-400 via-orange-500 to-red-500 p-8 text-white shadow-2xl">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-yellow-400 via-orange-500 to-red-500 p-8 text-white shadow-2xl mb-4">
         <div className="absolute top-0 right-0 -mt-8 -mr-8 h-40 w-40 rounded-full bg-white/10 blur-2xl"></div>
         <div className="absolute bottom-0 left-0 -mb-8 -ml-8 h-32 w-32 rounded-full bg-black/10 blur-xl"></div>
 
@@ -141,16 +141,14 @@ const CoinsPage: NextPageWithLayout = observer(() => {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
         <GlassCard>
           <div className="flex items-center gap-4">
             <div className="p-4 rounded-xl bg-green-100 dark:bg-green-900/30">
               <TrendingUp className="w-8 h-8 text-green-600 dark:text-green-400" />
             </div>
             <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
-                {t('Jami yutuq') || 'Jami yutuq'}
-              </p>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">{t('Jami yutuq') || 'Jami yutuq'}</p>
               <p className="text-2xl font-bold text-green-600 dark:text-green-400 mb-0">
                 +{totalEarned.toLocaleString()}
               </p>
@@ -164,12 +162,8 @@ const CoinsPage: NextPageWithLayout = observer(() => {
               <TrendingDown className="w-8 h-8 text-red-600 dark:text-red-400" />
             </div>
             <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
-                {t('Jami xaraj') || 'Jami xaraj'}
-              </p>
-              <p className="text-2xl font-bold text-red-600 dark:text-red-400 mb-0">
-                -{totalSpent.toLocaleString()}
-              </p>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">{t('Jami xaraj') || 'Jami xaraj'}</p>
+              <p className="text-2xl font-bold text-red-600 dark:text-red-400 mb-0">-{totalSpent.toLocaleString()}</p>
             </div>
           </div>
         </GlassCard>
@@ -180,9 +174,7 @@ const CoinsPage: NextPageWithLayout = observer(() => {
               <Gift className="w-8 h-8 text-purple-600 dark:text-purple-400" />
             </div>
             <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
-                {t('Bonuslar') || 'Bonuslar'}
-              </p>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">{t('Bonuslar') || 'Bonuslar'}</p>
               <p className="text-2xl font-bold text-purple-600 dark:text-purple-400 mb-0">
                 +
                 {coinHistory
@@ -196,7 +188,7 @@ const CoinsPage: NextPageWithLayout = observer(() => {
       </div>
 
       {/* Transaction History */}
-      <GlassCard>
+      <GlassCard className={'mb-4'}>
         <div className="flex items-center justify-between mb-6">
           <div>
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-1">
